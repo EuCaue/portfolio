@@ -1,16 +1,15 @@
 /* eslint-disable import/prefer-default-export */
 import styled from 'styled-components';
 
-import * as colors from '../../assets/styles/colors';
 import { MdDarkMode, MdOutlineDarkMode } from 'react-icons/md';
+import * as colors from '../../assets/styles/colors';
 
 export const Navbar = styled.nav`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${colors.surface};
+  background-color: ${(props) => props.theme.body};
   /* text-align: center; */
-
   height: 4em;
 `;
 
@@ -21,10 +20,10 @@ export const Ul = styled.ul`
   a {
     font-family: 'Merriweather', serif;
     display: flex;
-    color: ${colors.text};
+    color: ${(props) => props.theme.text};
     text-decoration: none;
     :hover {
-      color: ${colors.pine};
+      color: ${(props) => props.theme.accentColor};
       transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
       text-decoration: underline;
     }

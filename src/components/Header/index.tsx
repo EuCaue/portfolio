@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MdDarkMode, MdOutlineDarkMode } from 'react-icons/md';
+
 import { Navbar, Ul } from './styled';
 
-export default function Header() {
+interface Props {
+  toggleTheme: void;
+  isDark: boolean;
+}
+
+export default function Header({ toggleTheme, isDark }: Props) {
   return (
     <Navbar>
       <Ul>
@@ -15,8 +21,13 @@ export default function Header() {
         <li>
           <a href="aaa">Contact</a>
         </li>
-
-        <MdOutlineDarkMode size={24} color="white" />
+        <div onClick={toggleTheme}>
+          {isDark ? (
+            <MdDarkMode size={24} color="000" />
+          ) : (
+            <MdOutlineDarkMode size={24} color="fff" />
+          )}
+        </div>
       </Ul>
     </Navbar>
   );
