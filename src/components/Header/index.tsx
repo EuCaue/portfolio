@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { MdDarkMode, MdOutlineDarkMode } from 'react-icons/md';
-
 import { Navbar, Ul } from './styled';
 
 interface Props {
