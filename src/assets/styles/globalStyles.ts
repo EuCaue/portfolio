@@ -5,8 +5,8 @@ export default createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-size: 18px;
-    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-family: 'Merriweather', serif;
 
 }
 
@@ -20,8 +20,8 @@ body {
   display: none;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
-  z-index: 1;
 }
+  background-color: ${(props) => props.theme.body}
 
 }
 

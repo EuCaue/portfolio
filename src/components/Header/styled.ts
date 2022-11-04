@@ -1,9 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import styled from 'styled-components';
 
-import { MdDarkMode, MdOutlineDarkMode } from 'react-icons/md';
-import * as colors from '../../assets/styles/colors';
-
 export const Navbar = styled.nav`
   display: flex;
   align-items: center;
@@ -26,6 +23,22 @@ export const Ul = styled.ul`
       color: ${(props) => props.theme.accentColor};
       transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
       text-decoration: underline;
+    }
+  }
+`;
+
+export const DarkModeSwitcher = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  align-self: center;
+  cursor: pointer;
+
+  :hover {
+    path {
+      color: ${(props) => props.theme.accentColor};
+      transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
     }
   }
 `;
