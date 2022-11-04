@@ -1,15 +1,31 @@
 import * as colors from './colors';
 
-export const darkTheme = {
+interface Colors {
+  body: string;
+  text: string;
+  accentColor: string;
+  love: string;
+  overlay: string;
+  surface: string;
+  gold: string;
+}
+
+export const darkTheme: Colors = {
   body: `${colors.baseDark}`,
-  fg: `${colors.overlayDark}`,
   text: `${colors.textDark}`,
   accentColor: `${colors.pineDark}`,
+  love: `${colors.loveDark}`,
+  overlay: `${colors.overlayDark}`,
+  surface: `${colors.surfaceDark}`,
+  gold: `${colors.goldDark}`,
 };
 
-export const lightTheme = {
+export const lightTheme: Colors = {
   body: `${colors.baseWhite}`,
-  fg: `${colors.overlayWhite}`,
   text: `${colors.textWhite}`,
   accentColor: `${colors.loveWhite}`,
+  love: `${colors.loveWhite}`,
+  overlay: `${colors.overlayWhite}`,
+  surface: `${colors.surfaceWhite}`,
+  gold: `${colors.goldWhite}`,
 };

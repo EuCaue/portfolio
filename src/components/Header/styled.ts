@@ -8,11 +8,15 @@ export const Navbar = styled.nav`
   background-color: ${(props) => props.theme.body};
   /* text-align: center; */
   height: 4em;
+  margin: auto;
 `;
 
 export const Ul = styled.ul`
   display: flex;
   list-style-type: none;
+  justify-content: center;
+  align-items: center;
+
   gap: 5em;
   a {
     font-family: 'Merriweather', serif;
@@ -28,11 +32,11 @@ export const Ul = styled.ul`
 `;
 
 export const DarkModeSwitcher = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: inline-flex;
+  justify-content: right;
+  align-items: right;
   margin: auto;
-  align-self: center;
+  align-self: right;
   cursor: pointer;
 
   :hover {
