@@ -6,14 +6,17 @@ interface Props {
   toggleTheme: () => void;
 }
 export default function Header({ toggleTheme }: Props): JSX.Element {
+  // NOTE: Darktheme
   const storedDarkMode = JSON.parse(localStorage.getItem('DarkMode') || '{}');
   const [dark, setDark] = useState<boolean>(storedDarkMode);
+
   localStorage.setItem('DarkMode', JSON.stringify(dark));
+
   return (
     <Navbar>
       <a href="projects">Projects</a>
       <a href="about">About</a>
-      <a href="aaa">Contact</a>
+      <a href="contact">Contact</a>
 
       <DarkModeSwitcher
         onClick={() => {

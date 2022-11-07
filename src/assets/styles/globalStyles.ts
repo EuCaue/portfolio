@@ -1,13 +1,22 @@
 import { createGlobalStyle } from 'styled-components';
 
-export default createGlobalStyle`
+interface Theme {
+  body: string;
+  accentColor: string;
+  overlay: string;
+}
+
+export default createGlobalStyle<{ theme: Theme }>`
     * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-size: 20px;
     font-family: 'Merriweather', serif;
-
+ ::selection {
+    color: ${(props) => props.theme.accentColor};
+    background-color: ${(props) => props.theme.overlay};
+  }
 }
 
 html, body, #root {
@@ -21,7 +30,8 @@ body {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
-  background-color: ${(props) => props.theme.body}
+background-color: ${(props) => props.theme.body};
+c
 
 }
 

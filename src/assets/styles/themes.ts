@@ -8,6 +8,8 @@ interface Colors {
   overlay: string;
   surface: string;
   gold: string;
+  fontSans: string;
+  fontSerif: string;
 }
 
 export const darkTheme: Colors = {
@@ -18,6 +20,8 @@ export const darkTheme: Colors = {
   overlay: `${colors.overlayDark}`,
   surface: `${colors.surfaceDark}`,
   gold: `${colors.goldDark}`,
+  fontSerif: '"Merriweather", serif',
+  fontSans: '"Poppins", sans-serif',
 };
 
 export const lightTheme: Colors = {
@@ -28,4 +32,6 @@ export const lightTheme: Colors = {
   overlay: `${colors.overlayWhite}`,
   surface: `${colors.surfaceWhite}`,
   gold: `${colors.goldWhite}`,
+  fontSerif: '"Merriweather", serif',
+  fontSans: '"Poppins", sans-serif',
 };
