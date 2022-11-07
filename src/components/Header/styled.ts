@@ -4,21 +4,12 @@ import styled from 'styled-components';
 export const Navbar = styled.nav`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   background-color: ${(props) => props.theme.body};
-  /* text-align: center; */
   height: 4em;
-  margin: auto;
-`;
-
-export const Ul = styled.ul`
-  display: flex;
-  list-style-type: none;
-  justify-content: center;
-  align-items: center;
-
-  gap: 5em;
+  flex-wrap: wrap;
   a {
+    margin: auto;
     font-family: 'Merriweather', serif;
     display: flex;
     color: ${(props) => props.theme.text};
@@ -35,7 +26,7 @@ export const DarkModeSwitcher = styled.div`
   display: inline-flex;
   justify-content: right;
   align-items: right;
-  margin: auto;
+  margin-right: 0.5em;
   align-self: right;
   cursor: pointer;
 
