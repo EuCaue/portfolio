@@ -1,13 +1,13 @@
 import React from 'react';
 import { FaReact } from 'react-icons/fa';
 import { SiTypescript } from 'react-icons/si';
-import { Container, PAboutMe, ProfilePicture } from './styled';
+import { Container, H1, PAboutMe, ProfilePicture } from './styled';
 
 export default function About() {
   return (
     <Container id="about">
       <ProfilePicture />
-      <h1>About Me</h1>
+      <H1>About Me</H1>
       <PAboutMe>
         Hi! My name is Cauê! I&apos;m a front-end developer from Brazil. 🇧🇷{' '}
         <br />I become a developer because, since are a kid, always love the

@@ -12,8 +12,8 @@ export default function Portfolio({ toggleTheme }: Props) {
   return (
     <>
       <Header toggleTheme={toggleTheme} />
-      {/* <Projects /> */}
       <About />
+      <Projects />
     </>
   );
 }

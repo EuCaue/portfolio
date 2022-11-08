@@ -7,36 +7,20 @@ import advice from '../../assets/imgs/advice.png';
 import url from '../../assets/imgs/url.png';
 
 interface ProjectsBoxProps {
-  src: string;
+  image: string;
   width: string;
   height: string;
-  altText: string;
 }
-function ProjectsBox({
-  src,
-  width,
-  height,
-  altText,
-}: ProjectsBoxProps): JSX.Element {
-  return <ImageProject src={src} width={width} height={height} alt={altText} />;
+function ProjectsBox({ image, width, height }: ProjectsBoxProps): JSX.Element {
+  return <ImageProject image={image} width={width} height={height} />;
 }
 
 export default function Projects() {
   return (
     <Container id="projects">
-      <ProjectsBox
-        src={ratingProject}
-        width="250"
-        height="150"
-        altText="rating project"
-      />
-      <ProjectsBox
-        src={advice}
-        width="250"
-        height="150"
-        altText="advice project"
-      />
-      <ProjectsBox src={url} width="250" height="100" altText="url project" />
+      <ProjectsBox image={ratingProject} width="250px" height="150px" />
+      <ProjectsBox image={advice} width="250px" height="150px" />
+      <ProjectsBox image={url} width="250px" height="300px" />
     </Container>
   );
 }

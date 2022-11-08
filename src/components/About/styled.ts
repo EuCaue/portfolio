@@ -8,11 +8,29 @@ export const Container = styled.section`
   justify-content: center;
   color: ${(props) => props.theme.text};
   flex-flow: wrap column;
-  margin-top: 0.5em;
+  height: 110vh;
   h1 {
     :hover {
       font-size: 22px;
       color: ${(props) => props.theme.accentColor};
+    }
+  }
+
+  @keyframes P {
+    from {
+      translate: 100%;
+      border: none;
+    }
+    to {
+      border: 3px solid ${(props) => props.theme.overlay};
+    }
+  }
+  @keyframes H1 {
+    from {
+      translate: 100%;
+    }
+    to {
+      translate: 10%;
     }
   }
 `;
@@ -30,16 +48,6 @@ export const PAboutMe = styled.p`
   padding: 0.5em;
   border: 3px solid ${(props) => props.theme.overlay};
   animation: 1s P linear;
-
-  @keyframes P {
-    from {
-      margin: 50em;
-      border: none;
-    }
-    to {
-      border: 3px solid ${(props) => props.theme.overlay};
-    }
-  }
 `;
 
 export const ProfilePicture = styled.div`
@@ -54,4 +62,12 @@ export const ProfilePicture = styled.div`
   width: 300px;
   height: 250px;
   margin-bottom: 0.5em;
+  animation: 1s P linear;
+`;
+
+export const H1 = styled.h1`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: 1s H1 linear;
 `;

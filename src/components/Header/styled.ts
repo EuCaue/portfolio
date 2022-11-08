@@ -5,6 +5,8 @@ export const Navbar = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  position: sticky;
+  top: 0;
   background-color: ${(props) => props.theme.body};
   height: 4em;
   flex-wrap: wrap;
