@@ -7,6 +7,8 @@ export const Navbar = styled.nav`
   justify-content: space-evenly;
   position: sticky;
   top: 0;
+  padding-top: 20px;
+  z-index: 10;
   background-color: ${(props) => props.theme.body};
   height: 4em;
   flex-wrap: wrap;
