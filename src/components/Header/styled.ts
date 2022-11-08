@@ -18,6 +18,7 @@ export const Navbar = styled.nav`
       color: ${(props) => props.theme.accentColor};
       transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
       text-decoration: underline;
+      font-size: 24px;
     }
   }
 `;

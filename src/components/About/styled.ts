@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import styled from 'styled-components';
+import photo from '../../assets/imgs/photo.png';
 
 export const Container = styled.section`
   display: flex;
@@ -7,8 +8,13 @@ export const Container = styled.section`
   justify-content: center;
   color: ${(props) => props.theme.text};
   flex-flow: wrap column;
-  margin-top: 1em;
-  font-family: ${(props) => props.theme.fontSans};
+  margin-top: 0.5em;
+  h1 {
+    :hover {
+      font-size: 22px;
+      color: ${(props) => props.theme.accentColor};
+    }
+  }
 `;
 
 export const PAboutMe = styled.p`
@@ -18,7 +24,7 @@ export const PAboutMe = styled.p`
   flex-wrap: wrap;
   color: ${(props) => props.theme.text};
   text-align: center;
-  width: 55%;
+  width: 54%;
   line-height: 1.5em;
   margin-top: 0.5em;
   padding: 0.5em;
@@ -27,13 +33,25 @@ export const PAboutMe = styled.p`
 
   @keyframes P {
     from {
-      width: 60%;
       margin: 50em;
       border: none;
     }
     to {
-      width: 55%;
       border: 3px solid ${(props) => props.theme.overlay};
     }
   }
+`;
+
+export const ProfilePicture = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-image: url(${photo});
+  background-size: 300px 300px;
+  background-position-y: -25px;
+  background-repeat: no-repeat;
+  width: 300px;
+  height: 250px;
+  margin-bottom: 0.5em;
 `;

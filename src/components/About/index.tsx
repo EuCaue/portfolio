@@ -1,9 +1,12 @@
 import React from 'react';
-import { Container, PAboutMe } from './styled';
+import { FaReact } from 'react-icons/fa';
+import { SiTypescript } from 'react-icons/si';
+import { Container, PAboutMe, ProfilePicture } from './styled';
 
 export default function About() {
   return (
-    <Container>
+    <Container id="about">
+      <ProfilePicture />
       <h1>About Me</h1>
       <PAboutMe>
         Hi! My name is Cauê! I&apos;m a front-end developer from Brazil. 🇧🇷{' '}
@@ -11,7 +14,12 @@ export default function About() {
         technology, and it&apos;s my dream now work with that. <br />I currently
         know these technologies:{' '}
         <strong>HTML, CSS, JS, REACTJS, TYPESCRIPT. </strong>
-        This is my portfolio, made with Reactjs + TypeScript.
+        This is my portfolio, made with{' '}
+        <FaReact
+          fill="#61dafb"
+          style={{ backgroundColor: 'transparent', marginLeft: 10 }}
+        />{' '}
+        + <SiTypescript fill="#31748f" />
       </PAboutMe>
     </Container>
   );
