@@ -21,6 +21,7 @@ export default createGlobalStyle<{ theme: Theme }>`
 
 html, body, #root {
   // height: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -31,7 +32,6 @@ body {
   scrollbar-width: none;  /* Firefox */
 }
 background-color: ${(props) => props.theme.body};
-c
 
 }
 

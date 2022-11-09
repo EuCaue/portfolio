@@ -1,7 +1,14 @@
 import React from 'react';
 import { FaReact } from 'react-icons/fa';
 import { SiTypescript } from 'react-icons/si';
-import { Container, H1, PAboutMe, ProfilePicture } from './styled';
+import {
+  Container,
+  H1,
+  PAboutMe,
+  ProfilePicture,
+  ArrowDown,
+  LinkArrow,
+} from './styled';
 
 export default function About() {
   return (
@@ -21,6 +28,9 @@ export default function About() {
         />{' '}
         + <SiTypescript fill="#31748f" />
       </PAboutMe>
+      <LinkArrow href="#projects">
+        <ArrowDown />
+      </LinkArrow>
     </Container>
   );
 }

@@ -48,9 +48,13 @@ export const ArrowDown = styled(FaArrowDown)`
   text-decoration: none;
   color: ${(props) => props.theme.text};
   animation: 1s Arrow linear;
+  height: 3em;
+  width: 3em;
 
   :hover {
     color: ${(props) => props.theme.accentColor};
     transition: 0.5s all cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    width: 5em;
+    height: 5em;
   }
 `;

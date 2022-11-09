@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import styled from 'styled-components';
+import { FaArrowDown } from 'react-icons/fa';
 import photo from '../../assets/imgs/photo.png';
 
 export const Container = styled.section`
@@ -8,7 +9,7 @@ export const Container = styled.section`
   justify-content: center;
   color: ${(props) => props.theme.text};
   flex-flow: wrap column;
-  height: 110vh;
+  height: 113.5vh;
   h1 {
     :hover {
       font-size: 22px;
@@ -70,4 +71,21 @@ export const H1 = styled.h1`
   justify-content: center;
   align-items: center;
   animation: 1s H1 linear;
+`;
+
+export const ArrowDown = styled(FaArrowDown)`
+  display: flex;
+  justify-content: right;
+  align-items: right;
+  align-self: flex-end;
+  width: 2em;
+  height: 1.5em;
+`;
+
+export const LinkArrow = styled.a`
+  display: flex;
+  justify-content: right;
+  align-items: right;
+  align-self: flex-end;
+  color: ${(props) => props.theme.text};
 `;
