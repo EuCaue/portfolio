@@ -10,12 +10,6 @@ export const Container = styled.section`
   color: ${(props) => props.theme.text};
   flex-flow: wrap column;
   height: 113.5vh;
-  h1 {
-    :hover {
-      font-size: 22px;
-      color: ${(props) => props.theme.accentColor};
-    }
-  }
 
   @keyframes P {
     from {

@@ -6,6 +6,7 @@ export const Navbar = styled.nav`
   align-items: center;
   justify-content: space-evenly;
   position: sticky;
+
   top: 0;
   padding-top: 20px;
   z-index: 10;
