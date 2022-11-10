@@ -10,6 +10,8 @@ interface Colors {
   gold: string;
   fontSans: string;
   fontSerif: string;
+  highlight: string;
+  highlightLow: string;
 }
 
 export const darkTheme: Colors = {
@@ -18,6 +20,8 @@ export const darkTheme: Colors = {
   accentColor: `${colors.pineDark}`,
   love: `${colors.loveDark}`,
   overlay: `${colors.overlayDark}`,
+  highlight: `${colors.highlightDark}`,
+  highlightLow: `${colors.highlightLowDark}`,
   surface: `${colors.surfaceDark}`,
   gold: `${colors.goldDark}`,
   fontSerif: '"Merriweather", serif',
@@ -30,6 +34,8 @@ export const lightTheme: Colors = {
   accentColor: `${colors.loveWhite}`,
   love: `${colors.loveWhite}`,
   overlay: `${colors.overlayWhite}`,
+  highlight: `${colors.highlightWhite}`,
+  highlightLow: `${colors.highlightLowWhite}`,
   surface: `${colors.surfaceWhite}`,
   gold: `${colors.goldWhite}`,
   fontSerif: '"Merriweather", serif',

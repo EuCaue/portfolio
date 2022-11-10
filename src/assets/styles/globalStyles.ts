@@ -24,6 +24,10 @@ html, body, #root {
   scroll-behavior: smooth;
 }
 
+a {
+  text-decoration: none;
+}
+
 body {
   overflow-x: hidden;
   ::-webkit-scrollbar {
