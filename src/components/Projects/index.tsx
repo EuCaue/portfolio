@@ -1,14 +1,16 @@
 /* eslint-disable import/extensions */
 import React from 'react';
 
-import { FaGithub } from 'react-icons/fa';
-import { CgWebsite } from 'react-icons/cg';
 import {
   Container,
   ContainerProjects,
   ImageProject,
   TitleProject,
   ParaProject,
+  SpanLinks,
+  Github,
+  Globe,
+  LinkProject,
 } from './styled';
 import ratingProject from '../../assets/imgs/rating.png';
 import advice from '../../assets/imgs/advice.png';
@@ -20,6 +22,8 @@ interface ProjectsBoxProps {
   height: string;
   title: string;
   para: string;
+  github: string;
+  site: string;
 }
 function ProjectsBox({
   image,
@@ -27,27 +31,25 @@ function ProjectsBox({
   height,
   title,
   para,
+  github,
+  site,
 }: ProjectsBoxProps): JSX.Element {
   return (
     <ContainerProjects>
       <ImageProject image={image} width={width} height={height} />
       <TitleProject>{title}</TitleProject>
       <ParaProject>{para}</ParaProject>
-      <a
-        href="https://github.com/EuCaue/interactive-rating-component"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <FaGithub />
-        <a
-          href="https://interactive-rating-component-main-six.vercel.app/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <CgWebsite />
-        </a>
-      </a>
-    </ContainerProjects>
+
+      <SpanLinks>
+        <LinkProject href={github} target="_blank" rel="noreferrer">
+          <Github size={28} />
+        </LinkProject>
+
+        <LinkProject href={site} target="_blank" rel="noreferrer">
+          <Globe size={28} />
+        </LinkProject>
+      </SpanLinks>
+    </ContainerProjects >
   );
 }
 
@@ -60,6 +62,8 @@ export default function Projects() {
         height="150px"
         title="Rating Component"
         para="It's a component to submit a rating of some service. "
+        github="https://github.com/EuCaue/interactive-rating-component"
+        site="https://interactive-rating-component-main-six.vercel.app/"
       />
       <ProjectsBox
         image={advice}
@@ -67,6 +71,8 @@ export default function Projects() {
         height="150px"
         title="Advice Generator"
         para="A website for generating random advices."
+        github="https://github.com/EuCaue/advice-generator-app"
+        site="https://advice-generator-app-rouge.vercel.app/"
       />
       <ProjectsBox
         image={url}
@@ -74,6 +80,8 @@ export default function Projects() {
         height="150px"
         title="Url Shortening"
         para="A website for shorten urls links."
+        github="https://github.com/EuCaue/url-shortening-api"
+        site="https://url-shortening-api-indol.vercel.app/"
       />
     </Container>
   );

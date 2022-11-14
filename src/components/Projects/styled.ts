@@ -1,6 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import styled from 'styled-components';
 
+import { FaGithub, FaGlobe } from 'react-icons/fa';
+
 interface ProjectsBoxProps {
   image: string;
   width: string;
@@ -21,7 +23,6 @@ export const ContainerProjects = styled.div`
   align-items: center;
   flex-direction: column;
   flex-wrap: wrap;
-  /* border: 2px solid red; */
 `;
 
 export const ImageProject = styled.div<ProjectsBoxProps>`
@@ -51,4 +52,44 @@ export const ParaProject = styled.p`
   width: 15em;
   font-size: 18px;
   color: ${(props) => props.theme.text};
+`;
+
+export const LinkProject = styled.a`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  padding-top: 1em;
+`;
+
+// export const LiveLink = styled.a`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   text-decoration: none;
+// `;
+//
+export const SpanLinks = styled.span`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  align-content: space-between;
+  flex-wrap: wrap;
+  gap: 1em;
+`;
+
+export const Github = styled(FaGithub)`
+  color: ${(props) => props.theme.text};
+  :hover {
+    color: ${(props) => props.theme.accentColor};
+    transition: 0.5s all ease;
+  }
+`;
+
+export const Globe = styled(FaGlobe)`
+  color: ${(props) => props.theme.text};
+  :hover {
+    color: ${(props) => props.theme.accentColor};
+    transition: 0.5s all ease;
+  }
 `;
