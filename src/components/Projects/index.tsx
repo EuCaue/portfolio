@@ -15,6 +15,8 @@ import {
 import ratingProject from '../../assets/imgs/rating.png';
 import advice from '../../assets/imgs/advice.png';
 import url from '../../assets/imgs/index.png';
+import portfolio from '../../assets/imgs/portfolio.png';
+import ScrollDown from '../ScrollDown';
 
 interface ProjectsBoxProps {
   image: string;
@@ -49,7 +51,7 @@ function ProjectsBox({
           <Globe size={28} />
         </LinkProject>
       </SpanLinks>
-    </ContainerProjects >
+    </ContainerProjects>
   );
 }
 
@@ -83,6 +85,16 @@ export default function Projects() {
         github="https://github.com/EuCaue/url-shortening-api"
         site="https://url-shortening-api-indol.vercel.app/"
       />
+      <ProjectsBox
+        image={portfolio}
+        width="250px"
+        height="150px"
+        title="My Portfolio"
+        para="My personal portfolio made with ❤."
+        github="https://github.com/EuCaue/portfolio"
+        site="#"
+      />
+      <ScrollDown section="#contact" />
     </Container>
   );
 }

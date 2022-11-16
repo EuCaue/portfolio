@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import styled from 'styled-components';
-import { FaArrowDown } from 'react-icons/fa';
+
 import photo from '../../assets/imgs/photo.png';
 
 export const Container = styled.section`
@@ -42,7 +42,7 @@ export const PAboutMe = styled.p`
   margin-top: 0.5em;
   padding: 0.5em;
   border: 3px solid ${(props) => props.theme.overlay};
-  animation: 1s P linear;
+  /* animation: 1s P linear; */
 `;
 
 export const ProfilePicture = styled.div`
@@ -57,29 +57,12 @@ export const ProfilePicture = styled.div`
   width: 300px;
   height: 250px;
   margin-bottom: 0.5em;
-  animation: 1s P linear;
+  /* animation: 1s P linear; */
 `;
 
 export const H1 = styled.h1`
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: 1s H1 linear;
-`;
-
-export const ArrowDown = styled(FaArrowDown)`
-  display: flex;
-  justify-content: right;
-  align-items: right;
-  align-self: flex-end;
-  width: 2em;
-  height: 1.5em;
-`;
-
-export const LinkArrow = styled.a`
-  display: flex;
-  justify-content: right;
-  align-items: right;
-  align-self: flex-end;
-  color: ${(props) => props.theme.text};
+  /* animation: 1s H1 linear; */
 `;

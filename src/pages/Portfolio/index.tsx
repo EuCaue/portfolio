@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Header from '../../components/Header';
 import About from '../../components/About';
 import Projects from '../../components/Projects';
@@ -15,7 +14,6 @@ export default function Portfolio({ toggleTheme }: Props) {
     <>
       <Header toggleTheme={toggleTheme} />
       <Welcome />
-
       <About />
       <Projects />
       <ScrollTop />

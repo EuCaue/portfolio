@@ -11,10 +11,19 @@ interface ProjectsBoxProps {
 
 export const Container = styled.section`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   height: 100vh;
   flex-wrap: wrap;
+  position: relative;
+  a:nth-child(5) {
+    position: absolute;
+    top: 28.5em;
+  }
+`;
+
+export const ContainerFirst = styled.div`
+  display: flex;
 `;
 
 export const ContainerProjects = styled.div`
@@ -23,13 +32,13 @@ export const ContainerProjects = styled.div`
   align-items: center;
   flex-direction: column;
   flex-wrap: wrap;
+  margin-top: 4em;
 `;
 
 export const ImageProject = styled.div<ProjectsBoxProps>`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  margin: auto;
   background-image: url(${(props) => props.image});
   background-position: center;
   background-size: ${(props) => props.width} ${(props) => props.height};
@@ -62,13 +71,6 @@ export const LinkProject = styled.a`
   padding-top: 1em;
 `;
 
-// export const LiveLink = styled.a`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   text-decoration: none;
-// `;
-//
 export const SpanLinks = styled.span`
   display: flex;
   justify-content: space-evenly;

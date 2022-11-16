@@ -1,18 +1,20 @@
 import React from 'react';
 import { FaReact } from 'react-icons/fa';
+import { useInView } from 'react-intersection-observer';
 import { SiTypescript } from 'react-icons/si';
-import {
-  Container,
-  H1,
-  PAboutMe,
-  ProfilePicture,
-  ArrowDown,
-  LinkArrow,
-} from './styled';
+import ScrollDown from '../ScrollDown';
+import { Container, H1, PAboutMe, ProfilePicture } from './styled';
 
 export default function About() {
+  const { ref: myRef, inView } = useInView();
+  console.log(myRef);
+
   return (
-    <Container id="about">
+    <Container
+      id="about"
+      ref={myRef}
+      style={{ visibility: inView ? 'visible' : 'hidden' }}
+    >
       <ProfilePicture />
       <H1>About Me</H1>
       <PAboutMe>
@@ -28,9 +30,7 @@ export default function About() {
         />{' '}
         + <SiTypescript fill="#31748f" />
       </PAboutMe>
-      <LinkArrow href="#projects">
-        <ArrowDown />
-      </LinkArrow>
+      <ScrollDown section="#projects" />
     </Container>
   );
 }
