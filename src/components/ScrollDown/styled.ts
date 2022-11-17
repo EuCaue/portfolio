@@ -19,6 +19,6 @@ export const LinkArrow = styled.a`
   align-self: flex-end;
   position: absolute;
   right: 0;
-  top: 208%;
+  top: 208vh;
   color: ${(props) => props.theme.text};
 `;

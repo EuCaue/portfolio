@@ -14,7 +14,7 @@ import {
 } from './styled';
 import ratingProject from '../../assets/imgs/rating.png';
 import advice from '../../assets/imgs/advice.png';
-import url from '../../assets/imgs/index.png';
+import url from '../../assets/imgs/url.png';
 import portfolio from '../../assets/imgs/portfolio.png';
 import ScrollDown from '../ScrollDown';
 

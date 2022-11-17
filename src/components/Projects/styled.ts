@@ -18,12 +18,8 @@ export const Container = styled.section`
   position: relative;
   a:nth-child(5) {
     position: absolute;
-    top: 28.5em;
+    top: 28.8em;
   }
-`;
-
-export const ContainerFirst = styled.div`
-  display: flex;
 `;
 
 export const ContainerProjects = styled.div`
