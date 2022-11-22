@@ -1,4 +1,6 @@
-import React, { FormEvent, useState, useRef } from 'react';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable no-console */
+import React, { FormEvent, useRef } from 'react';
 import emailjs from '@emailjs/browser';
 import { toast } from 'react-toastify';
 import { Container, Form, Label, Input, TextArea, InputSubmit } from './styled';
@@ -9,17 +11,17 @@ export default function Contact() {
     event.preventDefault();
 
     toast.success('Send');
-    //   try {
-    //     const result = await emailjs.sendForm(
-    //       'service_31sck9d',
-    //       'template_hvdy8wi',
-    //       form.current,
-    //       'ZmgzaXS3KnCp7lV6n',
-    //     );
-    //
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
+    try {
+      await emailjs.sendForm(
+        'service_31sck9d',
+        'template_hvdy8wi',
+        form.current,
+        'ZmgzaXS3KnCp7lV6n',
+      );
+    } catch (error) {
+      console.log(error);
+      toast.error('Error, try again');
+    }
   };
 
   return (
@@ -44,8 +46,6 @@ export default function Contact() {
           Message:
           <TextArea
             required
-            // rows={9}
-            // cols={20}
             name="message"
             placeholder="Type here your message"
           />
