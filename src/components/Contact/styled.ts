@@ -31,6 +31,9 @@ export const Label = styled.label`
 
 export const Input = styled.input`
   box-shadow: 0px 0px 5px 5px ${(props) => props.theme.surface};
+  -webkit-box-shadow: 0px 0px 5px 5px ${(props) => props.theme.surface};
+  -moz-box-shadow: 0px 0px 5px 5px ${(props) => props.theme.surface};
+
   display: flex;
   outline: 0;
   text-align: center;
@@ -62,20 +65,22 @@ export const TextArea = styled.textarea`
   color: ${(props) => props.theme.text};
   background-color: ${(props) => props.theme.overlay};
   text-align: center;
-  /* width: 21em; */
-  /* height: 9em; */
+  width: 19.5em;
+  height: 45vh;
   font-family: ${(props) => props.theme.fontSans};
   ::placeholder {
     text-align: center;
     color: ${(props) => props.theme.text};
   }
+
   :hover,
   :focus {
     transition: 0.2s all cubic-bezier(0.165, 0.84, 0.44, 1);
     border: 1px inset ${(props) => props.theme.accentColor};
   }
-
   box-shadow: 0px 0px 5px 5px ${(props) => props.theme.surface};
+  -webkit-box-shadow: 0px 0px 5px 5px ${(props) => props.theme.surface};
+  -moz-box-shadow: 0px 0px 5px 5px ${(props) => props.theme.surface};
 `;
 
 export const InputSubmit = styled.input`
@@ -92,9 +97,12 @@ export const InputSubmit = styled.input`
   :hover,
   :focus {
     cursor: pointer;
-    background-color: ${(props) => props.theme.surface};
-transition: 0.2s all cubic-bezier(0.165, 0.84, 0.44, 1);
+    background-color: ${(props) => props.theme.text};
+    color: ${(props) => props.theme.overlay};
+    transition: 0.2s all cubic-bezier(0.165, 0.84, 0.44, 1);
     border: 1px inset ${(props) => props.theme.accentColor};
-
   }
+  box-shadow: 0px 0px 5px 5px ${(props) => props.theme.surface};
+  -webkit-box-shadow: 0px 0px 5px 5px ${(props) => props.theme.surface};
+  -moz-box-shadow: 0px 0px 5px 5px ${(props) => props.theme.surface};
 `;

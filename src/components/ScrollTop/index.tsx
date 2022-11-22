@@ -12,7 +12,7 @@ export default function ScrollTop() {
   useEffect((): (() => void) => {
     window.addEventListener('scroll', handleScroll, { passive: true });
 
-    if (scrollPosition >= 699) setShowButton(true);
+    if (scrollPosition >= 1982) setShowButton(true);
     else setShowButton(false);
     return () => {
       window.removeEventListener('scroll', handleScroll);

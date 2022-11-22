@@ -7,6 +7,8 @@ interface Theme {
   surface: string;
   text: string;
   gold: string;
+  highlight: string;
+  highlightLow: string;
 }
 
 export default createGlobalStyle<{ theme: Theme }>`
@@ -18,7 +20,7 @@ export default createGlobalStyle<{ theme: Theme }>`
     font-family: 'Merriweather', serif;
  ::selection {
     color: ${(props) => props.theme.accentColor};
-    background-color: ${(props) => props.theme.surface};
+    background-color: ${(props) => props.theme.highlight};
   }
 }
 
@@ -40,7 +42,7 @@ a {
 
 body {
 
-
+  // height: 100%;
   overflow-x: hidden;
   ::-webkit-scrollbar {
   display: none;

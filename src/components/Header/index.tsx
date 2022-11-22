@@ -14,8 +14,8 @@ export default function Header({ toggleTheme }: Props): JSX.Element {
 
   return (
     <Navbar>
-      <a href="#projects">Projects</a>
       <a href="#about">About</a>
+      <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
 
       <DarkModeSwitcher

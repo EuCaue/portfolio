@@ -6,7 +6,7 @@ export const loveDark = '#eb6f92';
 export const overlayDark = '#26233a';
 export const surfaceDark = '#1f1d2e';
 export const goldDark = '#f6c177';
-export const highlightDark = '#524f67';
+export const highlightDark = '#1f1d2e';
 export const highlightLowDark = '#21202e';
 
 export const baseWhite = '#faf4ed';

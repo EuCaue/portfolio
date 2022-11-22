@@ -44,8 +44,8 @@ export default function Contact() {
           Message:
           <TextArea
             required
-            rows={9}
-            cols={20}
+            // rows={9}
+            // cols={20}
             name="message"
             placeholder="Type here your message"
           />

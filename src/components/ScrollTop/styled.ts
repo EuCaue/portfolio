@@ -10,9 +10,9 @@ export const ArrowUp = styled(FaArrowUp)`
   width: 1.8em;
   height: 1.8em;
   position: fixed;
-  top: 29em;
+  top: 94vh;
   left: 0em;
-  animation: 1s arrow linear;
+  /* animation: 1s arrow linear; */
   @keyframes arrow {
     from {
       translate: -100%;
@@ -26,5 +26,5 @@ export const LinkTop = styled.a`
   justify-content: center;
   text-decoration: none;
   color: ${(props) => props.theme.text};
-  animation: 1s arrow linear;
+  /* animation: 1s arrow linear; */
 `;
