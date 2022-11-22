@@ -4,6 +4,7 @@ import About from '../../components/About';
 import Projects from '../../components/Projects';
 import Welcome from '../../components/Welcome';
 import ScrollTop from '../../components/ScrollTop';
+import Contact from '../../components/Contact';
 
 interface Props {
   toggleTheme: () => void;
@@ -16,6 +17,7 @@ export default function Portfolio({ toggleTheme }: Props) {
       <Welcome />
       <About />
       <Projects />
+      <Contact />
       <ScrollTop />
     </>
   );

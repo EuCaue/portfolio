@@ -4,6 +4,9 @@ interface Theme {
   body: string;
   accentColor: string;
   overlay: string;
+  surface: string;
+  text: string;
+  gold: string;
 }
 
 export default createGlobalStyle<{ theme: Theme }>`
@@ -15,7 +18,7 @@ export default createGlobalStyle<{ theme: Theme }>`
     font-family: 'Merriweather', serif;
  ::selection {
     color: ${(props) => props.theme.accentColor};
-    background-color: ${(props) => props.theme.overlay};
+    background-color: ${(props) => props.theme.surface};
   }
 }
 
@@ -28,7 +31,16 @@ a {
   text-decoration: none;
 }
 
+@font-face {
+  font-family: emoji;
+  src: local('Apple Color Emoji'),
+       local('Android Emoji'),
+       local('Segoe UI'),
+}
+
 body {
+
+
   overflow-x: hidden;
   ::-webkit-scrollbar {
   display: none;
@@ -36,6 +48,29 @@ body {
   scrollbar-width: none;  /* Firefox */
 }
 background-color: ${(props) => props.theme.body};
+
+.Toastify__toast {
+color: ${(props) => props.theme.text};
+background-color: ${(props) => props.theme.body};
+    font-family: 'Merriweather', serif;
+    text-align: center;
+
+}
+
+.Toastify__progress-bar {
+background-color: ${(props) => props.theme.accentColor};
+color: ${(props) => props.theme.accentColor};
+}
+
+.Toastify__close-button {
+color: ${(props) => props.theme.text};
+}
+
+.Toastify__close-button:hover,
+.Toastify__close-button:focus {
+    color: ${(props) => props.theme.gold};
+
+}
 
 }
 

@@ -8,7 +8,8 @@ export const Container = styled.section`
   align-items: center;
   justify-content: center;
   color: ${(props) => props.theme.text};
-  flex-flow: wrap column;
+  flex-direction: column;
+  flex-wrap: wrap;
   height: 113.5vh;
 
   @keyframes P {

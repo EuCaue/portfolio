@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { ThemeProvider } from 'styled-components';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import GlobalStyles from './assets/styles/globalStyles';
 import Portfolio from './pages/Portfolio';
 import { darkTheme, lightTheme } from './assets/styles/themes';
@@ -17,6 +20,19 @@ function App() {
   return (
     <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
       <GlobalStyles />
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme={isDark ? 'dark' : 'light'}
+      />
+
       <Portfolio toggleTheme={toggleTheme} />
     </ThemeProvider>
   );
