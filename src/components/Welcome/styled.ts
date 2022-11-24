@@ -2,27 +2,6 @@
 import styled from 'styled-components';
 import { FaArrowDown } from 'react-icons/fa';
 
-export const Container = styled.section`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  flex-direction: column;
-  color: ${(props) => props.theme.text};
-  text-align: center;
-
-  @keyframes H1P {
-    from {
-      translate: -100%;
-    }
-  }
-  @keyframes Arrow {
-    from {
-      translate: 0 550%;
-    }
-  }
-`;
-
 export const H1 = styled.h1`
   display: flex;
   justify-content: center;
@@ -56,5 +35,47 @@ export const ArrowDown = styled(FaArrowDown)`
     transition: 0.2s all cubic-bezier(0.175, 0.885, 0.32, 1.275);
     width: 5em;
     height: 5em;
+  }
+`;
+
+export const Container = styled.section`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+  color: ${(props) => props.theme.text};
+  text-align: center;
+
+  @media screen and (max-width: 67em) and (min-width: 20em) {
+    height: 100vh;
+    ${H1} {
+      font-size: 1.5rem;
+    }
+
+    ${P} {
+      font-size: 1.2rem;
+    }
+
+    ${ArrowDown} {
+      pointer-events: none;
+      :hover {
+        color: ${(props) => props.theme.text};
+        transition: none;
+        width: 3em;
+        height: 3em;
+      }
+    }
+  }
+
+  @keyframes H1P {
+    from {
+      translate: -100%;
+    }
+  }
+  @keyframes Arrow {
+    from {
+      translate: 0 550%;
+    }
   }
 `;

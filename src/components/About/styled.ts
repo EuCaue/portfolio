@@ -3,21 +3,6 @@ import styled from 'styled-components';
 
 import photo from '../../assets/imgs/photo.png';
 
-export const Container = styled.section`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${(props) => props.theme.text};
-  flex-direction: column;
-  flex-wrap: wrap;
-  position: relative;
-  height: 113.5vh;
-  a {
-    position: absolute;
-    top: 95vh;
-  }
-`;
-
 export const PAboutMe = styled.p`
   display: flex;
   align-items: center;
@@ -41,6 +26,7 @@ export const ProfilePicture = styled.div`
   background-size: 300px 300px;
   background-position-y: -25px;
   background-repeat: no-repeat;
+  flex-wrap: wrap;
   width: 300px;
   height: 250px;
   margin-bottom: 0.5em;
@@ -49,5 +35,31 @@ export const ProfilePicture = styled.div`
 export const H1 = styled.h1`
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   align-items: center;
+`;
+
+export const Container = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${(props) => props.theme.text};
+  flex-direction: column;
+  flex-wrap: wrap;
+  position: relative;
+  height: 113.5vh;
+  a {
+    position: absolute;
+    top: 95vh;
+  }
+
+  @media screen and (max-width: 67em) and (min-width: 20em) {
+    /* height: 90vh; */
+    flex-wrap: nowrap;
+
+    ${PAboutMe} {
+      width: 90%;
+      /* height: 50%; */
+    }
+  }
 `;

@@ -41,15 +41,16 @@ a {
 }
 
 body {
-
-  // height: 100%;
-  overflow-x: hidden;
+  height: 100%;
+  overflow-x: clip;
   ::-webkit-scrollbar {
   display: none;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
 background-color: ${(props) => props.theme.body};
+
+
 
 .Toastify__toast {
 color: ${(props) => props.theme.text};
@@ -71,9 +72,7 @@ color: ${(props) => props.theme.text};
 .Toastify__close-button:hover,
 .Toastify__close-button:focus {
     color: ${(props) => props.theme.gold};
-
 }
-
 }
 
 

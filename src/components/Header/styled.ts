@@ -4,6 +4,7 @@ import styled from 'styled-components';
 export const Navbar = styled.nav`
   display: flex;
   align-items: center;
+
   justify-content: space-evenly;
   position: sticky;
   top: 0;
@@ -25,6 +26,13 @@ export const Navbar = styled.nav`
       text-decoration: underline;
       font-size: 24px;
     }
+  }
+  @media screen and (max-width: 67em) and (min-width: 20em) {
+    position: sticky;
+    top: 0;
+    bottom: 0;
+    z-index: 999;
+    width: 100%;
   }
 `;
 
