@@ -49,13 +49,7 @@ export const Container = styled.section`
 
   @media screen and (max-width: 67em) and (min-width: 20em) {
     height: 100vh;
-    ${H1} {
-      font-size: 1.5rem;
-    }
-
-    ${P} {
-      font-size: 1.2rem;
-    }
+    text-align: center;
 
     ${ArrowDown} {
       pointer-events: none;

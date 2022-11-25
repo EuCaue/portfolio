@@ -24,6 +24,11 @@ export default createGlobalStyle<{ theme: Theme }>`
   }
 }
 
+
+  @media screen and (max-width: 67em) and (min-width: 20em) {
+    overflow: hidden;
+}
+
 html, body, #root {
   // height: 100%;
   scroll-behavior: smooth;
@@ -42,7 +47,7 @@ a {
 
 body {
   height: 100%;
-  overflow-x: clip;
+  overflow-x: hidden;
   ::-webkit-scrollbar {
   display: none;
   -ms-overflow-style: none;  /* IE and Edge */

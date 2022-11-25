@@ -9,19 +9,6 @@ interface ProjectsBoxProps {
   height: string;
 }
 
-export const Container = styled.section`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  flex-wrap: wrap;
-  position: relative;
-  a:nth-child(5) {
-    position: absolute;
-    top: 95vh;
-  }
-`;
-
 export const ContainerProjects = styled.div`
   display: flex;
   justify-content: center;
@@ -89,5 +76,26 @@ export const Globe = styled(FaGlobe)`
   :hover {
     color: ${(props) => props.theme.accentColor};
     transition: 0.5s all ease;
+  }
+`;
+
+export const Container = styled.section`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-wrap: wrap;
+  position: relative;
+  a:nth-child(5) {
+    position: absolute;
+    top: 95vh;
+  }
+
+  @media screen and (max-width: 67em) and (min-width: 20em) {
+    height: 180vh;
+    a:nth-child(5) {
+      top: 182vh;
+      right: 45%;
+    }
   }
 `;

@@ -10,8 +10,12 @@ export const ArrowUp = styled(FaArrowUp)`
   width: 1.8em;
   height: 1.8em;
   position: fixed;
-  top: 94vh;
+  top: 95vh;
   left: 0em;
+
+  @media screen and (max-width: 67em) and (min-width: 20em) {
+    top: 96vh;
+  }
   /* animation: 1s arrow linear; */
   @keyframes arrow {
     from {

@@ -1,15 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import styled from 'styled-components';
 
-export const Container = styled.section`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 115vh;
-  flex-direction: row;
-  flex-wrap: wrap;
-`;
-
 export const Form = styled.form`
   display: flex;
   gap: 0.7em;
@@ -33,7 +24,6 @@ export const Input = styled.input`
   box-shadow: 0px 0px 5px 5px ${(props) => props.theme.surface};
   -webkit-box-shadow: 0px 0px 5px 5px ${(props) => props.theme.surface};
   -moz-box-shadow: 0px 0px 5px 5px ${(props) => props.theme.surface};
-
   display: flex;
   outline: 0;
   text-align: center;
@@ -105,4 +95,24 @@ export const InputSubmit = styled.input`
   box-shadow: 0px 0px 5px 5px ${(props) => props.theme.surface};
   -webkit-box-shadow: 0px 0px 5px 5px ${(props) => props.theme.surface};
   -moz-box-shadow: 0px 0px 5px 5px ${(props) => props.theme.surface};
+`;
+
+export const Container = styled.section`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 115vh;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  @media screen and (max-width: 67em) and (min-width: 20em) {
+    height: 110vh;
+    ${Input} {
+      width: 90vw;
+    }
+
+    ${TextArea} {
+      width: 90vw;
+    }
+  }
 `;

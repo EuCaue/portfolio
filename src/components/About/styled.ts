@@ -14,7 +14,7 @@ export const PAboutMe = styled.p`
   line-height: 1.5em;
   margin-top: 0.5em;
   padding: 0.5em;
-  border: 3px solid ${(props) => props.theme.overlay};
+  border: 3px inset ${(props) => props.theme.overlay};
 `;
 
 export const ProfilePicture = styled.div`
@@ -37,6 +37,9 @@ export const H1 = styled.h1`
   justify-content: center;
   flex-wrap: wrap;
   align-items: center;
+
+  padding: 0.5em;
+  border: 3px outset ${(props) => props.theme.overlay};
 `;
 
 export const Container = styled.section`
@@ -56,10 +59,15 @@ export const Container = styled.section`
   @media screen and (max-width: 67em) and (min-width: 20em) {
     /* height: 90vh; */
     flex-wrap: nowrap;
-
+    a {
+      position: static;
+      justify-content: center;
+      align-items: center;
+      align-self: center;
+      margin-top: 1vh;
+    }
     ${PAboutMe} {
       width: 90%;
-      /* height: 50%; */
     }
   }
 `;

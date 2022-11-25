@@ -6,7 +6,7 @@ export default function ScrollTop() {
   const [scrollPosition, setScrollPosition] = useState<number>(0);
 
   const handleScroll = (): void => {
-    const position = window.pageYOffset;
+    const position = window.scrollY;
     setScrollPosition(position);
   };
   useEffect((): (() => void) => {
