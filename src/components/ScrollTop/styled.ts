@@ -11,16 +11,15 @@ export const ArrowUp = styled(FaArrowUp)`
   height: 1.8em;
   position: absolute;
   top: -20vh;
-  left: 172.5vh;
+  left: 97vw;
   :hover {
     color: ${(props) => props.theme.accentColor};
     transition: 0.2s all linear;
   }
 
   @media screen and (max-width: 67em) and (min-width: 20em) {
-    top: -23vh;
+    top: -24vh;
     left: 90vw;
-    /* left: 1vh; */
   }
 `;
 

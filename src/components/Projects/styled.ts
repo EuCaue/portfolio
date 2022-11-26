@@ -19,6 +19,9 @@ export const ContainerProjects = styled.div`
 `;
 
 export const ImageProject = styled.div<ProjectsBoxProps>`
+  box-shadow: 0px 0px 5px 5px ${(props) => props.theme.highlight};
+  -webkit-box-shadow: 0px 0px 5px 5px ${(props) => props.theme.highlight};
+  -moz-box-shadow: 0px 0px 5px 5px ${(props) => props.theme.highlight};
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -27,7 +30,7 @@ export const ImageProject = styled.div<ProjectsBoxProps>`
   background-size: ${(props) => props.width} ${(props) => props.height};
   width: ${(props) => props.width};
   height: ${(props) => props.height};
-  border: 1.5px solid ${(props) => props.theme.accentColor};
+  border: 1.8px outset ${(props) => props.theme.accentColor};
 `;
 
 export const TitleProject = styled.h1`
@@ -95,7 +98,7 @@ export const Container = styled.section`
     height: 180vh;
     a:nth-child(5) {
       top: 182vh;
-      right: 45%;
+      right: 45vw;
     }
   }
 `;

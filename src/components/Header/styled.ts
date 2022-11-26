@@ -33,6 +33,9 @@ export const Navbar = styled.nav`
     bottom: 0;
     z-index: 999;
     width: 100%;
+    a:hover {
+      font-size: 20px;
+    }
   }
 `;
 
