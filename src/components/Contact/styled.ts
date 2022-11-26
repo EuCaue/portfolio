@@ -68,6 +68,7 @@ export const TextArea = styled.textarea`
     transition: 0.2s all cubic-bezier(0.165, 0.84, 0.44, 1);
     border: 1px inset ${(props) => props.theme.accentColor};
   }
+
   box-shadow: 0px 0px 5px 5px ${(props) => props.theme.surface};
   -webkit-box-shadow: 0px 0px 5px 5px ${(props) => props.theme.surface};
   -moz-box-shadow: 0px 0px 5px 5px ${(props) => props.theme.surface};

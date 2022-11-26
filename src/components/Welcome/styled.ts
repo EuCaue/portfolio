@@ -33,8 +33,6 @@ export const ArrowDown = styled(FaArrowDown)`
   :hover {
     color: ${(props) => props.theme.accentColor};
     transition: 0.2s all cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    width: 5em;
-    height: 5em;
   }
 `;
 
@@ -56,8 +54,6 @@ export const Container = styled.section`
       :hover {
         color: ${(props) => props.theme.text};
         transition: none;
-        width: 3em;
-        height: 3em;
       }
     }
   }

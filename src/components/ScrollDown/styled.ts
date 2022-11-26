@@ -10,6 +10,10 @@ export const ArrowDown = styled(FaArrowDown)`
   flex-wrap: wrap;
   width: 2em;
   height: 1.5em;
+  :hover {
+    color: ${(props) => props.theme.accentColor};
+    transition: 0.2s all cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
 `;
 
 export const LinkArrow = styled.a`
