@@ -95,10 +95,12 @@ export const Container = styled.section`
   }
 
   @media screen and (max-width: 67em) and (min-width: 20em) {
-    height: 180vh;
+    height: auto;
+
     a:nth-child(5) {
-      top: 182vh;
-      right: 45vw;
+      top: auto;
+      bottom: -5vh;
+      right: 45.5vw;
     }
   }
 `;

@@ -108,6 +108,7 @@ export const Container = styled.section`
 
   @media screen and (max-width: 67em) and (min-width: 20em) {
     height: 110vh;
+
     ${Input} {
       width: 90vw;
     }
