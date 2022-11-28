@@ -99,7 +99,7 @@ export const Container = styled.section`
 
     a:nth-child(5) {
       top: auto;
-      bottom: -5vh;
+      bottom: -6vh;
       right: 45.5vw;
     }
   }

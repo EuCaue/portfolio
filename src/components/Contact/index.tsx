@@ -10,7 +10,6 @@ export default function Contact() {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    toast.success('Send');
     try {
       await emailjs.sendForm(
         'service_31sck9d',
@@ -18,9 +17,10 @@ export default function Contact() {
         form.current,
         'ZmgzaXS3KnCp7lV6n',
       );
+      toast.success('Send');
     } catch (error) {
       console.log(error);
-      toast.error('Error, try again');
+      toast.error('Please, try again.');
     }
   };
 

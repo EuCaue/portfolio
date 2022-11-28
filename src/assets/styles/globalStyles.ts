@@ -22,6 +22,7 @@ export default createGlobalStyle<{ theme: Theme }>`
     color: ${(props) => props.theme.accentColor};
     background-color: ${(props) => props.theme.highlight};
   }
+  transition: all 0.2s linear;
 }
 
 
