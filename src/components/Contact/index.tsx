@@ -12,10 +12,10 @@ export default function Contact() {
 
     try {
       await emailjs.sendForm(
-        'service_31sck9d',
-        'template_hvdy8wi',
+        `${import.meta.env.VITE_SERVICE_ID}`,
+        `${import.meta.env.VITE_TEMPLATE_ID}`,
         form.current,
-        'ZmgzaXS3KnCp7lV6n',
+        `${import.meta.env.VITE_PUBLIC_KEY}`,
       );
       toast.success('Send');
     } catch (error) {

@@ -2,12 +2,12 @@
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
-"plugins": [
+    "plugins": [
       {
         "name": "typescript-styled-plugin"
       }
     ],
-      "lib": [
+    "lib": [
       "DOM",
       "DOM.Iterable",
       "ESNext"
@@ -25,7 +25,12 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": [".eslintrc.cjs","src"],"references": [{
+  "include": [
+    ".eslintrc.cjs",
+    "src"
+  ],
+  "references": [
+    {
       "path": "./tsconfig.node.json"
     }
   ]
