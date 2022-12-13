@@ -27,6 +27,7 @@ export const Input = styled.input`
   display: flex;
   outline: 0;
   text-align: center;
+  width: 30vw;
   border: none;
   border-radius: 5px;
   background-color: ${(props) => props.theme.overlay};
