@@ -92,7 +92,7 @@ export default function Projects() {
         title="My Portfolio"
         para="My personal portfolio made with ❤."
         github="https://github.com/EuCaue/portfolio"
-        site="https://portofolio-caue-souza.vercel.app/"
+        site="https://portfolio-caue-souza.vercel.app/"
       />
       <ScrollDown section="#contact" />
     </Container>
