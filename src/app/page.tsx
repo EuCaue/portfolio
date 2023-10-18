@@ -1,21 +1,24 @@
 import Header from "@/components/Header";
+import Hero from "@/components/Hero";
+import Intro from "@/components/Intro";
+
 export default function Home() {
   return (
     <>
       <Header />
-      <div className="hero min-h-screen bg-base-200">
-        <div className="hero-content text-center">
-          <div className="max-w-md">
-            <h1 className="text-5xl font-bold">Hello there</h1>
-            <p className="py-6">
-              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-              excepturi exercitationem quasi. In deleniti eaque aut repudiandae
-              et a id nisi.
-            </p>
-            <button className="btn btn-primary">Get Started</button>
-          </div>
-        </div>
-      </div>
+
+      <Hero
+        key="home"
+        id="home"
+      >
+        <Intro key="1" />
+      </Hero>
+      <Hero key="2" id="about">
+        <Intro key="2" />
+      </Hero>
+      <Hero key="3" id="projects">
+        <Intro key="3" />
+      </Hero>
     </>
   );
 }

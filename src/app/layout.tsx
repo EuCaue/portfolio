@@ -17,7 +17,6 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      data-theme="mytheme"
     >
       <body className={inter.className}>{children}</body>
     </html>
