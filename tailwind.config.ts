@@ -1,11 +1,33 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   daisyui: {
     themes: [
       "black",
       "dark",
       "light",
+      {
+        mythemelight: {
+          primary: "#43b3f4",
+
+          secondary: "#7755cc",
+
+          accent: "#201377",
+
+          neutral: "#28212b",
+
+          "base-100": "#f9f9f9",
+
+          info: "#d9fca9",
+
+          success: "#14947f",
+
+          warning: "#c89809",
+
+          error: "#ea5353",
+        },
+      },
       {
         mytheme: {
           primary: "#43b3f4",
