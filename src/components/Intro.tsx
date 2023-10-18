@@ -1,10 +1,8 @@
 "use client";
-import { motion, useAnimation } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import TypeWriterIntro from "./TypeWriterIntro";
 
 export default function Intro() {
-  const words = ["User", "World", "Person"];
   return (
     <motion.div
       className="max-w-md flex items-center justify-center flex-col"
@@ -13,21 +11,22 @@ export default function Intro() {
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 1 }}
     >
-      <TypeWriterIntro words={words} />
+      <TypeWriterIntro />
       <p className="text-2xl py-6 leading-tight">
         I&apos;m a{" "}
-        <span className="underline capitalize">full stack developer </span>
+        <span className="underline capitalize">
+          full stack developer{" "}
+        </span>
         with a passion for creating engaging and user-friendly websites and
         applications.
       </p>
       <motion.a
-        initial={{ y: 5 }}
-        animate={{ y: 40 }}
+        initial={{ y: 60 }}
+        animate={{ y: -20 }}
         transition={{
-          duration: 0.5,
+          duration: 0.6,
           repeat: Infinity,
-          repeatType: "loop",
-          delay: 0.8,
+          repeatType: "reverse",
         }}
         href="#about"
         title="Go to about"
