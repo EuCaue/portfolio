@@ -6,7 +6,7 @@ export default function Intro() {
   return (
     <motion.div
       className="max-w-md flex items-center justify-center flex-col"
-      initial={{ opacity: 0, y: -80, x: -40 }}
+      initial={{ opacity: 0, y: -80, x: -40}}
       animate={{ opacity: 1, y: 0, x: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 1 }}
@@ -22,7 +22,7 @@ export default function Intro() {
         href="#about"
         title="Go to about"
         aria-label="Go to about section"
-        className="btn btn-primary hover:scale-110 transition-all duration-200"
+        className="btn btn-primary hover:scale-110 transition-all duration-200 animate-bounce"
       >
         Get Started
       </a>
