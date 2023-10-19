@@ -1,21 +1,23 @@
-"use client";
-import React from "react";
+'use client';
+import { useState, useEffect, useCallback } from 'react';
 
 export default function ToggleTheme() {
-  const [theme, setTheme] = React.useState(
-    localStorage.getItem("theme") || "mytheme",
+  const [theme, setTheme] = useState<string>(
+    window.localStorage.getItem('theme') || 'mytheme'
   );
-  const toggleTheme = () => {
-    setTheme(theme === "mytheme" ? "mythemelight" : "mytheme");
-  };
 
-  React.useEffect(() => {
-    document.querySelector("html")?.setAttribute("data-theme", theme);
-    document
-      .querySelector("html")
-      ?.classList.toggle("dark", theme === "mytheme");
-    localStorage.setItem("theme", theme);
+  const toggleTheme = useCallback(() => {
+    setTheme(theme === 'mytheme' ? 'mythemelight' : 'mytheme');
   }, [theme]);
+
+  useEffect(() => {
+    document.querySelector('html')?.setAttribute('data-theme', theme);
+    document
+      .querySelector('html')
+      ?.classList.toggle('dark', theme === 'mytheme');
+    window.localStorage.setItem('theme', theme);
+  }, [theme]);
+
   return (
     <div
       className="tooltip"

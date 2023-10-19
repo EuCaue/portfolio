@@ -1,10 +1,14 @@
-import {useState, useEffect} from "react";
+import { useState, useEffect } from 'react';
+
+type returnTypeWriter = {
+ currentWord: number; collapseClass: string 
+} 
 
 export default function useTypeWriter(
   words: string[],
-  defaultCollapseClass: string = " w-0",
-  expandCollapseClass: string = " w-48 lg:w-64",
-): { currentWord: number; collapseClass: string } {
+  defaultCollapseClass: string = ' w-0',
+  expandCollapseClass: string = ' w-48 lg:w-64'
+): returnTypeWriter {
   const [currentWord, setCurrentWord] = useState<number>(0);
   const [collapseClass, setCollapseClass] =
     useState<string>(defaultCollapseClass);

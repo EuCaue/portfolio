@@ -2,9 +2,9 @@ import {
   IconBrandGithub,
   IconBrandLinkedin,
   IconMenu2,
-  IconX,
-} from "@tabler/icons-react";
-import ToggleTheme from "./ToggleTheme";
+  IconX
+} from '@tabler/icons-react';
+import ToggleTheme from './ToggleTheme';
 
 export default function Header() {
   type SectionsNav = {
@@ -14,21 +14,21 @@ export default function Header() {
 
   const sectionsNav: SectionsNav[] = [
     {
-      name: "Home",
-      sectionId: "#home",
+      name: 'Home',
+      sectionId: '#home'
     },
     {
-      name: "About",
-      sectionId: "#about",
+      name: 'About',
+      sectionId: '#about'
     },
     {
-      name: "Projects",
-      sectionId: "#projects",
+      name: 'Projects',
+      sectionId: '#projects'
     },
     {
-      name: "Contact",
-      sectionId: "#contact",
-    },
+      name: 'Contact',
+      sectionId: '#contact'
+    }
   ];
 
   return (

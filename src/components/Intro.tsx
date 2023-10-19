@@ -1,6 +1,6 @@
-"use client";
-import { motion } from "framer-motion";
-import TypeWriterIntro from "./TypeWriterIntro";
+"use client"
+import { motion } from 'framer-motion';
+import TypeWriterIntro from './TypeWriterIntro';
 
 export default function Intro() {
   return (
@@ -13,28 +13,19 @@ export default function Intro() {
     >
       <TypeWriterIntro />
       <p className="text-2xl py-6 leading-tight">
-        I&apos;m a{" "}
-        <span className="underline capitalize">
-          full stack developer{" "}
-        </span>
+        I&apos;m a{' '}
+        <span className="underline capitalize">full stack developer </span>
         with a passion for creating engaging and user-friendly websites and
         applications.
       </p>
-      <motion.a
-        initial={{ y: 60 }}
-        animate={{ y: -20 }}
-        transition={{
-          duration: 0.6,
-          repeat: Infinity,
-          repeatType: "reverse",
-        }}
+      <a
         href="#about"
         title="Go to about"
         aria-label="Go to about section"
         className="btn btn-primary hover:scale-110 transition-all duration-200"
       >
         Get Started
-      </motion.a>
+      </a>
     </motion.div>
   );
 }
