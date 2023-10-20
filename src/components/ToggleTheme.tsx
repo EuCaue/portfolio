@@ -21,13 +21,12 @@ export default function ToggleTheme() {
       $lightSVG.current?.classList.remove('swap-off');
       $lightSVG.current?.classList.add('swap-on');
     }
-  }, [theme]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const toggleTheme = useCallback(() => {
     const themeMode = theme === 'mytheme' ? 'mythemelight' : 'mytheme';
     setTheme(themeMode);
     checkTheme();
-    console.count()
   }, [checkTheme, theme]);
 
   useEffect(() => {
