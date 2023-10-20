@@ -1,3 +1,4 @@
+import About from '@/components/About';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Intro from '@/components/Intro';
@@ -17,7 +18,7 @@ export default function Home() {
         key="2"
         id="about"
       >
-        <Intro key="2" />
+        <About key="2" />
       </Hero>
       <Hero
         key="3"
