@@ -64,12 +64,12 @@ export default function Header() {
         className="drawer-toggle"
       />
 
-      <div className="drawer-content bg-transparent fixed bottom-0">
+      <div className="drawer-content bg-transparent fixed bottom-0 z-10">
         <label
           htmlFor="my-drawer"
           aria-label="Open sidebar"
           title="Open sidebar"
-          className="ml-4 mb-2 btn btn-success drawer-button shadow-md text-base-content"
+          className="ml-4 mb-2 btn btn-success drawer-button shadow-md text-white"
         >
           <IconMenu2 size={40} />
         </label>
@@ -103,8 +103,8 @@ export default function Header() {
             </label>
           </li>
 
-          <footer className="absolute bottom-0 mb-4 footer w-2/4 items-center p-4 bg-base-300 text-neutral-content mt-4">
-            <nav className="grid-cols-2 gap-4 md:place-self-center md:justify-self-center text-primary-content dark:text-neutral-content">
+          <footer className="absolute bottom-0 mb-4 footer w-2/4 p-4  bg-neutral-500 dark:bg-neutral-900 text-neutral-content mt-4 rounded-lg">
+            <nav className="grid-cols-2 gap-4 md:place-self-center md:justify-self-center text-neutral-200">
               <a
                 className="hover:scale-125 hover:text-primary text-2xl transition-colors duration-500"
                 title="Go to my GitHub profile"
