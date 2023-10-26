@@ -6,7 +6,8 @@ import {
 } from '@tabler/icons-react';
 import ToggleTheme from './ToggleTheme';
 import ToggleLanguage from './ToggleLanguage';
-import { getScopedI18n } from '../locales/server';
+import { getScopedI18n } from '@/locales/server';
+
 type SectionsNav = {
   name: string;
   sectionId: string;

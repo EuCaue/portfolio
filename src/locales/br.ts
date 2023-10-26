@@ -8,7 +8,7 @@ export default {
     titleGithubButton: 'Ir para meu perfil no Github.',
     titleLinkedinButton: 'Ir para meu perfil no Linkedin.',
     titleToggleTheme: 'Trocar Tema',
-    titleToggleLanguage: 'Trocar Idioma',
+    titleToggleLanguage: 'Trocar Idioma'
   },
   intro: {
     introduction: 'Eu Sou um',

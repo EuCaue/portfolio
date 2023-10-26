@@ -1,4 +1,4 @@
-import { getI18n, getScopedI18n } from '../locales/server';
+import { getI18n, getScopedI18n } from '@/locales/server';
 export default async function About() {
   const t = await getI18n();
   const scopedT = await getScopedI18n('about');

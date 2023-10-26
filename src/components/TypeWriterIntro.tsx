@@ -1,5 +1,5 @@
 import useTypeWriter from '@/hooks/useTypeWriter';
-import { useScopedI18n } from '../locales/client';
+import { useScopedI18n } from '@/locales/client';
 
 export default function TypeWriterIntro() {
   const scopedT = useScopedI18n('intro');
