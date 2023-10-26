@@ -1,58 +1,36 @@
 import {
   IconBrandGithub,
   IconBrandLinkedin,
-  IconLanguage,
   IconMenu2,
   IconX
 } from '@tabler/icons-react';
 import ToggleTheme from './ToggleTheme';
+import ToggleLanguage from './ToggleLanguage';
+import { getScopedI18n } from '../locales/server';
+type SectionsNav = {
+  name: string;
+  sectionId: string;
+};
 
-function ToggleLanguage() {
-  return (
-    <div
-      className="tooltip tooltip-bottom"
-      data-tip="Change Language"
-    >
-      {/*  TODO: make the language stuff  */}
-      <label className="swap swap-flip hover:scale-125 hover:text-primary">
-        <input type="checkbox" />
-
-        <div className="indicator swap-off">
-          <span className="indicator-item badge">PT-BR</span>
-          <IconLanguage className="w-10 h-10" />
-        </div>
-
-        <div className="indicator swap-on">
-          <span className="indicator-item badge">EN-US</span>
-          <IconLanguage className="w-10 h-10" />
-        </div>
-      </label>
-    </div>
-  );
-}
-
-export default function Header() {
-  type SectionsNav = {
-    name: string;
-    sectionId: string;
-  };
+export default async function Header() {
+  const scopedT = await getScopedI18n('header');
 
   const sectionsNav: SectionsNav[] = [
     {
-      name: 'Home',
-      sectionId: '#home'
+      name: scopedT('sections.0'),
+      sectionId: `#${scopedT('sections.0').toLowerCase()}`
     },
     {
-      name: 'About',
-      sectionId: '#about'
+      name: scopedT('sections.1'),
+      sectionId: `#${scopedT('sections.1').toLowerCase()}`
     },
     {
-      name: 'Projects',
-      sectionId: '#projects'
+      name: scopedT('sections.2'),
+      sectionId: `#${scopedT('sections.2').toLowerCase()}`
     },
     {
-      name: 'Contact',
-      sectionId: '#contact'
+      name: scopedT('sections.3'),
+      sectionId: `#${scopedT('sections.3').toLowerCase()}`
     }
   ];
 
@@ -67,8 +45,8 @@ export default function Header() {
       <div className="drawer-content bg-transparent fixed bottom-0 z-10">
         <label
           htmlFor="my-drawer"
-          aria-label="Open sidebar"
-          title="Open sidebar"
+          title={scopedT('titleMenuButton')}
+          aria-label={scopedT('titleMenuButton')}
           className="ml-4 mb-2 btn btn-success drawer-button shadow-md text-white"
         >
           <IconMenu2 size={40} />
@@ -78,15 +56,14 @@ export default function Header() {
       <div className="drawer-side z-50">
         <label
           htmlFor="my-drawer"
-          aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
         <ul className="menu relative  p-4 w-80 min-h-full bg-base-200 text-base-content text-2xl text-center flex flex-col items-center justify-center">
           {sectionsNav.map((nav) => (
             <li
               key={nav.name}
-              title={`Go to ${nav.name} section.`}
-              aria-label={`Go to ${nav.name} section.`}
+              title={scopedT('sectionGoto', { section: nav.name })}
+              aria-label={scopedT('sectionGoto', { section: nav.name })}
               className="text-base-900 mb-2 link-hover"
             >
               <a href={nav.sectionId}>{nav.name}</a>
@@ -95,8 +72,8 @@ export default function Header() {
           <li>
             <label
               htmlFor="my-drawer"
-              title="Close sidebar"
-              aria-label="Close sidebar"
+              title={scopedT('titleXButton')}
+              aria-label={scopedT('titleXButton')}
               className="btn-wide flex items-center justify-center"
             >
               <IconX size={32} />
@@ -107,8 +84,8 @@ export default function Header() {
             <nav className="grid-cols-2 gap-4 md:place-self-center md:justify-self-center text-neutral-200">
               <a
                 className="hover:scale-125 hover:text-primary text-2xl transition-colors duration-500"
-                title="Go to my GitHub profile"
-                aria-label="Go to my GitHub profile"
+                title={scopedT('titleGithubButton')}
+                aria-label={scopedT('titleGithubButton')}
                 href="https://www.github.com/EuCaue/"
                 rel="noreferrer"
                 target="_blank"
@@ -119,8 +96,8 @@ export default function Header() {
               <a
                 className="hover:scale-125 hover:text-primary text-2xl transition-colors duration-500"
                 href="http://www.linkedin.com/in/caue-souza/"
-                title="Go to my Linkedin profile"
-                aria-label="Go to my Linkedin profile"
+                title={scopedT('titleLinkedinButton')}
+                aria-label={scopedT('titleLinkedinButton')}
                 rel="noreferrer"
                 target="_blank"
               >

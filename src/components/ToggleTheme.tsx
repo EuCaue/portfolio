@@ -1,11 +1,14 @@
 'use client';
 import { useState, useEffect, useCallback, useRef, RefObject } from 'react';
+import { useScopedI18n } from '@/locales/client';
 
 export default function ToggleTheme() {
   const $darkSVG: RefObject<SVGSVGElement> = useRef(null);
+  const scopedT = useScopedI18n('header');
   const $lightSVG: RefObject<SVGSVGElement> = useRef(null);
   const [theme, setTheme] = useState<string>(
-    window.localStorage.getItem('theme') || 'mytheme'
+    (typeof window !== 'undefined' && window.localStorage.getItem('theme')) ||
+      'mytheme'
   );
 
   const checkTheme = useCallback((): void => {
@@ -44,7 +47,7 @@ export default function ToggleTheme() {
   return (
     <div
       className="tooltip"
-      data-tip="Toggle theme"
+      data-tip={scopedT('titleToggleTheme')}
     >
       <label className="swap swap-rotate hover:scale-125 hover:text-primary">
         <input
