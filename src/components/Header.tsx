@@ -7,33 +7,10 @@ import {
 import ToggleTheme from './ToggleTheme';
 import ToggleLanguage from './ToggleLanguage';
 import { getScopedI18n } from '@/locales/server';
-
-type SectionsNav = {
-  name: string;
-  sectionId: string;
-};
+import HeaderSections from './HeaderSections';
 
 export default async function Header() {
   const scopedT = await getScopedI18n('header');
-
-  const sectionsNav: SectionsNav[] = [
-    {
-      name: scopedT('sections.0'),
-      sectionId: `#${scopedT('sections.0').toLowerCase()}`
-    },
-    {
-      name: scopedT('sections.1'),
-      sectionId: `#${scopedT('sections.1').toLowerCase()}`
-    },
-    {
-      name: scopedT('sections.2'),
-      sectionId: `#${scopedT('sections.2').toLowerCase()}`
-    },
-    {
-      name: scopedT('sections.3'),
-      sectionId: `#${scopedT('sections.3').toLowerCase()}`
-    }
-  ];
 
   return (
     <div className="drawer">
@@ -60,16 +37,7 @@ export default async function Header() {
           className="drawer-overlay"
         ></label>
         <ul className="menu relative  p-4 w-80 min-h-full bg-base-200 text-base-content text-2xl text-center flex flex-col items-center justify-center">
-          {sectionsNav.map((nav) => (
-            <li
-              key={nav.name}
-              title={scopedT('sectionGoto', { section: nav.name })}
-              aria-label={scopedT('sectionGoto', { section: nav.name })}
-              className="text-base-900 mb-2 link-hover"
-            >
-              <a href={nav.sectionId}>{nav.name}</a>
-            </li>
-          ))}
+          <HeaderSections />
           <li>
             <label
               htmlFor="my-drawer"
