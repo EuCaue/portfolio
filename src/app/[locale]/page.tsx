@@ -2,6 +2,7 @@ import About from '@/components/About';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Intro from '@/components/Intro';
+import Projects from '@/components/Projects';
 import { getScopedI18n } from '@/locales/server';
 
 export default async function Page() {
@@ -24,11 +25,12 @@ export default async function Page() {
       >
         <About key="2" />
       </Hero>
+
       <Hero
         key={scopedT('sections.2').toLowerCase()}
         id={scopedT('sections.2').toLowerCase()}
       >
-        <Intro key="3" />
+        <Projects key="3" />
       </Hero>
     </>
   );
