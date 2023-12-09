@@ -12,7 +12,7 @@ export default function Hero({
       className="hero min-h-screen bg-base-200 snap-center"
       id={id}
     >
-      <div className="hero-content text-center">{children}</div>
+      <div className="hero-content text-center h-full">{children}</div>
     </div>
   );
 }
