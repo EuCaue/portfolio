@@ -34,5 +34,16 @@ export default {
     collaboration: 'to collaborate, so feel free to contact me.',
     projectsButton: 'my projects',
     projectsButtonTitle: 'Go to Projects.'
+  },
+  project: {
+    slideButton: {
+      left: 'Previous carousel item',
+      right: 'Next carousel item',
+      imagePreview: 'Change image preview'
+    },
+    ariaLabelDetails: 'Project details: {projectName}',
+    githubButton: 'Project: {projectName} GitHub Repository',
+    previewButton: 'Live Demo for the project: {projectName}',
+    techAriaLabel: '{tech} icon'
   }
 } as const;

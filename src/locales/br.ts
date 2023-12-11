@@ -1,4 +1,3 @@
-// locales/br.ts
 export default {
   header: {
     sections: ['Inicio', 'Sobre', 'Projetos', 'Contato'],
@@ -35,5 +34,16 @@ export default {
       'para colaborar, portanto, sinta-se à vontade para entrar em contato comigo.',
     projectsButton: 'meus projetos',
     projectsButtonTitle: 'Ir para Projetos.'
+  },
+  project: {
+    slideButton: {
+      left: 'Item anterior do carrossel',
+      right: 'Proximo item do carrossel',
+      imagePreview: 'Mudar imagem do carrossel'
+    },
+    ariaLabelDetails: 'Detalhes do projeto: {projectName}',
+    githubButton: 'Projeto: {projectName} Repositório no GitHub',
+    previewButton: 'Ver projeto: {projectName}',
+    techAriaLabel: '{tech} ícone'
   }
 } as const;
