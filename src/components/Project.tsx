@@ -16,10 +16,7 @@ type ProjectProps = {
   id: number;
   length: number;
   description: string;
-  techs: {
-    iconName: string;
-    tooltipName: string;
-  }[];
+  techs: string[];
   githubUrl: string;
   previewUrl?: string;
   desktopImagePreviewBase64?: string;
@@ -155,15 +152,15 @@ export default function Project({
           <li className="flex flex-wrap justify-start items-center gap-4">
             {techs.map((tech) => (
               <span
-                key={tech.iconName}
+                key={tech}
                 className="tooltip tooltip-secondary"
                 aria-label={scopedT('techAriaLabel', {
-                  tech: tech.tooltipName
+                  tech: tech
                 })}
-                data-tip={tech.tooltipName}
+                data-tip={tech}
               >
                 <DynamicIcon
-                  name={tech.iconName}
+                  name={tech}
                   ICON_SIZE={iconSize}
                 />
               </span>
