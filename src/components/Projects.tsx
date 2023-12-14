@@ -53,7 +53,7 @@ export default async function Projects(): Promise<JSX.Element> {
           mobileImagePreviewBase64={project.mobileImage}
           desktopImagePreviewBase64={project.desktopImage}
           usageCmd={project.usageCmd}
-          techs={project.techs}
+          techs={project.techs.sort()}
         />
       ))}
     </div>

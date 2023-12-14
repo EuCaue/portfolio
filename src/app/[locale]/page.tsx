@@ -1,4 +1,5 @@
 import About from '@/components/About';
+import Contact from '@/components/Contact';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Intro from '@/components/Intro';
@@ -31,6 +32,13 @@ export default async function Page() {
         id={scopedT('sections.2').toLowerCase()}
       >
         <Projects key="3" />
+      </Hero>
+
+      <Hero 
+        key={scopedT('sections.3').toLowerCase()}
+        id={scopedT('sections.3').toLowerCase()}
+      >
+        <Contact key="4"/>
       </Hero>
     </>
   );

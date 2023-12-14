@@ -65,7 +65,7 @@ export default function Project({
 
   return (
     <div
-      className="card card-bordered border-neutral-content rounded-md w-full h-5/6 carousel-item"
+      className="card card-bordered border-base-content rounded-md w-full h-5/6 carousel-item"
       id={`slide${id.toString()}`}
     >
       {!usageCmd ? (
