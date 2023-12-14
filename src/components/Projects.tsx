@@ -1,3 +1,4 @@
+import { getCurrentLocale } from '@/locales/server';
 import Project from './Project';
 import fs from 'fs/promises';
 import path from 'path';
@@ -6,6 +7,7 @@ type Project = {
   name: string;
   description: { en: string; br: string };
   repo: string;
+  techs: string[];
 };
 
 type TermProject = {
@@ -34,6 +36,7 @@ async function getProjectsData(): Promise<ProjectsList> {
 }
 
 export default async function Projects(): Promise<JSX.Element> {
+  const locale = getCurrentLocale();
   const projects = await getProjectsData();
 
   return (
@@ -44,17 +47,13 @@ export default async function Projects(): Promise<JSX.Element> {
           length={projects.length - 1}
           key={project.name}
           title={project.name}
-          description={project.description.br}
+          description={project.description[locale]}
           githubUrl={project.repo}
           previewUrl={project.preview}
           mobileImagePreviewBase64={project.mobileImage}
           desktopImagePreviewBase64={project.desktopImage}
           usageCmd={project.usageCmd}
-          techs={[
-            { tooltipName: 'TypeScript', iconName: 'Typescript' },
-            { tooltipName: 'TailwindCSS', iconName: 'Tailwind' },
-            { tooltipName: 'SvelteKit', iconName: 'Svelte' }
-          ]}
+          techs={project.techs}
         />
       ))}
     </div>
