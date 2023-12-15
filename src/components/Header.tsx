@@ -27,7 +27,7 @@ export default async function Header() {
           aria-label={scopedT('titleMenuButton')}
           className="ml-4 mb-2 btn btn-success drawer-button shadow-md text-white"
         >
-          <IconMenu2 size={40} />
+          <IconMenu2 size={40} aria-hidden/>
         </label>
       </div>
 
@@ -45,12 +45,12 @@ export default async function Header() {
               aria-label={scopedT('titleXButton')}
               className="btn-wide flex items-center justify-center"
             >
-              <IconX size={32} />
+              <IconX size={32} aria-hidden/>
             </label>
           </li>
 
           <footer className="absolute bottom-0 mb-4 footer w-2/4 p-4  bg-neutral-500 dark:bg-neutral-900 text-neutral-content mt-4 rounded-lg">
-            <nav className="grid-cols-2 gap-4 md:place-self-center md:justify-self-center text-neutral-200">
+            <nav className="grid-cols-2 gap-4 place-self-center justify-self-center text-neutral-200">
               <a
                 className="hover:scale-125 hover:text-primary text-2xl transition-colors duration-500"
                 title={scopedT('titleGithubButton')}
@@ -59,7 +59,7 @@ export default async function Header() {
                 rel="noreferrer"
                 target="_blank"
               >
-                <IconBrandGithub size={36} />
+                <IconBrandGithub size={36} aria-hidden />
               </a>
 
               <a
@@ -70,7 +70,7 @@ export default async function Header() {
                 rel="noreferrer"
                 target="_blank"
               >
-                <IconBrandLinkedin size={36} />
+                <IconBrandLinkedin size={36} aria-hidden/>
               </a>
               <ToggleTheme />
               <ToggleLanguage />
