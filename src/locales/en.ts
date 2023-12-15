@@ -45,5 +45,10 @@ export default {
     githubButton: 'Project: {projectName} GitHub Repository',
     previewButton: 'Live Demo for the project: {projectName}',
     techAriaLabel: '{tech} icon'
+  },
+  contact: {
+    openContactLink: 'Open my {social} in a new tab',
+    copyButton: 'Copy info',
+    tooltipContactLink: 'Contact me via {social}'
   }
 } as const;

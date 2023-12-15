@@ -4,6 +4,7 @@ import { IconArrowUpRight, IconCopy, IconCheck } from '@tabler/icons-react';
 import DynamicIcon from './DynamicIcon';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useState } from 'react';
+import { useScopedI18n } from '@/locales/client';
 
 type TabProps = {
   tabName: string;
@@ -18,6 +19,7 @@ export default function Tab({
   hrefContent,
   iconName
 }: TabProps): JSX.Element {
+  const scopedT = useScopedI18n('contact');
   const iconSize = 24;
   const [copied, setCopied] = useState<boolean>(false);
 
@@ -47,8 +49,12 @@ export default function Tab({
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={`Open my ${tabName} in a new tab`}
-            title={`Open my ${tabName} in a new tab`}
+            aria-label={scopedT('openContactLink', {
+              social: tabName
+            })}
+            title={scopedT('openContactLink', {
+              social: tabName
+            })}
           >
             {hrefContent}
           </a>
@@ -62,13 +68,12 @@ export default function Tab({
                 setTimeout(() => {
                   setCopied(false);
                 }, 800);
-                console.info('Copied to clipboard!');
               }}
             >
               <button
                 className="btn btn-ghost btn-sm"
-                title="Copy info"
-                aria-label="Copy info"
+                title={scopedT('copyButton')}
+                aria-label={scopedT('copyButton')}
               >
                 {copied ? (
                   <IconCheck
@@ -86,8 +91,11 @@ export default function Tab({
 
             <span
               className="tooltip tooltip-top tooltip-info"
-              data-tip={`Contact me via ${tabName}`}
-              aria-label={`Open my ${tabName} in a new tab`}
+              data-tip={scopedT('tooltipContactLink', { social: tabName })}
+            aria-label={scopedT('openContactLink', {
+              social: tabName
+            })}
+
             >
               <a
                 href={href}
