@@ -7,10 +7,10 @@ export default async function Contact() {
       className="tabs tabs-lifted border-white"
     >
       <Tab
-        tabName="Whatsapp"
-        href="telto:+557199611-6940"
-        hrefContent="+55 (71) 9 9611-6940"
-        iconName="Whatsapp"
+        tabName="Github"
+        href="https://github.com/EuCaue"
+        hrefContent="https://github.com/EuCaue"
+        iconName="Github"
       />
       <Tab
         tabName="Email"
