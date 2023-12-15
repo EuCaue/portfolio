@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import DynamicIcon from './DynamicIcon';
 import { useScopedI18n } from '@/locales/client';
@@ -37,15 +37,18 @@ export default function Project({
   usageCmd
 }: ProjectProps): JSX.Element {
   const iconSize = 24;
-  const isMobile = useMemo(
-    () => typeof window !== 'undefined' && window.innerWidth < 768,
-    []
-  );
-  const [showAltImage, setShowAltImage] = useState(isMobile);
+  const [showAltImage, setShowAltImage] = useState<boolean>();
   const titleFormated = useMemo(() => title.replace(/-/g, ' '), [title]);
   const desktopImage = `data:image/png;base64,${desktopImagePreviewBase64}`;
   const mobileImage = `data:image/png;base64,${mobileImagePreviewBase64}`;
   const scopedT = useScopedI18n('project');
+
+  useEffect(() => {
+    setShowAltImage(window.innerWidth < 768);
+    const handleResize = () => setShowAltImage(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const changeCarouselItem = useCallback(
     (op: string) => {
