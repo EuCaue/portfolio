@@ -25,7 +25,6 @@ export default function DynamicIcon({ name, ICON_SIZE }: PropType) {
       for (const icon in iconModule) {
         if (icon.toLowerCase().includes(name.toLowerCase())) {
           setSelectedIcon(icon, iconModule);
-          console.log('Icon n', Icon);
           foundIcon.current = true;
           break;
         }
@@ -44,7 +43,7 @@ export default function DynamicIcon({ name, ICON_SIZE }: PropType) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!Icon) {
-    return <></>;
+    return <div className="skeleton w-[30px] h-[30px] bg-base-content"></div>;
   }
 
   return (
