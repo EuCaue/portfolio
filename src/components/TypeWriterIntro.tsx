@@ -7,7 +7,7 @@ export default function TypeWriterIntro() {
 
   const divClassName =
     'flex flex-col gap-4 items-center justify-center self-center';
-  const introClassName = 'text-5xl lg:text-6xl font-bold';
+  const introClassName = 'text-4xl lg:text-6xl font-bold';
   const typeWriterClass =
     'font-bold border-b-2 border-b-primary border-r-2 pr-1' +
     'animate-cursor overflow-hidden whitespace-nowrap transition-[width] ease-in-out duration-1000 mr-auto';
