@@ -34,11 +34,11 @@ export default async function Page() {
         <Projects key="3" />
       </Hero>
 
-      <Hero 
+      <Hero
         key={scopedT('sections.3').toLowerCase()}
         id={scopedT('sections.3').toLowerCase()}
       >
-        <Contact key="4"/>
+        <Contact key="4" />
       </Hero>
     </>
   );

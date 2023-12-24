@@ -45,7 +45,7 @@ export default function Tab({
           </span>
 
           <a
-            className="link justify-self-center w-48"
+            className="link justify-self-center w-52"
             href={href}
             target="_blank"
             rel="noopener noreferrer"
@@ -92,10 +92,9 @@ export default function Tab({
             <span
               className="tooltip tooltip-top tooltip-info"
               data-tip={scopedT('tooltipContactLink', { social: tabName })}
-            aria-label={scopedT('openContactLink', {
-              social: tabName
-            })}
-
+              aria-label={scopedT('openContactLink', {
+                social: tabName
+              })}
             >
               <a
                 href={href}
