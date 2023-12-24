@@ -76,8 +76,8 @@ export default function Project({
           <Image
             src={showAltImage ? mobileImage : desktopImage}
             className={`w-full ${
-              showAltImage ? 'lg:max-h-[65vh]' : 'h-[95%]'
-            } object-contain`}
+              showAltImage ? 'lg:max-h-[65vh] h-full' : 'h-[95%]'
+            } object-contain rounded-md`}
             quality={100}
             height={0}
             width={0}

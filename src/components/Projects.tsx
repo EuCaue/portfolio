@@ -40,7 +40,7 @@ export default async function Projects(): Promise<JSX.Element> {
   const projects = await getProjectsData();
 
   return (
-    <div className="carousel w-[93vw] h-full flex items-center self-center pr-[2px] lg:h-auto">
+    <div className="carousel w-[93vw] h-[75%] flex items-center self-center pr-[2px] lg:h-auto">
       {projects?.map((project, index) => (
         <Project
           id={index}
