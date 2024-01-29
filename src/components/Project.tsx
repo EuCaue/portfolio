@@ -86,7 +86,7 @@ export default function Project({
           />
         </figure>
       ) : (
-        <div className="mockup-code h-full lg:h-[700px]">
+        <div className="mockup-code h-full lg:h-[700px] rounded-none">
           <pre
             data-prefix="$"
             className="text-info"
