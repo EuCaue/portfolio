@@ -111,7 +111,7 @@ This portfolio website emphasizes:
 
 ## Contact
 
-If you have any questions or feedback, please feel free to get in touch via the contact form on the website or reach out directly at [your.email@example.com](mailto:your.email@example.com).
+If you have any questions or feedback, please feel free to get in touch via the contact form on the website or reach out directly at [souzacaue@proton.me](mailto:souzacaue@proton.me).
 
 ## License
 
