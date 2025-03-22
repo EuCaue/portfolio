@@ -14,10 +14,15 @@ export default function About() {
   const skills = [
     "React",
     "Next.js",
+    "Angular",
+    "GTK",
     "TypeScript",
     "Tailwind CSS",
     "Node.js",
+    "Linux",
     "UI/UX Design",
+    "Git",
+    "Shell Script",
     "Accessibility",
   ];
 
