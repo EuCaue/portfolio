@@ -1,14 +1,20 @@
-"use client"
+"use client";
 
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  type ReactNode,
+} from "react";
 
-type Language = "en" | "pt-BR"
+type Language = "en" | "pt-BR";
 
 type Translations = {
   [key: string]: {
-    [key in Language]: string
-  }
-}
+    [key in Language]: string;
+  };
+};
 
 // Translation dictionary
 const translations: Translations = {
@@ -37,7 +43,8 @@ const translations: Translations = {
   },
   "intro.description": {
     en: "I'm a passionate developer focused on creating beautiful, functional, and accessible web experiences.",
-    "pt-BR": "Sou um desenvolvedor apaixonado focado em criar experiências web bonitas, funcionais e acessíveis.",
+    "pt-BR":
+      "Sou um desenvolvedor apaixonado focado em criar experiências web bonitas, funcionais e acessíveis.",
   },
   "intro.viewWork": {
     en: "View My Work",
@@ -90,40 +97,7 @@ const translations: Translations = {
     en: "Live Demo",
     "pt-BR": "Demonstração",
   },
-  "projects.ecommerce.title": {
-    en: "E-Commerce Platform",
-    "pt-BR": "Plataforma de E-Commerce",
-  },
-  "projects.ecommerce.description": {
-    en: "A full-featured e-commerce platform with product management, cart functionality, and secure checkout.",
-    "pt-BR":
-      "Uma plataforma de e-commerce completa com gerenciamento de produtos, funcionalidade de carrinho e checkout seguro.",
-  },
-  "projects.taskManager.title": {
-    en: "Task Management App",
-    "pt-BR": "Aplicativo de Gerenciamento de Tarefas",
-  },
-  "projects.taskManager.description": {
-    en: "A productivity app for managing tasks with drag-and-drop functionality and team collaboration features.",
-    "pt-BR":
-      "Um aplicativo de produtividade para gerenciar tarefas com funcionalidade de arrastar e soltar e recursos de colaboração em equipe.",
-  },
-  "projects.weather.title": {
-    en: "Weather Dashboard",
-    "pt-BR": "Painel de Clima",
-  },
-  "projects.weather.description": {
-    en: "A weather application that provides real-time forecasts and historical weather data visualization.",
-    "pt-BR": "Um aplicativo de clima que fornece previsões em tempo real e visualização de dados históricos de clima.",
-  },
-  "projects.portfolio.title": {
-    en: "Portfolio Website",
-    "pt-BR": "Site de Portfólio",
-  },
-  "projects.portfolio.description": {
-    en: "A personal portfolio website showcasing projects and skills with a modern, responsive design.",
-    "pt-BR": "Um site de portfólio pessoal mostrando projetos e habilidades com um design moderno e responsivo.",
-  },
+
   // Quick Lofi
   "projects.quickLofi.title": {
     en: "Quick Lofi",
@@ -200,6 +174,16 @@ const translations: Translations = {
     "pt-BR": "Uma maneira simples de descomprimir arquivos.",
   },
 
+  // Reddit Auto Theme
+  "projects.redditAutoTheme.title": {
+    en: "Reddit Auto Theme",
+    "pt-BR": "Reddit Auto Theme",
+  },
+  "projects.redditAutoTheme.description": {
+    en: "A simple extension that syncs Reddit's theme with your system theme.",
+    "pt-BR":
+      "Uma extensão simples que sincroniza o tema do Reddit com o tema do seu sistema.",
+  },
   // Contact
   "contact.title": {
     en: "Get In Touch",
@@ -207,7 +191,8 @@ const translations: Translations = {
   },
   "contact.subtitle": {
     en: "Have a project in mind or just want to say hello? Feel free to reach out!",
-    "pt-BR": "Tem um projeto em mente ou apenas quer dizer olá? Sinta-se à vontade para entrar em contato!",
+    "pt-BR":
+      "Tem um projeto em mente ou apenas quer dizer olá? Sinta-se à vontade para entrar em contato!",
   },
   "contact.info.title": {
     en: "Contact Information",
@@ -227,7 +212,8 @@ const translations: Translations = {
   },
   "contact.form.subtitle": {
     en: "Fill out the form below and I'll get back to you as soon as possible",
-    "pt-BR": "Preencha o formulário abaixo e eu retornarei o mais breve possível",
+    "pt-BR":
+      "Preencha o formulário abaixo e eu retornarei o mais breve possível",
   },
   "contact.form.name": {
     en: "Name",
@@ -273,55 +259,63 @@ const translations: Translations = {
     en: "Portuguese",
     "pt-BR": "Português",
   },
-}
+};
 
 type LanguageContextType = {
-  language: Language
-  setLanguage: (lang: Language) => void
-  t: (key: string) => string
-}
+  language: Language;
+  setLanguage: (lang: Language) => void;
+  t: (key: string) => string;
+};
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
+const LanguageContext = createContext<LanguageContextType | undefined>(
+  undefined,
+);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>("en")
+  const [language, setLanguage] = useState<Language>("en");
 
   // Load saved language preference from localStorage on mount
   useEffect(() => {
-    const savedLanguage = localStorage.getItem("language") as Language
-    if (savedLanguage && (savedLanguage === "en" || savedLanguage === "pt-BR")) {
-      setLanguage(savedLanguage)
+    const savedLanguage = localStorage.getItem("language") as Language;
+    if (
+      savedLanguage &&
+      (savedLanguage === "en" || savedLanguage === "pt-BR")
+    ) {
+      setLanguage(savedLanguage);
     } else {
       // Try to detect browser language
-      const browserLang = navigator.language
+      const browserLang = navigator.language;
       if (browserLang.startsWith("pt")) {
-        setLanguage("pt-BR")
+        setLanguage("pt-BR");
       }
     }
-  }, [])
+  }, []);
 
   // Save language preference to localStorage when it changes
   useEffect(() => {
-    localStorage.setItem("language", language)
-  }, [language])
+    localStorage.setItem("language", language);
+  }, [language]);
 
   // Translation function
   const t = (key: string): string => {
     if (!translations[key]) {
-      console.warn(`Translation key not found: ${key}`)
-      return key
+      console.warn(`Translation key not found: ${key}`);
+      return key;
     }
-    return translations[key][language]
-  }
+    return translations[key][language];
+  };
 
-  return <LanguageContext.Provider value={{ language, setLanguage, t }}>{children}</LanguageContext.Provider>
+  return (
+    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+      {children}
+    </LanguageContext.Provider>
+  );
 }
 
 export function useLanguage() {
-  const context = useContext(LanguageContext)
+  const context = useContext(LanguageContext);
   if (context === undefined) {
-    throw new Error("useLanguage must be used within a LanguageProvider")
+    throw new Error("useLanguage must be used within a LanguageProvider");
   }
-  return context
+  return context;
 }
-

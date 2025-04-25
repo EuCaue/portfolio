@@ -58,13 +58,22 @@ export default function Projects() {
         "Auth.js",
         "Zod",
         "Vercel",
-        "Git"
+        "Git",
       ],
       github: "https://github.com/EuCaue/my-movies",
       preview: "https://my-movies-frontend-five.vercel.app/",
     },
     {
       id: 3,
+      titleKey: "projects.redditAutoTheme.title",
+      descriptionKey: "projects.redditAutoTheme.description",
+      image: null,
+tags: ["JavaScript", "Browser Extension", "Web Extension", "Firefox Add-on", "Dark Mode", "Light Mode", "Theme Sync", "DOM", "Web API", "Open Source"],
+      github: "https://github.com/EuCaue/reddit-auto-theme/",
+      preview: "https://addons.mozilla.org/en-US/firefox/addon/reddit-auto-theme/?utm_content=addons-manager-reviews-link&utm_medium=firefox-browser&utm_source=firefox-browser",
+    },
+    {
+      id: 4,
       titleKey: "projects.urlShort.title",
       descriptionKey: "projects.urlShort.description",
       image: "https://github.com/EuCaue/url-short/blob/master/app.png?raw=true",
@@ -73,7 +82,7 @@ export default function Projects() {
       preview: "https://url-short-omega.vercel.app/",
     },
     {
-      id: 4,
+      id: 5,
       titleKey: "projects.snapTheWeb.title",
       descriptionKey: "projects.snapTheWeb.description",
       image:
@@ -83,7 +92,7 @@ export default function Projects() {
       preview: "https://snap-the-web.vercel.app/",
     },
     {
-      id: 5,
+      id: 6,
       titleKey: "projects.getCat.title",
       descriptionKey: "projects.getCat.description",
       image: "/get-cat.png",
@@ -92,7 +101,7 @@ export default function Projects() {
       preview: "https://get-cat.vercel.app/",
     },
     {
-      id: 6,
+      id: 7,
       titleKey: "projects.nautilusCopy.title",
       descriptionKey: "projects.nautilusCopy.description",
       image: "/nautilus-extension-copy-file-contents.png",
@@ -100,7 +109,7 @@ export default function Projects() {
       github: "https://github.com/EuCaue/nautilus-extension-copy-file-contents",
     },
     {
-      id: 7,
+      id: 8,
       titleKey: "projects.decomp.title",
       descriptionKey: "projects.decomp.description",
       image: null,
