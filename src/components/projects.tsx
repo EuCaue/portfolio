@@ -10,11 +10,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Github, ExternalLink, FolderGit } from "lucide-react";
+import { ExternalLink, FolderGit, GithubIcon } from "lucide-react";
 import { useLanguage } from "@/contexts/language-context";
 
 type Project = {
-  id: number;
   titleKey: string;
   descriptionKey: string;
   image: string | null;
@@ -28,7 +27,6 @@ export default function Projects() {
 
   const projects: Project[] = [
     {
-      id: 1,
       titleKey: "projects.quickLofi.title",
       descriptionKey: "projects.quickLofi.description",
       image: null,
@@ -44,7 +42,20 @@ export default function Projects() {
       github: "https://github.com/EuCaue/quick-lofi",
     },
     {
-      id: 2,
+      titleKey: "projects.feedPet.title",
+      descriptionKey: "projects.feedPet.description",
+      image: "/feed-pet.png",
+      tags: [
+        "TypeScript",
+        "ReactJS",
+        "Next.js",
+        "TailwindCSS",
+        "SupaBase",
+        "PostgreesSQL",
+        "shadcn/ui",
+      ],
+    },
+    {
       titleKey: "projects.myMovies.title",
       descriptionKey: "projects.myMovies.description",
       image: "https://github.com/EuCaue/my-movies/blob/master/app.png?raw=true",
@@ -64,16 +75,26 @@ export default function Projects() {
       preview: "https://my-movies-frontend-five.vercel.app/",
     },
     {
-      id: 3,
       titleKey: "projects.redditAutoTheme.title",
       descriptionKey: "projects.redditAutoTheme.description",
       image: null,
-tags: ["JavaScript", "Browser Extension", "Web Extension", "Firefox Add-on", "Dark Mode", "Light Mode", "Theme Sync", "DOM", "Web API", "Open Source"],
+      tags: [
+        "JavaScript",
+        "Browser Extension",
+        "Web Extension",
+        "Firefox Add-on",
+        "Dark Mode",
+        "Light Mode",
+        "Theme Sync",
+        "DOM",
+        "Web API",
+        "Open Source",
+      ],
       github: "https://github.com/EuCaue/reddit-auto-theme/",
-      preview: "https://addons.mozilla.org/en-US/firefox/addon/reddit-auto-theme/?utm_content=addons-manager-reviews-link&utm_medium=firefox-browser&utm_source=firefox-browser",
+      preview:
+        "https://addons.mozilla.org/en-US/firefox/addon/reddit-auto-theme/?utm_content=addons-manager-reviews-link&utm_medium=firefox-browser&utm_source=firefox-browser",
     },
     {
-      id: 4,
       titleKey: "projects.urlShort.title",
       descriptionKey: "projects.urlShort.description",
       image: "https://github.com/EuCaue/url-short/blob/master/app.png?raw=true",
@@ -82,7 +103,6 @@ tags: ["JavaScript", "Browser Extension", "Web Extension", "Firefox Add-on", "Da
       preview: "https://url-short-omega.vercel.app/",
     },
     {
-      id: 5,
       titleKey: "projects.snapTheWeb.title",
       descriptionKey: "projects.snapTheWeb.description",
       image:
@@ -92,7 +112,6 @@ tags: ["JavaScript", "Browser Extension", "Web Extension", "Firefox Add-on", "Da
       preview: "https://snap-the-web.vercel.app/",
     },
     {
-      id: 6,
       titleKey: "projects.getCat.title",
       descriptionKey: "projects.getCat.description",
       image: "/get-cat.png",
@@ -101,7 +120,6 @@ tags: ["JavaScript", "Browser Extension", "Web Extension", "Firefox Add-on", "Da
       preview: "https://get-cat.vercel.app/",
     },
     {
-      id: 7,
       titleKey: "projects.nautilusCopy.title",
       descriptionKey: "projects.nautilusCopy.description",
       image: "/nautilus-extension-copy-file-contents.png",
@@ -109,7 +127,6 @@ tags: ["JavaScript", "Browser Extension", "Web Extension", "Firefox Add-on", "Da
       github: "https://github.com/EuCaue/nautilus-extension-copy-file-contents",
     },
     {
-      id: 8,
       titleKey: "projects.decomp.title",
       descriptionKey: "projects.decomp.description",
       image: null,
@@ -140,7 +157,7 @@ tags: ["JavaScript", "Browser Extension", "Web Extension", "Firefox Add-on", "Da
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
           {projects.map((project, index) => (
             <motion.div
-              key={project.id}
+              key={project.titleKey}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -187,7 +204,7 @@ tags: ["JavaScript", "Browser Extension", "Web Extension", "Firefox Add-on", "Da
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <Github className="mr-2 h-4 w-4" />
+                        <GithubIcon className="mr-2 h-4 w-4" />
                         {t("projects.github")}
                       </a>
                     </Button>

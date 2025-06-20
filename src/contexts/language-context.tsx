@@ -109,6 +109,19 @@ const translations: Translations = {
       "Uma extensão do GNOME Shell que permite aos usuários ouvir música Lo-fi com um único clique. Projetada para simplicidade e facilidade de acesso, esta extensão leve se integra perfeitamente ao ambiente GNOME.",
   },
 
+  // Feed Pet
+
+  "projects.feedPet.title": {
+    en: "Feed Pet",
+    "pt-BR": "Feed Pet",
+  },
+
+  "projects.feedPet.description": {
+    en: "A simple web app built with Next.js and shadcn/ui to help users track their pets' feeding times. Created to avoid confusion at home and ensure that every pet is fed on time, with a clean and intuitive interface.",
+    "pt-BR":
+      "Um aplicativo web simples desenvolvido com Next.js e shadcn/ui para ajudar os usuários a acompanhar os horários de alimentação dos pets. Criado para evitar confusões em casa e garantir que todos os pets sejam alimentados na hora certa, com uma interface limpa e intuitiva.",
+  },
+
   // My Movies
   "projects.myMovies.title": {
     en: "My Movies",
