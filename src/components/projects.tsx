@@ -13,6 +13,15 @@ import { Button } from "@/components/ui/button";
 import { ExternalLink, FolderGit, GithubIcon } from "lucide-react";
 import { useLanguage } from "@/contexts/language-context";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 type Project = {
   titleKey: string;
   descriptionKey: string;
@@ -156,74 +165,91 @@ export default function Projects() {
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
           {projects.map((project, index) => (
-            <motion.div
-              key={project.titleKey}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <Card className="h-full overflow-hidden transition-all hover:shadow-lg">
-                <div className="aspect-video overflow-hidden bg-muted flex items-center justify-center">
-                  {project.image ? (
-                    <img
-                      src={project.image || "/placeholder.svg"}
-                      alt={t(project.titleKey)}
-                      className="h-full w-full object-cover transition-transform hover:scale-105"
-                    />
-                  ) : (
-                    <div className="flex flex-col items-center justify-center p-6 text-muted-foreground">
-                      <FolderGit className="h-12 w-12 mb-2" />
-                      <p className="text-sm">No preview available</p>
-                    </div>
-                  )}
-                </div>
-                <CardHeader>
-                  <CardTitle>{t(project.titleKey)}</CardTitle>
-                  <div className="flex flex-wrap gap-2 pt-2">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full bg-secondary px-2 py-0.5 text-xs"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+            <Dialog>
+              <motion.div
+                key={project.titleKey}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <Card className="h-full overflow-hidden transition-all hover:shadow-lg">
+                  <div className="aspect-video overflow-hidden bg-muted flex items-center justify-center">
+                    {project.image ? (
+                      <DialogTrigger>
+                        <img
+                          src={project.image || "/placeholder.svg"}
+                          alt={t(project.titleKey)}
+                          className="h-full w-full object-cover transition-transform hover:scale-105"
+                        />
+                      </DialogTrigger>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center p-6 text-muted-foreground">
+                        <FolderGit className="h-12 w-12 mb-2" />
+                        <p className="text-sm">No preview available</p>
+                      </div>
+                    )}
                   </div>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-base">
+                  <CardHeader>
+                    <CardTitle>{t(project.titleKey)}</CardTitle>
+                    <div className="flex flex-wrap gap-2 pt-2">
+                      {project.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full bg-secondary px-2 py-0.5 text-xs"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="text-base">
+                      {t(project.descriptionKey)}
+                    </CardDescription>
+                  </CardContent>
+                  <CardFooter className="flex gap-2">
+                    {project.github && (
+                      <Button variant="outline" size="sm" asChild>
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <GithubIcon className="mr-2 h-4 w-4" />
+                          {t("projects.github")}
+                        </a>
+                      </Button>
+                    )}
+                    {project.preview && (
+                      <Button size="sm" asChild>
+                        <a
+                          href={project.preview}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <ExternalLink className="mr-2 h-4 w-4" />
+                          {t("projects.liveDemo")}
+                        </a>
+                      </Button>
+                    )}
+                  </CardFooter>
+                </Card>
+              </motion.div>
+              <DialogContent className="max-w-screen-xl">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-bold text-center">{t(project.titleKey)}</DialogTitle>
+                  <DialogDescription className="text-lg font-medium">
                     {t(project.descriptionKey)}
-                  </CardDescription>
-                </CardContent>
-                <CardFooter className="flex gap-2">
-                  {project.github && (
-                    <Button variant="outline" size="sm" asChild>
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <GithubIcon className="mr-2 h-4 w-4" />
-                        {t("projects.github")}
-                      </a>
-                    </Button>
-                  )}
-                  {project.preview && (
-                    <Button size="sm" asChild>
-                      <a
-                        href={project.preview}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <ExternalLink className="mr-2 h-4 w-4" />
-                        {t("projects.liveDemo")}
-                      </a>
-                    </Button>
-                  )}
-                </CardFooter>
-              </Card>
-            </motion.div>
+                  </DialogDescription>
+                </DialogHeader>
+                <img
+                  src={project.image || "/placeholder.svg"}
+                  alt={t(project.titleKey)}
+                  className="h-full w-full object-contain transition-transform"
+                />
+              </DialogContent>
+            </Dialog>
           ))}
         </div>
       </motion.div>
