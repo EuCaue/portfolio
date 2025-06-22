@@ -22,10 +22,15 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+type Video = {
+  sources: { url: string; type: string }[];
+};
+
 type Project = {
   titleKey: string;
   descriptionKey: string;
-  image: string | null;
+  image?: string;
+  video?: Video;
   tags: string[];
   github?: string;
   preview?: string;
@@ -38,7 +43,14 @@ export default function Projects() {
     {
       titleKey: "projects.quickLofi.title",
       descriptionKey: "projects.quickLofi.description",
-      image: null,
+      video: {
+        sources: [
+          {
+            url: "https://github.com/EuCaue/gnome-shell-extension-quick-lofi/assets/69485603/351f34da-023c-4b28-94d6-b49ca83aa34d",
+            type: "webm",
+          },
+        ],
+      },
       tags: [
         "JavaScript",
         "TypeScript",
@@ -86,7 +98,9 @@ export default function Projects() {
     {
       titleKey: "projects.redditAutoTheme.title",
       descriptionKey: "projects.redditAutoTheme.description",
-      image: null,
+      video: {
+        sources: [{ type: "mp4", url: "/reddit-auto-theme.mp4" }],
+      },
       tags: [
         "JavaScript",
         "Browser Extension",
@@ -138,7 +152,6 @@ export default function Projects() {
     {
       titleKey: "projects.decomp.title",
       descriptionKey: "projects.decomp.description",
-      image: null,
       tags: ["Node.js", "TypeScript", "Jest", "CLI"],
       github: "https://github.com/EuCaue/decomp",
     },
@@ -164,95 +177,126 @@ export default function Projects() {
         </div>
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
-          {projects.map((project, index) => (
-            <Dialog>
-              <motion.div
-                key={project.titleKey}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <Card className="h-full overflow-hidden transition-all hover:shadow-lg">
-                  <div className="aspect-video overflow-hidden bg-muted flex items-center justify-center">
-                    {project.image ? (
-                      <DialogTrigger>
-                        <img
-                          src={project.image || "/placeholder.svg"}
-                          alt={t(project.titleKey)}
-                          className="h-full w-full object-cover transition-transform hover:scale-105"
-                        />
-                      </DialogTrigger>
-                    ) : (
-                      <div className="flex flex-col items-center justify-center p-6 text-muted-foreground">
-                        <FolderGit className="h-12 w-12 mb-2" />
-                        <p className="text-sm">No preview available</p>
-                      </div>
-                    )}
-                  </div>
-                  <CardHeader>
-                    <CardTitle>{t(project.titleKey)}</CardTitle>
-                    <div className="flex flex-wrap gap-2 pt-2">
-                      {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full bg-secondary px-2 py-0.5 text-xs"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-base">
-                      {t(project.descriptionKey)}
-                    </CardDescription>
-                  </CardContent>
-                  <CardFooter className="flex gap-2">
-                    {project.github && (
-                      <Button variant="outline" size="sm" asChild>
-                        <a
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <GithubIcon className="mr-2 h-4 w-4" />
-                          {t("projects.github")}
-                        </a>
-                      </Button>
-                    )}
-                    {project.preview && (
-                      <Button size="sm" asChild>
-                        <a
-                          href={project.preview}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <ExternalLink className="mr-2 h-4 w-4" />
-                          {t("projects.liveDemo")}
-                        </a>
-                      </Button>
-                    )}
-                  </CardFooter>
-                </Card>
-              </motion.div>
-              <DialogContent className="max-w-screen-xl">
-                <DialogHeader>
-                  <DialogTitle className="text-2xl font-bold text-center">{t(project.titleKey)}</DialogTitle>
-                  <DialogDescription className="text-lg font-medium">
-                    {t(project.descriptionKey)}
-                  </DialogDescription>
-                </DialogHeader>
-                <img
-                  src={project.image || "/placeholder.svg"}
-                  alt={t(project.titleKey)}
-                  className="h-full w-full object-contain transition-transform"
-                />
-              </DialogContent>
-            </Dialog>
-          ))}
+          {projects.map((project, index) => {
+            return <Project project={project} index={index} />;
+          })}
         </div>
       </motion.div>
     </section>
+  );
+}
+type ProjectProps = {
+  project: Project;
+  index: number;
+};
+
+function Project({ project, index }: ProjectProps) {
+  const { t } = useLanguage();
+  return (
+    <Dialog>
+      <motion.div
+        key={project.titleKey}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: index * 0.1 }}
+        viewport={{ once: true }}
+      >
+        <Card className="h-full overflow-hidden transition-all hover:shadow-lg">
+          <div className="aspect-video overflow-hidden bg-muted flex items-center justify-center">
+            {project.image || project.video ? (
+              <DialogTrigger>
+                {project.video ? (
+                  <video controls>
+                    {project.video.sources.map(({ type, url }) => {
+                      return <source src={url} type={`video/${type}`} />;
+                    })}
+                    <p>
+                      Your browser doesn't support HTML video. Here is a
+                      <a
+                        href={project.video.sources[0].url}
+                        download={`${t(project.titleKey)}.${project.video.sources[0].type}`}
+                      >
+                        link to the video
+                      </a>
+                      instead.
+                    </p>
+                  </video>
+                ) : (
+                  <img
+                    src={project.image || "/placeholder.svg"}
+                    alt={t(project.titleKey)}
+                    className="h-full w-full object-cover transition-transform hover:scale-105"
+                  />
+                )}
+              </DialogTrigger>
+            ) : (
+              <div className="flex flex-col items-center justify-center p-6 text-muted-foreground">
+                <FolderGit className="h-12 w-12 mb-2" />
+                <p className="text-sm">No preview available</p>
+              </div>
+            )}
+          </div>
+          <CardHeader>
+            <CardTitle>{t(project.titleKey)}</CardTitle>
+            <div className="flex flex-wrap gap-2 pt-2">
+              {project.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full bg-secondary px-2 py-0.5 text-xs"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </CardHeader>
+          <CardContent>
+            <CardDescription className="text-base">
+              {t(project.descriptionKey)}
+            </CardDescription>
+          </CardContent>
+          <CardFooter className="flex gap-2">
+            {project.github && (
+              <Button variant="outline" size="sm" asChild>
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <GithubIcon className="mr-2 h-4 w-4" />
+                  {t("projects.github")}
+                </a>
+              </Button>
+            )}
+            {project.preview && (
+              <Button size="sm" asChild>
+                <a
+                  href={project.preview}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalLink className="mr-2 h-4 w-4" />
+                  {t("projects.liveDemo")}
+                </a>
+              </Button>
+            )}
+          </CardFooter>
+        </Card>
+      </motion.div>
+      <DialogContent className="max-w-screen-xl">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold text-center">
+            {t(project.titleKey)}
+          </DialogTitle>
+          <DialogDescription className="text-lg font-medium">
+            {t(project.descriptionKey)}
+          </DialogDescription>
+        </DialogHeader>
+        <img
+          src={project.image || "/placeholder.svg"}
+          alt={t(project.titleKey)}
+          className="h-full w-full object-contain transition-transform"
+        />
+      </DialogContent>
+    </Dialog>
   );
 }
