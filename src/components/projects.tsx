@@ -178,7 +178,7 @@ export default function Projects() {
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
           {projects.map((project, index) => {
-            return <Project project={project} index={index} />;
+            return <Project project={project} index={index} key={project.titleKey}/>;
           })}
         </div>
       </motion.div>
@@ -208,7 +208,7 @@ function Project({ project, index }: ProjectProps) {
                 {project.video ? (
                   <video controls>
                     {project.video.sources.map(({ type, url }) => {
-                      return <source src={url} type={`video/${type}`} />;
+                      return <source src={url} type={`video/${type}`} key={url}/>;
                     })}
                     <p>
                       Your browser doesn't support HTML video. Here is a
