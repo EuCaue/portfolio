@@ -77,6 +77,26 @@ export default function Projects() {
       ],
     },
     {
+      titleKey: "projects.cssCursorGallery.title",
+      descriptionKey: "projects.cssCursorGallery.description",
+      video: {
+        sources: [
+          {
+            url: "https://github.com/user-attachments/assets/9407b33c-5f1b-4e89-92ca-332cd34565d6",
+            type: "mp4",
+          },
+        ],
+      },
+      tags: [
+        "HTML5",
+        "CSS3",
+        "JavaScript",
+        "GitHub",
+        "GitHub Pages",
+        "Glassmorphism",
+      ],
+    },
+    {
       titleKey: "projects.myMovies.title",
       descriptionKey: "projects.myMovies.description",
       image: "https://github.com/EuCaue/my-movies/blob/master/app.png?raw=true",
@@ -178,7 +198,9 @@ export default function Projects() {
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
           {projects.map((project, index) => {
-            return <Project project={project} index={index} key={project.titleKey}/>;
+            return (
+              <Project project={project} index={index} key={project.titleKey} />
+            );
           })}
         </div>
       </motion.div>
@@ -208,7 +230,9 @@ function Project({ project, index }: ProjectProps) {
                 {project.video ? (
                   <video controls>
                     {project.video.sources.map(({ type, url }) => {
-                      return <source src={url} type={`video/${type}`} key={url}/>;
+                      return (
+                        <source src={url} type={`video/${type}`} key={url} />
+                      );
                     })}
                     <p>
                       Your browser doesn't support HTML video. Here is a

@@ -122,6 +122,18 @@ const translations: Translations = {
       "Um aplicativo web simples desenvolvido com Next.js e shadcn/ui para ajudar os usuários a acompanhar os horários de alimentação dos pets. Criado para evitar confusões em casa e garantir que todos os pets sejam alimentados na hora certa, com uma interface limpa e intuitiva.",
   },
 
+  // CSS Cursor Gallery
+
+  "projects.cssCursorGallery.title": {
+    en: "CSS Cursor Gallery",
+    "pt-BR": "Galeria de Cursores CSS",
+  },
+  "projects.cssCursorGallery.description": {
+    en: "An experimental project that interactively showcases all available CSS cursors. Built with HTML5, modern CSS (including :is, light-dark(), backdrop-filter, CSS Nesting and glassmorphism) and Vanilla JavaScript. Users can explore, search for specific cursors, and copy the CSS value with a single click.",
+    "pt-BR":
+      "Um projeto experimental que reúne de forma interativa todos os cursores disponíveis no CSS. Desenvolvido com HTML5, CSS moderno (incluindo :is, light-dark(), backdrop-filter, CSS Nesting e glassmorphism) e JavaScript Vanilla. O usuário pode explorar, buscar por cursores específicos e copiar o valor em um clique.",
+  },
+
   // My Movies
   "projects.myMovies.title": {
     en: "My Movies",
