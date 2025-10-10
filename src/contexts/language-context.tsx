@@ -109,6 +109,19 @@ const translations: Translations = {
       "Uma extensão do GNOME Shell que permite aos usuários ouvir música Lo-fi com um único clique. Projetada para simplicidade e facilidade de acesso, esta extensão leve se integra perfeitamente ao ambiente GNOME.",
   },
 
+  // Scrolled
+
+  "projects.scrolled.title": {
+    en: "Scrolled",
+    "pt-BR": "Scrolled",
+  },
+
+  "projects.scrolled.description": {
+    en: "Scrolled is a lightweight Firefox extension that adds a subtle scroll indicator to show how much of a page you've read. Perfect for readers, researchers, or anyone who wants better visual feedback while browsing long content.",
+    "pt-BR":
+      "Scrolled é uma extensão leve para o Firefox que adiciona um indicador de rolagem sutil, mostrando quanto da página você já leu. Perfeita para leitores, pesquisadores ou qualquer pessoa que queira um retorno visual melhor ao navegar por conteúdos longos.",
+  },
+
   // Feed Pet
 
   "projects.feedPet.title": {

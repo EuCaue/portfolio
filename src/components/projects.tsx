@@ -63,6 +63,28 @@ export default function Projects() {
       github: "https://github.com/EuCaue/quick-lofi",
     },
     {
+      titleKey: "projects.scrolled.title",
+      descriptionKey: "projects.scrolled.description",
+      video: {
+        sources: [
+          {
+            url: "/scrolled.mp4",
+            type: "mp4",
+          },
+        ],
+      },
+      tags: [
+        "HTML5",
+        "CSS3",
+        "TailwindCSS",
+        "TypeScript",
+        "Rollup",
+        "Browser Extension",
+        "Web Extension",
+        "Firefox Add-on",
+      ],
+    },
+    {
       titleKey: "projects.feedPet.title",
       descriptionKey: "projects.feedPet.description",
       image: "/feed-pet.png",
