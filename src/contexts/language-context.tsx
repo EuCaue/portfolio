@@ -44,7 +44,7 @@ const translations: Translations = {
   "intro.description": {
     en: "I'm a passionate developer focused on creating beautiful, functional, and accessible web experiences.",
     "pt-BR":
-      "Sou um desenvolvedor apaixonado focado em criar experiências web bonitas, funcionais e acessíveis.",
+      "Sou um desenvolvedor apaixonado por criar soluções digitais completas, unindo funcionalidade, performance e uma ótima experiência para o usuário.",
   },
   "intro.viewWork": {
     en: "View My Work",
@@ -67,12 +67,12 @@ const translations: Translations = {
   "about.paragraph1": {
     en: "I'm a passionate developer with a keen eye for design and a commitment to creating accessible, user-friendly experiences. With expertise in modern technologies and a problem-solving mindset, I transform ideas into elegant digital solutions.",
     "pt-BR":
-      "Sou um desenvolvedor apaixonado com um olhar atento para design e um compromisso em criar experiências acessíveis e amigáveis. Com expertise em tecnologias modernas e uma mentalidade de resolução de problemas, transformo ideias em soluções digitais elegantes.",
+      "Sou um desenvolvedor apaixonado por tecnologia, com um bom olhar para design e foco em criar experiências acessíveis e fáceis de usar. Gosto de transformar ideias em soluções digitais modernas e bem pensadas, sempre buscando unir beleza e funcionalidade.",
   },
   "about.paragraph2": {
     en: "When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects, or sharing knowledge with the developer community. I believe in continuous learning and pushing the boundaries of what's possible in technology.",
     "pt-BR":
-      "Quando não estou codificando, você me encontrará explorando novas tecnologias, contribuindo para projetos de código aberto ou compartilhando conhecimento com a comunidade de desenvolvedores. Acredito na aprendizagem contínua e em expandir os limites do que é possível na tecnologia.",
+      "Quando não estou programando, gosto de explorar novas tecnologias, contribuir com projetos open source e compartilhar o que aprendo com a comunidade. Acredito no aprendizado constante e em sempre ir além do que já foi feito na tecnologia.",
   },
   "about.skills": {
     en: "My Skills",
