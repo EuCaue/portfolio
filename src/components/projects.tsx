@@ -63,6 +63,19 @@ export default function Projects() {
       github: "https://github.com/EuCaue/quick-lofi",
     },
     {
+      titleKey: "projects.pixDonation.title",
+      descriptionKey: "projects.pixDonation.description",
+      video: {
+        sources: [
+          {
+            url: "/pix-donation.mp4",
+            type: "mp4",
+          },
+        ],
+      },
+      tags: ["HTML5", "CSS3", "JavaScript", "Kanban", "Git", "Github"],
+    },
+    {
       titleKey: "projects.scrolled.title",
       descriptionKey: "projects.scrolled.description",
       video: {

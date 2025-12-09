@@ -109,6 +109,17 @@ const translations: Translations = {
       "Uma extensão do GNOME Shell que permite aos usuários ouvir música Lo-fi com um único clique. Projetada para simplicidade e facilidade de acesso, esta extensão leve se integra perfeitamente ao ambiente GNOME.",
   },
 
+  // PIX Donation System
+  "projects.pixDonation.title": {
+    en: "PIX Donation System",
+    "pt-BR": "Sistema de Doações via PIX",
+  },
+  "projects.pixDonation.description": {
+    en: "A simple and fast web page that generates PIX QR Codes for donations. It includes state and city selection, dynamic values, and a complete BR Code generator built in pure JavaScript.",
+    "pt-BR":
+      "Uma página simples e rápida que gera QR Codes PIX para doações. Inclui seleção de estado e cidade, valores dinâmicos e um gerador completo de BR Code feito em JavaScript puro.",
+  },
+
   // Scrolled
 
   "projects.scrolled.title": {
