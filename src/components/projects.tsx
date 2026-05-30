@@ -63,6 +63,29 @@ export default function Projects() {
       github: "https://github.com/EuCaue/quick-lofi",
     },
     {
+      titleKey: "projects.flexa.title",
+      descriptionKey: "projects.flexa.description",
+      video: {
+        sources: [
+          {
+            url: "/flexa.mp4",
+            type: "mp4",
+          },
+        ],
+      },
+      tags: [
+        "Python",
+        "GTK4",
+        "LibAdwaita",
+        "Meson",
+        "Flatpak",
+        "RPM",
+        "GNOME",
+        "Open Source",
+      ],
+      github: "https://github.com/EuCaue/flexa",
+    },
+    {
       titleKey: "projects.pixDonation.title",
       descriptionKey: "projects.pixDonation.description",
       video: {

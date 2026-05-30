@@ -98,6 +98,17 @@ const translations: Translations = {
     "pt-BR": "Demonstração",
   },
 
+  // Flexa
+  "projects.flexa.title": {
+    en: "Flexa",
+    "pt-BR": "Flexa",
+  },
+  "projects.flexa.description": {
+    en: "A native GNOME application for converting Windows cursor themes to Linux format. Designed with simplicity in mind, it supports drag and drop, batch conversion, and a configurable output directory. Built with Python, GTK4, and LibAdwaita, with an automated CI/CD pipeline via GitHub Actions for Flatpak and RPM packaging.",
+    "pt-BR":
+      "Um aplicativo nativo GNOME para converter temas de cursor do Windows para o formato Linux. Projetado com foco na simplicidade, oferece suporte a arrastar e soltar, conversão em lote e diretório de saída configurável. Desenvolvido com Python, GTK4 e LibAdwaita, com pipeline de CI/CD automatizado via GitHub Actions para empacotamento em Flatpak e RPM.",
+  },
+
   // Quick Lofi
   "projects.quickLofi.title": {
     en: "Quick Lofi",
