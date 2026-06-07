@@ -18,7 +18,7 @@ export default function Footer() {
           <div className="flex items-center space-x-4">
             <a
               href="mailto:souzacaue@proton.me"
-              className="text-muted-foreground hover:text-primary"
+              className="text-muted-foreground hover:text-primary transition-colors"
               aria-label="Email"
             >
               <Mail className="h-5 w-5" />
@@ -27,7 +27,7 @@ export default function Footer() {
               href="https://github.com/EuCaue"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-primary"
+              className="text-muted-foreground hover:text-primary transition-colors"
               aria-label="GitHub"
             >
               <Github className="h-5 w-5" />
@@ -36,7 +36,7 @@ export default function Footer() {
               href="https://linkedin.com/in/caue-souza"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-primary"
+              className="text-muted-foreground hover:text-primary transition-colors"
               aria-label="LinkedIn"
             >
               <Linkedin className="h-5 w-5" />

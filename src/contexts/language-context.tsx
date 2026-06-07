@@ -1,325 +1,20 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  type ReactNode,
-} from "react";
+import { createContext, type ReactNode, useContext, useEffect, useState } from "react";
+import { en, type TranslationKeys } from "@/locales/en";
+import { ptBR } from "@/locales/pt-BR";
 
 type Language = "en" | "pt-BR";
 
-type Translations = {
-  [key: string]: {
-    [key in Language]: string;
+const translations: Record<string, { en: string; "pt-BR": string }> = {};
+
+// Build translation dictionary dynamically from split locale files
+for (const key of Object.keys(en) as TranslationKeys[]) {
+  translations[key] = {
+    en: en[key],
+    "pt-BR": ptBR[key] || en[key],
   };
-};
-
-// Translation dictionary
-const translations: Translations = {
-  // Navbar
-  "nav.home": {
-    en: "Home",
-    "pt-BR": "Início",
-  },
-  "nav.about": {
-    en: "About",
-    "pt-BR": "Sobre",
-  },
-  "nav.projects": {
-    en: "Projects",
-    "pt-BR": "Projetos",
-  },
-  "nav.contact": {
-    en: "Contact",
-    "pt-BR": "Contato",
-  },
-
-  // Intro
-  "intro.hello": {
-    en: "Hello, I'm",
-    "pt-BR": "Olá, eu sou",
-  },
-  "intro.description": {
-    en: "I'm a passionate developer focused on creating beautiful, functional, and accessible web experiences.",
-    "pt-BR":
-      "Sou um desenvolvedor apaixonado por criar soluções digitais completas, unindo funcionalidade, performance e uma ótima experiência para o usuário.",
-  },
-  "intro.viewWork": {
-    en: "View My Work",
-    "pt-BR": "Ver Meus Trabalhos",
-  },
-  "intro.getInTouch": {
-    en: "Get In Touch",
-    "pt-BR": "Entre em Contato",
-  },
-  "intro.scrollDown": {
-    en: "Scroll Down",
-    "pt-BR": "Rolar para Baixo",
-  },
-
-  // About
-  "about.title": {
-    en: "About Me",
-    "pt-BR": "Sobre Mim",
-  },
-  "about.paragraph1": {
-    en: "I'm a passionate developer with a keen eye for design and a commitment to creating accessible, user-friendly experiences. With expertise in modern technologies and a problem-solving mindset, I transform ideas into elegant digital solutions.",
-    "pt-BR":
-      "Sou um desenvolvedor apaixonado por tecnologia, com um bom olhar para design e foco em criar experiências acessíveis e fáceis de usar. Gosto de transformar ideias em soluções digitais modernas e bem pensadas, sempre buscando unir beleza e funcionalidade.",
-  },
-  "about.paragraph2": {
-    en: "When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects, or sharing knowledge with the developer community. I believe in continuous learning and pushing the boundaries of what's possible in technology.",
-    "pt-BR":
-      "Quando não estou programando, gosto de explorar novas tecnologias, contribuir com projetos open source e compartilhar o que aprendo com a comunidade. Acredito no aprendizado constante e em sempre ir além do que já foi feito na tecnologia.",
-  },
-  "about.skills": {
-    en: "My Skills",
-    "pt-BR": "Minhas Habilidades",
-  },
-
-  // Projects
-  "projects.title": {
-    en: "Projects",
-    "pt-BR": "Projetos",
-  },
-  "projects.subtitle": {
-    en: "Here are some of my recent projects. Each one was built with a focus on solving real problems with clean, efficient code.",
-    "pt-BR":
-      "Aqui estão alguns dos meus projetos recentes. Cada um foi construído com foco em resolver problemas reais com código limpo e eficiente.",
-  },
-  "projects.github": {
-    en: "GitHub",
-    "pt-BR": "GitHub",
-  },
-  "projects.liveDemo": {
-    en: "Live Demo",
-    "pt-BR": "Demonstração",
-  },
-
-  // Flexa
-  "projects.flexa.title": {
-    en: "Flexa",
-    "pt-BR": "Flexa",
-  },
-  "projects.flexa.description": {
-    en: "A native GNOME application for converting Windows cursor themes to Linux format. Designed with simplicity in mind, it supports drag and drop, batch conversion, and a configurable output directory. Built with Python, GTK4, and LibAdwaita, with an automated CI/CD pipeline via GitHub Actions for Flatpak and RPM packaging.",
-    "pt-BR":
-      "Um aplicativo nativo GNOME para converter temas de cursor do Windows para o formato Linux. Projetado com foco na simplicidade, oferece suporte a arrastar e soltar, conversão em lote e diretório de saída configurável. Desenvolvido com Python, GTK4 e LibAdwaita, com pipeline de CI/CD automatizado via GitHub Actions para empacotamento em Flatpak e RPM.",
-  },
-
-  // Quick Lofi
-  "projects.quickLofi.title": {
-    en: "Quick Lofi",
-    "pt-BR": "Quick Lofi",
-  },
-  "projects.quickLofi.description": {
-    en: "A GNOME Shell extension that enables users to listen to Lo-fi music with a single click. Designed for simplicity and ease of access, this lightweight extension integrates seamlessly with the GNOME environment.",
-    "pt-BR":
-      "Uma extensão do GNOME Shell que permite aos usuários ouvir música Lo-fi com um único clique. Projetada para simplicidade e facilidade de acesso, esta extensão leve se integra perfeitamente ao ambiente GNOME.",
-  },
-
-  // PIX Donation System
-  "projects.pixDonation.title": {
-    en: "PIX Donation System",
-    "pt-BR": "Sistema de Doações via PIX",
-  },
-  "projects.pixDonation.description": {
-    en: "A simple and fast web page that generates PIX QR Codes for donations. It includes state and city selection, dynamic values, and a complete BR Code generator built in pure JavaScript.",
-    "pt-BR":
-      "Uma página simples e rápida que gera QR Codes PIX para doações. Inclui seleção de estado e cidade, valores dinâmicos e um gerador completo de BR Code feito em JavaScript puro.",
-  },
-
-  // Scrolled
-
-  "projects.scrolled.title": {
-    en: "Scrolled",
-    "pt-BR": "Scrolled",
-  },
-
-  "projects.scrolled.description": {
-    en: "Scrolled is a lightweight Firefox extension that adds a subtle scroll indicator to show how much of a page you've read. Perfect for readers, researchers, or anyone who wants better visual feedback while browsing long content.",
-    "pt-BR":
-      "Scrolled é uma extensão leve para o Firefox que adiciona um indicador de rolagem sutil, mostrando quanto da página você já leu. Perfeita para leitores, pesquisadores ou qualquer pessoa que queira um retorno visual melhor ao navegar por conteúdos longos.",
-  },
-
-  // Feed Pet
-
-  "projects.feedPet.title": {
-    en: "Feed Pet",
-    "pt-BR": "Feed Pet",
-  },
-
-  "projects.feedPet.description": {
-    en: "A simple web app built with Next.js and shadcn/ui to help users track their pets' feeding times. Created to avoid confusion at home and ensure that every pet is fed on time, with a clean and intuitive interface.",
-    "pt-BR":
-      "Um aplicativo web simples desenvolvido com Next.js e shadcn/ui para ajudar os usuários a acompanhar os horários de alimentação dos pets. Criado para evitar confusões em casa e garantir que todos os pets sejam alimentados na hora certa, com uma interface limpa e intuitiva.",
-  },
-
-  // CSS Cursor Gallery
-
-  "projects.cssCursorGallery.title": {
-    en: "CSS Cursor Gallery",
-    "pt-BR": "Galeria de Cursores CSS",
-  },
-  "projects.cssCursorGallery.description": {
-    en: "An experimental project that interactively showcases all available CSS cursors. Built with HTML5, modern CSS (including :is, light-dark(), backdrop-filter, CSS Nesting and glassmorphism) and Vanilla JavaScript. Users can explore, search for specific cursors, and copy the CSS value with a single click.",
-    "pt-BR":
-      "Um projeto experimental que reúne de forma interativa todos os cursores disponíveis no CSS. Desenvolvido com HTML5, CSS moderno (incluindo :is, light-dark(), backdrop-filter, CSS Nesting e glassmorphism) e JavaScript Vanilla. O usuário pode explorar, buscar por cursores específicos e copiar o valor em um clique.",
-  },
-
-  // My Movies
-  "projects.myMovies.title": {
-    en: "My Movies",
-    "pt-BR": "My Movies",
-  },
-  "projects.myMovies.description": {
-    en: "A web app to help you organize your movie list in a practical and modern way. The goal is to make managing your movies simple and intuitive, with a robust structure that ensures top-notch security and performance.",
-    "pt-BR":
-      "Um aplicativo web para ajudar você a organizar sua lista de filmes de forma prática e moderna. O objetivo é tornar o gerenciamento de seus filmes simples e intuitivo, com uma estrutura robusta que garante segurança e desempenho de primeira linha.",
-  },
-
-  // URL Short
-  "projects.urlShort.title": {
-    en: "URL Short",
-    "pt-BR": "URL Short",
-  },
-  "projects.urlShort.description": {
-    en: "A web application that allows users to shorten URLs quickly and securely. Focused on delivering a hassle-free experience, the app ensures efficiency and simplicity in URL management.",
-    "pt-BR":
-      "Uma aplicação web que permite aos usuários encurtar URLs de forma rápida e segura. Focado em oferecer uma experiência sem complicações, o aplicativo garante eficiência e simplicidade no gerenciamento de URLs.",
-  },
-
-  // Snap The Web
-  "projects.snapTheWeb.title": {
-    en: "Snap The Web",
-    "pt-BR": "Snap The Web",
-  },
-  "projects.snapTheWeb.description": {
-    en: "A web app that lets users capture screenshots of websites effortlessly. With a focus on usability, the application offers a straightforward, customizable solution for taking browser-based screenshots.",
-    "pt-BR":
-      "Um aplicativo web que permite aos usuários capturar capturas de tela de sites sem esforço. Com foco na usabilidade, o aplicativo oferece uma solução direta e personalizável para tirar capturas de tela baseadas em navegador.",
-  },
-
-  // Get Cat
-  "projects.getCat.title": {
-    en: "Get Cat",
-    "pt-BR": "Get Cat",
-  },
-  "projects.getCat.description": {
-    en: "A fun app that displays random photos and facts about cats. Focused on simplicity and user experience, the app provides a pleasant and uncomplicated interaction.",
-    "pt-BR":
-      "Desenvolvi o Get Cat, um aplicativo divertido que exibe fotos e curiosidades aleatórias sobre gatos. Com foco na simplicidade e na experiência do usuário, o app proporciona uma interação agradável e descomplicada.",
-  },
-
-  // Nautilus Copy File Contents
-  "projects.nautilusCopy.title": {
-    en: "Nautilus Copy File Contents",
-    "pt-BR": "Nautilus Copy File Contents",
-  },
-  "projects.nautilusCopy.description": {
-    en: "A simple extension for Nautilus that lets you quickly copy the contents of a text file with one click.",
-    "pt-BR":
-      "Uma extensão simples para o Nautilus que permite copiar rapidamente o conteúdo de um arquivo de texto com um clique.",
-  },
-
-  // Decomp
-  "projects.decomp.title": {
-    en: "decomp",
-    "pt-BR": "decomp",
-  },
-  "projects.decomp.description": {
-    en: "A simple way to decompress files.",
-    "pt-BR": "Uma maneira simples de descomprimir arquivos.",
-  },
-
-  // Reddit Auto Theme
-  "projects.redditAutoTheme.title": {
-    en: "Reddit Auto Theme",
-    "pt-BR": "Reddit Auto Theme",
-  },
-  "projects.redditAutoTheme.description": {
-    en: "A simple extension that syncs Reddit's theme with your system theme.",
-    "pt-BR":
-      "Uma extensão simples que sincroniza o tema do Reddit com o tema do seu sistema.",
-  },
-  // Contact
-  "contact.title": {
-    en: "Get In Touch",
-    "pt-BR": "Entre em Contato",
-  },
-  "contact.subtitle": {
-    en: "Have a project in mind or just want to say hello? Feel free to reach out!",
-    "pt-BR":
-      "Tem um projeto em mente ou apenas quer dizer olá? Sinta-se à vontade para entrar em contato!",
-  },
-  "contact.info.title": {
-    en: "Contact Information",
-    "pt-BR": "Informações de Contato",
-  },
-  "contact.info.subtitle": {
-    en: "Connect with me through these platforms",
-    "pt-BR": "Conecte-se comigo através destas plataformas",
-  },
-  "contact.info.email": {
-    en: "Email",
-    "pt-BR": "E-mail",
-  },
-  "contact.form.title": {
-    en: "Send a Message",
-    "pt-BR": "Envie uma Mensagem",
-  },
-  "contact.form.subtitle": {
-    en: "Fill out the form below and I'll get back to you as soon as possible",
-    "pt-BR":
-      "Preencha o formulário abaixo e eu retornarei o mais breve possível",
-  },
-  "contact.form.name": {
-    en: "Name",
-    "pt-BR": "Nome",
-  },
-  "contact.form.email": {
-    en: "Email",
-    "pt-BR": "E-mail",
-  },
-  "contact.form.message": {
-    en: "Message",
-    "pt-BR": "Mensagem",
-  },
-  "contact.form.submit": {
-    en: "Send Message",
-    "pt-BR": "Enviar Mensagem",
-  },
-  "contact.form.namePlaceholder": {
-    en: "Your name",
-    "pt-BR": "Seu nome",
-  },
-  "contact.form.emailPlaceholder": {
-    en: "Your email",
-    "pt-BR": "Seu e-mail",
-  },
-  "contact.form.messagePlaceholder": {
-    en: "Your message",
-    "pt-BR": "Sua mensagem",
-  },
-
-  // Footer
-  "footer.rights": {
-    en: "All rights reserved.",
-    "pt-BR": "Todos os direitos reservados.",
-  },
-
-  // Language Selector
-  "language.en": {
-    en: "English",
-    "pt-BR": "Inglês",
-  },
-  "language.pt-BR": {
-    en: "Portuguese",
-    "pt-BR": "Português",
-  },
-};
+}
 
 type LanguageContextType = {
   language: Language;
@@ -327,9 +22,7 @@ type LanguageContextType = {
   t: (key: string) => string;
 };
 
-const LanguageContext = createContext<LanguageContextType | undefined>(
-  undefined,
-);
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>("en");
@@ -337,10 +30,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   // Load saved language preference from localStorage on mount
   useEffect(() => {
     const savedLanguage = localStorage.getItem("language") as Language;
-    if (
-      savedLanguage &&
-      (savedLanguage === "en" || savedLanguage === "pt-BR")
-    ) {
+    if (savedLanguage && (savedLanguage === "en" || savedLanguage === "pt-BR")) {
       setLanguage(savedLanguage);
     } else {
       // Try to detect browser language

@@ -1,36 +1,36 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Menu } from "lucide-react"
-import ThemeToggle from "@/components/theme-toggle"
-import LanguageSwitcher from "@/components/language-switcher"
-import { useLanguage } from "@/contexts/language-context"
-import { useMobile } from "@/hooks/use-mobile"
+import { FileDown, Menu } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import LanguageSwitcher from "@/components/common/language-switcher";
+import ThemeToggle from "@/components/common/theme-toggle";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useLanguage } from "@/contexts/language-context";
+import { useMobile } from "@/hooks/use-mobile";
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
-  const { t } = useLanguage()
-  const isMobile = useMobile()
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const { t } = useLanguage();
+  const isMobile = useMobile();
 
   const navItems = [
     { name: t("nav.home"), href: "#" },
     { name: t("nav.about"), href: "#about" },
     { name: t("nav.projects"), href: "#projects" },
     { name: t("nav.contact"), href: "#contact" },
-  ]
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-    }
+      setIsScrolled(window.scrollY > 10);
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <header
@@ -54,9 +54,15 @@ export default function Navbar() {
                 {item.name}
               </Link>
             ))}
-            <div className="flex items-center space-x-1">
+            <div className="flex items-center space-x-2">
               <LanguageSwitcher />
               <ThemeToggle />
+              <Button variant="outline" size="sm" asChild className="gap-2">
+                <a href={t("nav.resumeUrl")} target="_blank" rel="noopener noreferrer">
+                  <FileDown className="h-4 w-4" />
+                  {t("nav.resume")}
+                </a>
+              </Button>
             </div>
           </nav>
 
@@ -82,6 +88,22 @@ export default function Navbar() {
                         {item.name}
                       </Link>
                     ))}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      asChild
+                      className="w-full gap-2 justify-center mt-4"
+                    >
+                      <a
+                        href={t("nav.resumeUrl")}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <FileDown className="h-4 w-4" />
+                        {t("nav.resume")}
+                      </a>
+                    </Button>
                   </div>
                 </SheetContent>
               </Sheet>
@@ -90,6 +112,5 @@ export default function Navbar() {
         </div>
       </div>
     </header>
-  )
+  );
 }
-

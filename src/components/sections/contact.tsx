@@ -1,22 +1,16 @@
 "use client";
 
-import type React from "react";
-
-import { useState, useRef } from "react";
+import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Github, Linkedin, Loader2, Mail } from "lucide-react";
+import type React from "react";
+import { useRef, useState } from "react";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Mail, Linkedin, Github, Loader2 } from "lucide-react";
-import { useLanguage } from "@/contexts/language-context";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Toast,
   ToastDescription,
@@ -24,16 +18,13 @@ import {
   ToastTitle,
   ToastViewport,
 } from "@/components/ui/toast";
-import { z } from "zod";
-import emailjs from "@emailjs/browser";
+import { useLanguage } from "@/contexts/language-context";
 import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
   email: z.string().email({ message: "Invalid email address" }),
-  message: z
-    .string()
-    .min(10, { message: "Message must be at least 10 characters" }),
+  message: z.string().min(10, { message: "Message must be at least 10 characters" }),
 });
 
 export default function Contact() {
@@ -65,9 +56,7 @@ export default function Contact() {
       const result = formSchema.safeParse({ name, email, message });
 
       if (!result.success) {
-        const errorMessage = result.error.errors
-          .map((err) => err.message)
-          .join(", ");
+        const errorMessage = result.error.errors.map((err) => err.message).join(", ");
         showToast(errorMessage, "error");
         setIsSubmitting(false);
         return;
@@ -76,8 +65,8 @@ export default function Contact() {
       console.log(name, email, message);
       // Send email using EmailJS
       await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "",
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "",
         {
           name: name,
           email: email,
@@ -88,16 +77,10 @@ export default function Contact() {
 
       // Reset form and show success message
       formRef.current?.reset();
-      showToast(
-        "Your message has been sent! I'll get back to you soon.",
-        "success",
-      );
+      showToast("Your message has been sent! I'll get back to you soon.", "success");
     } catch (error) {
       console.error("Error sending email:", error);
-      showToast(
-        "Failed to send your message. Please try again later.",
-        "error",
-      );
+      showToast("Failed to send your message. Please try again later.", "error");
     } finally {
       setIsSubmitting(false);
     }
@@ -119,11 +102,7 @@ export default function Contact() {
             )}
           >
             <ToastTitle>
-              {toast.type === "success"
-                ? "Success"
-                : toast.type === "error"
-                  ? "Error"
-                  : "Info"}
+              {toast.type === "success" ? "Success" : toast.type === "error" ? "Error" : "Info"}
             </ToastTitle>
             <ToastDescription>{toast.message}</ToastDescription>
           </Toast>
@@ -139,9 +118,7 @@ export default function Contact() {
         className="space-y-12"
       >
         <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            {t("contact.title")}
-          </h2>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{t("contact.title")}</h2>
           <div className="mt-1 h-1 w-12 bg-primary mx-auto"></div>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
             {t("contact.subtitle")}
@@ -242,11 +219,7 @@ export default function Contact() {
                     required
                   />
                 </div>
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={isSubmitting}
-                >
+                <Button type="submit" className="w-full" disabled={isSubmitting}>
                   {isSubmitting ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
