@@ -4,7 +4,7 @@ export const en = {
   "nav.projects": "Projects",
   "nav.contact": "Contact",
   "nav.resume": "Resume",
-  "nav.resumeUrl": "/CAUE-SOUZA-RESUME-EN.pdf",
+  "nav.resumeUrl": "/api/resume/en",
 
   "intro.hello": "Hello, I'm",
   "intro.description":

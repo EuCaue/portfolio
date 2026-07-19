@@ -6,7 +6,7 @@ export const ptBR: Record<TranslationKeys, string> = {
   "nav.projects": "Projetos",
   "nav.contact": "Contato",
   "nav.resume": "Currículo",
-  "nav.resumeUrl": "/CAUE-SOUZA-RESUME-PT.pdf",
+  "nav.resumeUrl": "/api/resume/pt",
 
   "intro.hello": "Olá, eu sou",
   "intro.description":
