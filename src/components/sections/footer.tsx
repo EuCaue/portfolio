@@ -1,6 +1,7 @@
 "use client";
 
-import { Github, Linkedin, Mail } from "lucide-react";
+import { FileDown, Github, Linkedin, Mail } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/language-context";
 
 export default function Footer() {
@@ -15,11 +16,22 @@ export default function Footer() {
             © {currentYear} Cauê Souza. {t("footer.rights")}
           </p>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="sm" asChild className="gap-2">
+              <a
+                href={t("nav.resumeUrl")}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={t("footer.resume")}
+              >
+                <FileDown className="h-4 w-4" />
+                <span className="hidden sm:inline">{t("footer.resume")}</span>
+              </a>
+            </Button>
             <a
               href="mailto:souzacaue@proton.me"
               className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="Email"
+              aria-label={t("contact.info.email")}
             >
               <Mail className="h-5 w-5" />
             </a>
