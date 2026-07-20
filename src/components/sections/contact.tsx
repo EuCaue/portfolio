@@ -21,31 +21,52 @@ import {
 import { useLanguage } from "@/contexts/language-context";
 import { cn } from "@/lib/utils";
 
-const formSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
-  email: z.string().email({ message: "Invalid email address" }),
-  message: z.string().min(10, { message: "Message must be at least 10 characters" }),
-});
+type FieldErrors = {
+  name?: string;
+  email?: string;
+  message?: string;
+};
 
 export default function Contact() {
   const { t } = useLanguage();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<FieldErrors>({});
   const [toast, setToast] = useState<{
     message: string;
     type: "success" | "error" | "info";
   } | null>(null);
+  const [honeypot, setHoneypot] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
 
   const showToast = (message: string, type: "success" | "error" | "info") => {
     setToast({ message, type });
-    setTimeout(() => {
-      setToast(null);
-    }, 5000);
+    setTimeout(() => setToast(null), 5000);
+  };
+
+  const getSchema = () =>
+    z.object({
+      name: z.string().min(2, { message: t("contact.form.error.name") }),
+      email: z.string().email({ message: t("contact.form.error.email") }),
+      message: z.string().min(10, { message: t("contact.form.error.message") }),
+    });
+
+  const validateField = (name: keyof FieldErrors, value: string) => {
+    const schema = getSchema();
+    const fieldSchema = z.object({ [name]: schema.shape[name] });
+    const result = fieldSchema.safeParse({ [name]: value });
+    setErrors((prev) => ({
+      ...prev,
+      [name]: result.success ? undefined : result.error.errors[0].message,
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (honeypot) return;
+
     setIsSubmitting(true);
+    setErrors({});
 
     try {
       const formData = new FormData(e.currentTarget);
@@ -53,34 +74,31 @@ export default function Contact() {
       const email = formData.get("email") as string;
       const message = formData.get("message") as string;
 
-      const result = formSchema.safeParse({ name, email, message });
+      const result = getSchema().safeParse({ name, email, message });
 
       if (!result.success) {
-        const errorMessage = result.error.errors.map((err) => err.message).join(", ");
-        showToast(errorMessage, "error");
+        const fieldErrors: FieldErrors = {};
+        for (const err of result.error.errors) {
+          const path = err.path[0] as keyof FieldErrors;
+          if (!fieldErrors[path]) fieldErrors[path] = err.message;
+        }
+        setErrors(fieldErrors);
         setIsSubmitting(false);
         return;
       }
 
-      console.log(name, email, message);
-      // Send email using EmailJS
       await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "",
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "",
-        {
-          name: name,
-          email: email,
-          message: message,
-        },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
+        { name, email, message },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "",
       );
 
-      // Reset form and show success message
       formRef.current?.reset();
-      showToast("Your message has been sent! I'll get back to you soon.", "success");
+      showToast(t("contact.form.success"), "success");
     } catch (error) {
       console.error("Error sending email:", error);
-      showToast("Failed to send your message. Please try again later.", "error");
+      showToast(t("contact.form.error"), "error");
     } finally {
       setIsSubmitting(false);
     }
@@ -102,7 +120,11 @@ export default function Contact() {
             )}
           >
             <ToastTitle>
-              {toast.type === "success" ? "Success" : toast.type === "error" ? "Error" : "Info"}
+              {toast.type === "success"
+                ? t("contact.form.toast.success")
+                : toast.type === "error"
+                  ? t("contact.form.toast.error")
+                  : "Info"}
             </ToastTitle>
             <ToastDescription>{toast.message}</ToastDescription>
           </Toast>
@@ -189,7 +211,7 @@ export default function Contact() {
               <CardDescription>{t("contact.form.subtitle")}</CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} ref={formRef} className="space-y-4">
+              <form onSubmit={handleSubmit} ref={formRef} className="space-y-4" noValidate>
                 <div className="space-y-2">
                   <Label htmlFor="name">{t("contact.form.name")}</Label>
                   <Input
@@ -197,7 +219,15 @@ export default function Contact() {
                     name="name"
                     placeholder={t("contact.form.namePlaceholder")}
                     required
+                    aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? "name-error" : undefined}
+                    onBlur={(e) => validateField("name", e.target.value)}
                   />
+                  {errors.name && (
+                    <p id="name-error" className="text-sm text-destructive">
+                      {errors.name}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">{t("contact.form.email")}</Label>
@@ -207,7 +237,15 @@ export default function Contact() {
                     type="email"
                     placeholder={t("contact.form.emailPlaceholder")}
                     required
+                    aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? "email-error" : undefined}
+                    onBlur={(e) => validateField("email", e.target.value)}
                   />
+                  {errors.email && (
+                    <p id="email-error" className="text-sm text-destructive">
+                      {errors.email}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="message">{t("contact.form.message")}</Label>
@@ -217,13 +255,32 @@ export default function Contact() {
                     placeholder={t("contact.form.messagePlaceholder")}
                     rows={5}
                     required
+                    aria-invalid={!!errors.message}
+                    aria-describedby={errors.message ? "message-error" : undefined}
+                    onBlur={(e) => validateField("message", e.target.value)}
                   />
+                  {errors.message && (
+                    <p id="message-error" className="text-sm text-destructive">
+                      {errors.message}
+                    </p>
+                  )}
                 </div>
+                {/* Honeypot field — hidden visually, bots fill it */}
+                <input
+                  type="text"
+                  name="company_website"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="absolute left-[-9999px] h-0 w-0 opacity-0"
+                />
                 <Button type="submit" className="w-full" disabled={isSubmitting}>
                   {isSubmitting ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Sending...
+                      {t("contact.form.sending")}
                     </>
                   ) : (
                     t("contact.form.submit")
