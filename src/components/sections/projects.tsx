@@ -45,41 +45,35 @@ export default function Projects() {
           </p>
         </div>
 
-        {/* Featured Projects Section */}
         <div className="space-y-8">
           <h3 className="text-2xl font-bold border-b pb-2 text-foreground/90">
             ⭐ {t("projects.featured")}
           </h3>
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
-            {featuredProjects.map((project, index) => {
-              return (
-                <ProjectCard
-                  project={project}
-                  index={index}
-                  key={project.titleKey}
-                  isFeatured={true}
-                />
-              );
-            })}
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredProjects.map((project, index) => (
+              <ProjectCard
+                project={project}
+                index={index}
+                key={project.titleKey}
+                isFeatured={true}
+              />
+            ))}
           </div>
         </div>
 
-        {/* Other Projects Section */}
         <div className="space-y-8 pt-6">
           <h3 className="text-2xl font-bold border-b pb-2 text-foreground/90">
             📁 {t("projects.other")}
           </h3>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {otherProjects.map((project, index) => {
-              return (
-                <ProjectCard
-                  project={project}
-                  index={index}
-                  key={project.titleKey}
-                  isFeatured={false}
-                />
-              );
-            })}
+            {otherProjects.map((project, index) => (
+              <ProjectCard
+                project={project}
+                index={index}
+                key={project.titleKey}
+                isFeatured={false}
+              />
+            ))}
           </div>
         </div>
       </motion.div>
@@ -114,7 +108,11 @@ function ProjectCard({ project, index, isFeatured }: ProjectProps) {
             <div className="aspect-video overflow-hidden bg-muted flex items-center justify-center relative">
               {project.image || project.video ? (
                 <DialogTrigger asChild>
-                  <button type="button" className="w-full h-full cursor-zoom-in text-left">
+                  <button
+                    type="button"
+                    className="w-full h-full cursor-zoom-in text-left"
+                    aria-label={t("projects.openPreview")}
+                  >
                     {project.video ? (
                       <video
                         controls={false}
@@ -122,16 +120,19 @@ function ProjectCard({ project, index, isFeatured }: ProjectProps) {
                         loop
                         muted
                         playsInline
+                        preload="metadata"
+                        aria-label={t(project.titleKey)}
                         className="h-full w-full object-cover transition-transform hover:scale-105"
                       >
-                        {project.video.sources.map(({ type, url }) => {
-                          return <source src={url} type={`video/${type}`} key={url} />;
-                        })}
+                        {project.video.sources.map(({ type, url }) => (
+                          <source src={url} type={`video/${type}`} key={url} />
+                        ))}
                       </video>
                     ) : (
                       <img
                         src={project.image || "/placeholder.svg"}
                         alt={t(project.titleKey)}
+                        loading="lazy"
                         className="h-full w-full object-cover transition-transform hover:scale-105"
                       />
                     )}
@@ -140,7 +141,7 @@ function ProjectCard({ project, index, isFeatured }: ProjectProps) {
               ) : (
                 <div className="flex flex-col items-center justify-center p-6 text-muted-foreground">
                   <FolderGit className="h-12 w-12 mb-2" />
-                  <p className="text-sm">No preview available</p>
+                  <p className="text-sm">{t("projects.openPreview")}</p>
                 </div>
               )}
             </div>
@@ -184,7 +185,6 @@ function ProjectCard({ project, index, isFeatured }: ProjectProps) {
         </Card>
       </motion.div>
 
-      {/* Dialog for details preview */}
       <DialogContent className="max-w-4xl w-[90vw] overflow-y-auto max-h-[90vh]">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold mb-2">{t(project.titleKey)}</DialogTitle>
@@ -192,19 +192,57 @@ function ProjectCard({ project, index, isFeatured }: ProjectProps) {
             {t(project.descriptionKey)}
           </DialogDescription>
         </DialogHeader>
-        <div className="aspect-video w-full overflow-hidden bg-muted rounded-lg border border-border flex items-center justify-center">
-          {project.video ? (
-            <video controls autoPlay loop muted className="w-full h-full object-contain">
-              {project.video.sources.map(({ type, url }) => {
-                return <source src={url} type={`video/${type}`} key={url} />;
-              })}
-            </video>
-          ) : (
-            <img
-              src={project.image || "/placeholder.svg"}
-              alt={t(project.titleKey)}
-              className="w-full h-full object-contain"
-            />
+        {(project.image || project.video) && (
+          <div className="aspect-video w-full overflow-hidden bg-muted rounded-lg border border-border flex items-center justify-center mb-4">
+            {project.video ? (
+              <video
+                controls
+                autoPlay
+                loop
+                muted
+                className="w-full h-full object-contain"
+                aria-label={t(project.titleKey)}
+              >
+                {project.video.sources.map(({ type, url }) => (
+                  <source src={url} type={`video/${type}`} key={url} />
+                ))}
+              </video>
+            ) : (
+              <img
+                src={project.image || "/placeholder.svg"}
+                alt={t(project.titleKey)}
+                loading="lazy"
+                className="w-full h-full object-contain"
+              />
+            )}
+          </div>
+        )}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {project.tags.map((tag) => (
+            <span
+              key={tag}
+              className="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-semibold text-secondary-foreground"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+        <div className="flex gap-2">
+          {project.github && (
+            <Button variant="outline" size="sm" asChild>
+              <a href={project.github} target="_blank" rel="noopener noreferrer">
+                <GithubIcon className="mr-1.5 h-4 w-4" />
+                {t("projects.github")}
+              </a>
+            </Button>
+          )}
+          {project.preview && (
+            <Button size="sm" asChild>
+              <a href={project.preview} target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="mr-1.5 h-4 w-4" />
+                {t("projects.liveDemo")}
+              </a>
+            </Button>
           )}
         </div>
       </DialogContent>

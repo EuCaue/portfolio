@@ -10,7 +10,7 @@ export type Project = {
   tags: string[];
   github?: string;
   preview?: string;
-  featured: boolean; // Flag to highlight key projects for job recruiters
+  featured: boolean;
 };
 
 export const projects: Project[] = [
@@ -27,6 +27,7 @@ export const projects: Project[] = [
     },
     tags: ["JavaScript", "TypeScript", "OOP", "GNOME Shell", "CSS3", "ESBuild", "Git"],
     github: "https://github.com/EuCaue/quick-lofi",
+    preview: "https://extensions.gnome.org/extension/6904/quick-lofi/",
     featured: true,
   },
   {
@@ -45,17 +46,10 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    titleKey: "projects.pixDonation.title",
-    descriptionKey: "projects.pixDonation.description",
-    video: {
-      sources: [
-        {
-          url: "/pix-donation.mp4",
-          type: "mp4",
-        },
-      ],
-    },
-    tags: ["HTML5", "CSS3", "JavaScript", "Kanban", "Git", "Github"],
+    titleKey: "projects.autoVolume.title",
+    descriptionKey: "projects.autoVolume.description",
+    tags: ["React Native", "Expo", "TypeScript", "Mobile", "Background Processing"],
+    github: "https://github.com/EuCaue/auto-volume",
     featured: true,
   },
   {
@@ -79,6 +73,22 @@ export const projects: Project[] = [
       "Web Extension",
       "Firefox Add-on",
     ],
+    github: "https://github.com/EuCaue/scrolled",
+    preview: "https://addons.mozilla.org/en-US/firefox/addon/scrolled/",
+    featured: true,
+  },
+  {
+    titleKey: "projects.pixDonation.title",
+    descriptionKey: "projects.pixDonation.description",
+    video: {
+      sources: [
+        {
+          url: "/pix-donation.mp4",
+          type: "mp4",
+        },
+      ],
+    },
+    tags: ["HTML5", "CSS3", "JavaScript", "Kanban", "Git", "Github"],
     featured: true,
   },
   {
@@ -94,7 +104,8 @@ export const projects: Project[] = [
       "PostgreSQL",
       "shadcn/ui",
     ],
-    featured: true,
+    github: "https://github.com/EuCaue/feed-pet",
+    featured: false,
   },
   {
     titleKey: "projects.cssCursorGallery.title",
