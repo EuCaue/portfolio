@@ -1,20 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowDown, FileDown } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ArrowDown, FileDown, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/language-context";
 
 export default function Intro() {
-  const [mounted, setMounted] = useState(false);
   const { t } = useLanguage();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
 
   return (
     <section className="flex min-h-[90vh] flex-col items-center justify-center py-20 text-center relative">
@@ -29,10 +21,20 @@ export default function Intro() {
           <span className="mt-2 block bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
             Cauê Souza
           </span>
+          <span className="mt-3 block text-xl sm:text-2xl md:text-3xl font-semibold text-muted-foreground">
+            {t("intro.role")}
+          </span>
         </h1>
+
+        <div className="flex items-center justify-center gap-2 text-muted-foreground">
+          <MapPin className="h-4 w-4" />
+          <span className="text-sm sm:text-base">{t("intro.location")}</span>
+        </div>
+
         <p className="mx-auto max-w-xl text-xl text-muted-foreground leading-relaxed">
           {t("intro.description")}
         </p>
+
         <div className="flex flex-wrap justify-center gap-4 pt-4">
           <Button asChild size="lg">
             <a href="#projects">{t("intro.viewWork")}</a>

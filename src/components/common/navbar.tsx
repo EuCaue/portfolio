@@ -8,13 +8,11 @@ import ThemeToggle from "@/components/common/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useLanguage } from "@/contexts/language-context";
-import { useMobile } from "@/hooks/use-mobile";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useLanguage();
-  const isMobile = useMobile();
 
   const navItems = [
     { name: t("nav.home"), href: "#" },
@@ -66,49 +64,47 @@ export default function Navbar() {
             </div>
           </nav>
 
-          {isMobile && (
-            <div className="flex items-center md:hidden">
-              <LanguageSwitcher />
-              <ThemeToggle />
-              <Sheet open={isOpen} onOpenChange={setIsOpen}>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" aria-label="Menu">
-                    <Menu className="h-5 w-5" />
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="right" className="w-[250px] sm:w-[300px]">
-                  <div className="flex flex-col space-y-4 py-4">
-                    {navItems.map((item) => (
-                      <Link
-                        key={item.name}
-                        href={item.href}
-                        className="text-sm font-medium transition-colors hover:text-primary"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      asChild
-                      className="w-full gap-2 justify-center mt-4"
+          <div className="flex items-center md:hidden">
+            <LanguageSwitcher />
+            <ThemeToggle />
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" aria-label="Menu">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[250px] sm:w-[300px]">
+                <div className="flex flex-col space-y-4 py-4">
+                  {navItems.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="text-sm font-medium transition-colors hover:text-primary"
+                      onClick={() => setIsOpen(false)}
                     >
-                      <a
-                        href={t("nav.resumeUrl")}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        <FileDown className="h-4 w-4" />
-                        {t("nav.resume")}
-                      </a>
-                    </Button>
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </div>
-          )}
+                      {item.name}
+                    </Link>
+                  ))}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    asChild
+                    className="w-full gap-2 justify-center mt-4"
+                  >
+                    <a
+                      href={t("nav.resumeUrl")}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <FileDown className="h-4 w-4" />
+                      {t("nav.resume")}
+                    </a>
+                  </Button>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </header>

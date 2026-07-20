@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useLanguage } from "@/contexts/language-context";
@@ -16,23 +17,22 @@ export default function LanguageSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label="Change language">
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label={t("language.en") === "English" ? "Change language" : "Mudar idioma"}
+        >
           <Globe className="h-5 w-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem
-          onClick={() => setLanguage("en")}
-          className={language === "en" ? "bg-accent" : ""}
+        <DropdownMenuRadioGroup
+          value={language}
+          onValueChange={(value) => setLanguage(value as "en" | "pt-BR")}
         >
-          {t("language.en")}
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => setLanguage("pt-BR")}
-          className={language === "pt-BR" ? "bg-accent" : ""}
-        >
-          {t("language.pt-BR")}
-        </DropdownMenuItem>
+          <DropdownMenuRadioItem value="en">{t("language.en")}</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="pt-BR">{t("language.pt-BR")}</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );
