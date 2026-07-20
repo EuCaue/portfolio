@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { createContext, type ReactNode, useContext, useEffect, useState } from "react";
 import { en, type TranslationKeys } from "@/locales/en";
 import { ptBR } from "@/locales/pt-BR";
@@ -8,13 +9,22 @@ type Language = "en" | "pt-BR";
 
 const translations: Record<string, { en: string; "pt-BR": string }> = {};
 
-// Build translation dictionary dynamically from split locale files
 for (const key of Object.keys(en) as TranslationKeys[]) {
   translations[key] = {
     en: en[key],
     "pt-BR": ptBR[key] || en[key],
   };
 }
+
+const URL_TO_LANG: Record<string, Language> = {
+  en: "en",
+  "pt-br": "pt-BR",
+};
+
+const LANG_TO_URL: Record<Language, string> = {
+  en: "en",
+  "pt-BR": "pt-br",
+};
 
 type LanguageContextType = {
   language: Language;
@@ -24,29 +34,30 @@ type LanguageContextType = {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>("en");
+export function LanguageProvider({
+  children,
+  initialLocale,
+}: {
+  children: ReactNode;
+  initialLocale: string;
+}) {
+  const router = useRouter();
+  const [language, setLanguageState] = useState<Language>(URL_TO_LANG[initialLocale] ?? "en");
 
-  // Load saved language preference from localStorage on mount
   useEffect(() => {
-    const savedLanguage = localStorage.getItem("language") as Language;
-    if (savedLanguage && (savedLanguage === "en" || savedLanguage === "pt-BR")) {
-      setLanguage(savedLanguage);
-    } else {
-      // Try to detect browser language
-      const browserLang = navigator.language;
-      if (browserLang.startsWith("pt")) {
-        setLanguage("pt-BR");
-      }
+    const next = URL_TO_LANG[initialLocale];
+    if (next && next !== language) {
+      setLanguageState(next);
     }
-  }, []);
+  }, [initialLocale, language]);
 
-  // Save language preference to localStorage when it changes
-  useEffect(() => {
-    localStorage.setItem("language", language);
-  }, [language]);
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang);
+    router.push(`/${LANG_TO_URL[lang]}`);
+    // biome-ignore lint/suspicious/noDocumentCookie: persist locale choice for next redirect
+    document.cookie = `NEXT_LOCALE=${LANG_TO_URL[lang]}; path=/; max-age=${60 * 60 * 24 * 365}`;
+  };
 
-  // Translation function
   const t = (key: string): string => {
     if (!translations[key]) {
       console.warn(`Translation key not found: ${key}`);
