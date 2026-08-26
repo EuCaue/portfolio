@@ -92,6 +92,14 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    titleKey: "projects.harbor.title",
+    descriptionKey: "projects.harbor.description",
+    image: "/harbor.gif",
+    tags: ["Rust", "CLI", "Daemon", "File Watcher", "Automation"],
+    github: "https://github.com/EuCaue/harbor",
+    featured: true,
+  },
+  {
     titleKey: "projects.feedPet.title",
     descriptionKey: "projects.feedPet.description",
     image: "/feed-pet.png",

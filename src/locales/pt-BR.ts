@@ -93,6 +93,10 @@ export const ptBR: Record<TranslationKeys, string> = {
   "projects.decomp.title": "decomp",
   "projects.decomp.description": "Uma maneira simples de descomprimir arquivos.",
 
+  "projects.harbor.title": "Harbor",
+  "projects.harbor.description":
+    "Um daemon que organiza arquivos observando pastas e movendo arquivos por regras de extensão, tipo MIME, tamanho e data. Feito em Rust com threads nativas e sem runtime assíncrono, aguarda downloads terminarem, resolve conflitos de nome e trocas entre discos, e recarrega a configuração sem reiniciar.",
+
   "projects.redditAutoTheme.title": "Reddit Auto Theme",
   "projects.redditAutoTheme.description":
     "Uma extensão simples que sincroniza o tema do Reddit com o tema do seu sistema.",

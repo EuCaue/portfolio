@@ -92,6 +92,10 @@ export const en = {
   "projects.decomp.description": "A simple way to decompress files.",
 
   "projects.redditAutoTheme.title": "Reddit Auto Theme",
+  "projects.harbor.title": "Harbor",
+  "projects.harbor.description":
+    "A file organizer daemon that watches folders and moves files based on rules for extension, MIME type, size, and date. Built in Rust with native threads and no async runtime, it waits for downloads to finish, handles collisions and cross-device moves, and reloads config live.",
+
   "projects.redditAutoTheme.description":
     "A simple extension that syncs Reddit's theme with your system theme.",
 
