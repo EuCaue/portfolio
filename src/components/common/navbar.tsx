@@ -43,6 +43,15 @@ export default function Navbar() {
           </Link>
 
           <nav className="hidden md:flex md:items-center md:space-x-6">
+            <a
+              href="https://eucaue.online"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-muted-foreground/60 transition-all hover:text-primary hover:opacity-100"
+              title="← back"
+            >
+              ←
+            </a>
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -101,6 +110,27 @@ export default function Navbar() {
                       {t("nav.resume")}
                     </a>
                   </Button>
+                  <div className="mt-4 border-t pt-4 flex items-center gap-3 text-xs text-muted-foreground">
+                    <a
+                      href="https://eucaue.online"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="transition-colors hover:text-primary"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      ← eucaue.online
+                    </a>
+                    <span className="text-muted-foreground/40">·</span>
+                    <a
+                      href="https://blog.eucaue.online"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="transition-colors hover:text-primary"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      blog
+                    </a>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>

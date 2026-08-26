@@ -12,9 +12,30 @@ export default function Footer() {
     <footer className="border-t bg-background">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <p className="text-center text-sm text-muted-foreground md:text-left">
-            © {currentYear} Cauê Souza. {t("footer.rights")}
-          </p>
+          <div className="flex flex-col items-center gap-1 md:items-start">
+            <p className="text-center text-sm text-muted-foreground md:text-left">
+              © {currentYear} Cauê Souza. {t("footer.rights")}
+            </p>
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <a
+                href="https://eucaue.online"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-primary"
+              >
+                eucaue.online
+              </a>
+              <span className="text-muted-foreground/40">·</span>
+              <a
+                href="https://blog.eucaue.online"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-primary"
+              >
+                blog
+              </a>
+            </div>
+          </div>
 
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="sm" asChild className="gap-2">
