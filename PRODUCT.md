@@ -36,6 +36,7 @@ Web and mobile engineer first (React, Next.js, React Native, TypeScript). Deskto
 
 - Name: Cauê Souza. Existing light and dark favicons in `public/`.
 - Content stays as written; only presentation changes.
+- Visual direction: stay with the current site's clean, minimal, neutral, professional look (shadcn-style surfaces) and refine it; concept-driven themed worlds were explored and declined.
 
 ## Evidence on Hand
 
