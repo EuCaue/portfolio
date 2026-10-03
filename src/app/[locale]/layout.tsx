@@ -1,13 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
+import { MotionProvider } from "@/components/common/motion-provider";
 import Navbar from "@/components/common/navbar";
 import { ThemeProvider } from "@/components/common/theme-provider";
 import { LanguageProvider } from "@/contexts/language-context";
 import "../globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const sans = Geist({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
+const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
 
 const LOCALES = ["en", "pt-br"];
 
@@ -97,7 +99,7 @@ export async function generateMetadata({
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#020817" },
+    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
   ],
 };
 
@@ -193,7 +195,7 @@ export default async function LocaleLayout({
         ></script>
       </head>
 
-      <body className={inter.className}>
+      <body className={`${sans.variable} ${mono.variable} font-sans`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -201,8 +203,16 @@ export default async function LocaleLayout({
           disableTransitionOnChange
         >
           <LanguageProvider initialLocale={locale}>
-            <Navbar />
-            {children}
+            <MotionProvider>
+              <a
+                href="#main"
+                className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
+              >
+                {locale === "pt-br" ? "Pular para o conteúdo" : "Skip to content"}
+              </a>
+              <Navbar />
+              {children}
+            </MotionProvider>
           </LanguageProvider>
         </ThemeProvider>
       </body>
