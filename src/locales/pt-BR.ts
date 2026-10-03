@@ -20,18 +20,16 @@ export const ptBR: Record<TranslationKeys, string> = {
   "intro.role": "Engenheiro de Software",
   "intro.location": "Salvador, Brasil",
   "intro.description":
-    "Desenvolvo apps web e mobile com React, Next.js e React Native. Também escrevo software para o desktop Linux: extensões do GNOME, apps GTK e ferramentas de linha de comando.",
+    "Desenvolvo apps web e mobile com React, Next.js e React Native. Fora isso, crio ferramentas para o desktop Linux, como extensões do GNOME e apps GTK.",
   "intro.downloadCv": "Baixar currículo",
   "intro.getInTouch": "Fale comigo",
 
   "projects.title": "Projetos",
-  "projects.subtitle":
-    "Apps web, extensões de navegador e ferramentas para o desktop Linux. Selecione um projeto para abrir a prévia e os detalhes.",
+  "projects.subtitle": "Coisas que construí para a web, para o navegador e para o desktop Linux.",
   "projects.featured": "Destaques",
   "projects.other": "Mais projetos",
   "spotlight.downloads": "downloads no site de extensões do GNOME",
-  "spotlight.summary":
-    "Uma extensão do GNOME Shell que toca rádio lo-fi pela barra superior com um clique. Escrita em TypeScript e empacotada com esbuild.",
+  "spotlight.summary": "Rádio lo-fi a um clique, direto na barra superior do GNOME.",
 
   "filter.platform": "Filtrar por plataforma",
   "filter.all": "Todos",
@@ -44,7 +42,7 @@ export const ptBR: Record<TranslationKeys, string> = {
   "filter.anyTech": "Qualquer tecnologia",
   "filter.count": "Mostrando {shown} de {total} projetos",
   "filter.countAll": "{total} projetos",
-  "filter.empty": "Nenhum projeto corresponde a esses filtros.",
+  "filter.empty": "Nada por aqui com esses filtros.",
   "filter.clear": "Limpar filtros",
 
   "project.open": "Ver detalhes de {name}",
@@ -65,65 +63,66 @@ export const ptBR: Record<TranslationKeys, string> = {
 
   "projects.flexa.title": "Flexa",
   "projects.flexa.description":
-    "Um app para GNOME que converte temas de cursor do Windows para o formato do Linux. Escrito em Python com GTK4 e LibAdwaita. O GitHub Actions gera os pacotes Flatpak e RPM.",
+    "O Flexa pega um tema de cursor do Windows e converte para funcionar no Linux. É um app nativo do GNOME, escrito em Python e GTK4, distribuído em Flatpak e RPM.",
 
   "projects.quickLofi.title": "Quick Lofi",
   "projects.quickLofi.description":
-    "Uma extensão do GNOME Shell que toca rádio lo-fi pela barra superior com um clique. Já passou de 10.000 downloads no site oficial de extensões do GNOME.",
+    "Rádio lo-fi a um clique, direto na barra superior do GNOME. Tem mais de 10.000 downloads no site de extensões do GNOME.",
 
   "projects.blog.title": "Blog",
   "projects.blog.description":
-    "Meu blog bilíngue, em inglês e português, feito com Astro, Tailwind CSS e MDX. É todo estático, com um feed RSS por idioma, busca por texto ou #tag e uma checagem de traduções que roda no CI antes de cada build.",
+    "Onde escrevo sobre código, as ferramentas que uso e o que vou descobrindo pelo caminho, em português e inglês. Feito com Astro, então as páginas carregam quase sem JavaScript.",
 
   "projects.pixDonation.title": "Sistema de Doações via PIX",
   "projects.pixDonation.description":
-    "Uma página que gera QR Codes PIX para doações, com seleção de estado e cidade e valor livre. O gerador de BR Code foi escrito em JavaScript puro.",
+    "Uma página de doação que transforma qualquer valor em um QR Code PIX. Escolha o estado e a cidade, digite o valor, escaneie e pague. O código PIX por trás dele é gerado em JavaScript puro.",
 
   "projects.scrolled.title": "Scrolled",
   "projects.scrolled.description":
-    "Uma extensão para Firefox que adiciona um pequeno indicador de rolagem, para você ver quanto da página já leu. Ajuda em artigos longos e documentação.",
+    "Uma extensão pequena para Firefox que mostra quanto da página você já leu. Ajuda quando você está no meio de um artigo longo ou de uma documentação.",
 
   "projects.feedPet.title": "Feed Pet",
   "projects.feedPet.description":
-    "Um app em Next.js e shadcn/ui para registrar quando cada pet comeu, para ninguém em casa alimentar duas vezes ou esquecer.",
+    'Feito para acabar com o "alguém já deu comida pros bichos?" lá em casa. Registre cada refeição e veja quando cada pet comeu pela última vez.',
 
   "projects.cssCursorGallery.title": "Galeria de Cursores CSS",
   "projects.cssCursorGallery.description":
-    "Uma galeria interativa com todos os cursores do CSS. Dá para buscar um cursor e copiar o valor com um clique. Feita com HTML, CSS moderno (:is(), light-dark(), nesting, backdrop-filter) e JavaScript puro.",
+    "Todos os cursores do CSS em uma página, para você ver em vez de adivinhar. Busque um cursor e copie o valor com um clique.",
 
   "projects.urlShort.title": "URL Short",
-  "projects.urlShort.description": "Um encurtador de links: cole um link longo e receba um curto.",
+  "projects.urlShort.description": "Cole um link longo e receba um curto.",
 
   "projects.snapTheWeb.title": "Snap The Web",
   "projects.snapTheWeb.description":
-    "Um app web que tira um print de qualquer site a partir da URL, com algumas opções para ajustar a captura.",
+    "Digite uma URL e receba um print do site, com algumas opções para ajustar a captura.",
 
   "projects.getCat.title": "Get Cat",
   "projects.getCat.description":
-    "Um app pequeno que mostra uma foto aleatória de gato e uma curiosidade.",
+    "Uma foto aleatória de gato e uma curiosidade a cada carregamento. Feito por diversão.",
 
   "projects.nautilusCopy.title": "Nautilus Copy File Contents",
   "projects.nautilusCopy.description":
-    "Uma extensão do Nautilus que copia o conteúdo de um arquivo de texto com um clique.",
+    "Copie o conteúdo de um arquivo de texto direto do Nautilus, o gerenciador de arquivos do GNOME, com um clique.",
 
   "projects.decomp.title": "decomp",
-  "projects.decomp.description": "Uma ferramenta de linha de comando para descompactar arquivos.",
+  "projects.decomp.description":
+    "Uma ferramenta pequena de linha de comando para descompactar arquivos.",
 
   "projects.harbor.title": "Harbor",
   "projects.harbor.description":
-    "Um daemon em Rust que organiza arquivos. Ele observa pastas e move arquivos por extensão, tipo MIME, tamanho ou data. Espera os downloads terminarem, resolve conflitos de nome e movimentações entre discos, e recarrega a configuração sem reiniciar. Usa threads nativas em vez de um runtime assíncrono.",
+    "Mantém pastas como a de Downloads organizadas sozinho. O Harbor observa essas pastas e move cada arquivo para o lugar certo, seguindo regras que você escreve por tipo, tamanho ou data. Escrito em Rust, espera os downloads terminarem e aplica mudanças nas regras sem reiniciar.",
 
   "projects.redditAutoTheme.title": "Reddit Auto Theme",
   "projects.redditAutoTheme.description":
-    "Uma extensão para Firefox que troca o Reddit entre claro e escuro conforme o tema do sistema.",
+    "Faz o Reddit trocar entre claro e escuro junto com o tema do seu sistema.",
 
   "about.title": "Sobre",
   "about.paragraph1":
-    "Sou engenheiro de software em Salvador. A maior parte do meu trabalho é web e mobile, com React, Next.js e React Native. Também gosto de descer na stack, então escrevo extensões do GNOME e apps GTK em Python e JavaScript, e um pouco de Rust.",
+    "Sou engenheiro de software em Salvador. No trabalho, desenvolvo produtos web e mobile com React, Next.js e React Native. A maior parte disso é privada, então o que você vê aqui são projetos meus.",
   "about.paragraph2":
-    "Gosto de software simples de usar e simples de manter. Automatizo o que se repete, de pipelines de CI a empacotamento, e presto atenção em acessibilidade e nos detalhes pequenos de uma interface.",
+    "Também gosto de descer na stack: extensões do GNOME, apps GTK e um pouco de Rust. Seja qual for a camada, quero software simples de usar e fácil de manter, e deixo a automação cuidar do que é repetitivo.",
   "about.stack.title": "Caixa de ferramentas",
-  "about.stack.hint": "Arraste o cartão de cima para o lado, ou use o botão, para ver os outros.",
+  "about.stack.hint": "Arraste o cartão de cima para ver o próximo.",
   "about.stack.next": "Próximo cartão",
   "about.stack.position": "Cartão {index} de {total}",
   "skills.languages": "Linguagens",
@@ -133,7 +132,7 @@ export const ptBR: Record<TranslationKeys, string> = {
 
   "contact.title": "Fale comigo",
   "contact.subtitle":
-    "Escreva sobre uma vaga, um projeto ou qualquer outra coisa. Pode ser por e-mail ou pelo formulário.",
+    "Seja uma vaga, um projeto ou uma dúvida, vou gostar de receber sua mensagem.",
   "contact.email": "E-mail",
   "contact.copy": "Copiar endereço de e-mail",
   "contact.copied": "Endereço de e-mail copiado",
@@ -147,9 +146,10 @@ export const ptBR: Record<TranslationKeys, string> = {
   "contact.form.sending": "Enviando...",
   "contact.form.namePlaceholder": "Seu nome",
   "contact.form.emailPlaceholder": "voce@exemplo.com",
-  "contact.form.messagePlaceholder": "Sobre o que você quer conversar?",
-  "contact.form.success": "Mensagem enviada. Respondo por e-mail.",
-  "contact.form.error": "Sua mensagem não foi enviada. Tente de novo ou me mande um e-mail.",
+  "contact.form.messagePlaceholder": "Conte um pouco sobre isso",
+  "contact.form.success": "Valeu, sua mensagem chegou. Respondo por e-mail.",
+  "contact.form.error":
+    "Algo deu errado e a mensagem não foi enviada. Tente de novo ou me mande um e-mail.",
   "contact.form.error.name": "O nome precisa ter pelo menos 2 caracteres",
   "contact.form.error.email": "Digite um e-mail válido",
   "contact.form.error.message": "A mensagem precisa ter pelo menos 10 caracteres",
