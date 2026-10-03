@@ -69,3 +69,15 @@ describe("helpers", () => {
     expect(previewKind("https://get-cat.vercel.app/")).toBe("demo");
   });
 });
+
+describe("media assets", () => {
+  test("every video has a poster file in public/", async () => {
+    for (const p of projects.filter((x) => x.video)) {
+      expect({ slug: projectSlug(p), poster: p.video?.poster ?? null }).not.toEqual({
+        slug: projectSlug(p),
+        poster: null,
+      });
+      expect(await Bun.file(`public${p.video?.poster}`).exists()).toBe(true);
+    }
+  });
+});

@@ -2,6 +2,7 @@ import type { Platform } from "@/lib/projects";
 
 export type Video = {
   sources: { url: string; type: string }[];
+  poster: string;
 };
 
 export type Project = {
@@ -22,6 +23,7 @@ export const projects: Project[] = [
     platform: "gnome",
     descriptionKey: "projects.quickLofi.description",
     video: {
+      poster: "/posters/quick-lofi.webp",
       sources: [
         {
           url: "https://github.com/EuCaue/gnome-shell-extension-quick-lofi/assets/69485603/351f34da-023c-4b28-94d6-b49ca83aa34d",
@@ -39,6 +41,7 @@ export const projects: Project[] = [
     platform: "gnome",
     descriptionKey: "projects.flexa.description",
     video: {
+      poster: "/posters/flexa.webp",
       sources: [
         {
           url: "/flexa.mp4",
@@ -63,6 +66,7 @@ export const projects: Project[] = [
     platform: "extension",
     descriptionKey: "projects.scrolled.description",
     video: {
+      poster: "/posters/scrolled.webp",
       sources: [
         {
           url: "/scrolled.mp4",
@@ -89,6 +93,7 @@ export const projects: Project[] = [
     platform: "web",
     descriptionKey: "projects.pixDonation.description",
     video: {
+      poster: "/posters/pix-donation.webp",
       sources: [
         {
           url: "/pix-donation.mp4",
@@ -130,6 +135,7 @@ export const projects: Project[] = [
     platform: "web",
     descriptionKey: "projects.cssCursorGallery.description",
     video: {
+      poster: "/posters/css-cursor-gallery.webp",
       sources: [
         {
           url: "https://github.com/user-attachments/assets/9407b33c-5f1b-4e89-92ca-332cd34565d6",
@@ -166,6 +172,7 @@ export const projects: Project[] = [
     platform: "extension",
     descriptionKey: "projects.redditAutoTheme.description",
     video: {
+      poster: "/posters/reddit-auto-theme.webp",
       sources: [{ type: "mp4", url: "/reddit-auto-theme.mp4" }],
     },
     tags: [

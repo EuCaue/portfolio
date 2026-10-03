@@ -24,7 +24,7 @@ export const filterProjects = (list: Project[], f: Filters) =>
 export const techOptions = (list: Project[]) => {
   const counts = new Map<string, number>();
   for (const p of list) for (const t of p.tags) counts.set(t, (counts.get(t) ?? 0) + 1);
-  return [...counts]
+  return Array.from(counts)
     .filter(([, count]) => count > 1)
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
     .map(([tag, count]) => ({ tag, count }));
