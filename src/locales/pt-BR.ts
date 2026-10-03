@@ -1,133 +1,151 @@
 import type { TranslationKeys } from "./en";
 
 export const ptBR: Record<TranslationKeys, string> = {
-  "nav.home": "Início",
   "nav.about": "Sobre",
   "nav.projects": "Projetos",
   "nav.contact": "Contato",
+  "nav.blog": "Blog",
+  "nav.links": "Links",
   "nav.resume": "Currículo",
   "nav.resumeUrl": "/api/resume/pt",
+  "nav.menu": "Abrir menu",
+  "theme.toggle": "Alternar entre tema claro e escuro",
+  "language.change": "Mudar idioma",
+  "language.en": "Inglês",
+  "language.pt-BR": "Português",
 
-  "intro.hello": "Olá, eu sou",
   "intro.role": "Engenheiro de Software",
   "intro.location": "Salvador, Brasil",
   "intro.description":
-    "Engenheiro de Software apaixonado por construir soluções digitais completas de aplicações web e mobile até integrações nativas de desktop e ferramentas de sistema.",
-  "intro.viewWork": "Ver Meus Trabalhos",
-  "intro.getInTouch": "Entre em Contato",
-  "intro.scrollDown": "Rolar para Baixo",
-  "intro.downloadCv": "Baixar CV",
-
-  "about.title": "Sobre Mim",
-  "about.paragraph1":
-    "Sou um engenheiro de software que gosta de transitar por diferentes camadas da tecnologia. Minha experiência vai desde a criação de interfaces modernas e responsivas para web e mobile (React, Next.js, React Native) até o desenvolvimento de aplicações desktop nativas e extensões de sistema para Linux/GNOME com Python e JavaScript.",
-  "about.paragraph2":
-    "Acredito na tecnologia como ferramenta para resolver problemas reais de forma simples e eficiente. Combino rigor técnico, boas práticas de design e automação inteligente no dia a dia para construir experiências robustas por trás dos panos e fluidas para o usuário.",
-  "about.skills": "Minhas Habilidades",
-  "about.visual.development": "Desenvolvimento",
-  "about.visual.cli": "Ferramentas CLI",
-  "about.visual.design": "Design",
-  "about.visual.architecture": "Arquitetura",
-  "skills.languages": "Linguagens",
-  "skills.frontend": "Frontend",
-  "skills.desktopBackend": "Desktop & Backend",
-  "skills.tools": "Ferramentas & Workflow",
+    "Desenvolvo apps web e mobile com React, Next.js e React Native. Também escrevo software para o desktop Linux: extensões do GNOME, apps GTK e ferramentas de linha de comando.",
+  "intro.downloadCv": "Baixar currículo",
+  "intro.getInTouch": "Fale comigo",
 
   "projects.title": "Projetos",
   "projects.subtitle":
-    "Aqui estão alguns dos meus projetos recentes. Cada um foi construído com foco em resolver problemas reais com código limpo e eficiente.",
-  "projects.github": "GitHub",
-  "projects.liveDemo": "Demonstração",
-  "projects.featured": "Projetos em Destaque",
-  "projects.other": "Outros Projetos",
-  "projects.openPreview": "Abrir prévia",
+    "Apps web, extensões de navegador e ferramentas para o desktop Linux. Selecione um projeto para abrir a prévia e os detalhes.",
+  "projects.featured": "Destaques",
+  "projects.other": "Mais projetos",
+
+  "filter.platform": "Filtrar por plataforma",
+  "filter.all": "Todos",
+  "platform.web": "Web",
+  "platform.mobile": "Mobile",
+  "platform.extension": "Extensões de navegador",
+  "platform.gnome": "GNOME / Linux",
+  "platform.cli": "Linha de comando",
+  "filter.tech": "Tecnologia",
+  "filter.anyTech": "Qualquer tecnologia",
+  "filter.count": "Mostrando {shown} de {total} projetos",
+  "filter.countAll": "{total} projetos",
+  "filter.empty": "Nenhum projeto corresponde a esses filtros.",
+  "filter.clear": "Limpar filtros",
+
+  "project.open": "Ver detalhes de {name}",
+  "project.source": "GitHub",
+  "project.store": "Página na loja",
+  "project.demo": "Ver online",
+  "project.published": "Publicado em {host}",
+  "project.online": "No ar",
+  "project.noPreview": "Sem prévia disponível",
+  "project.prev": "Projeto anterior",
+  "project.next": "Próximo projeto",
+  "project.close": "Fechar",
+  "project.dragHint": "Arraste para mover",
+  "project.builtWith": "Feito com",
+  "project.sourcePrivate": "Código não público",
+  "project.position": "{index} de {total}",
 
   "projects.flexa.title": "Flexa",
   "projects.flexa.description":
-    "Um aplicativo nativo GNOME para converter temas de cursor do Windows para o formato Linux. Desenvolvido com Python, GTK4 e LibAdwaita, com pipeline de CI/CD automatizado via GitHub Actions para empacotamento em Flatpak e RPM.",
+    "Um app para GNOME que converte temas de cursor do Windows para o formato do Linux. Escrito em Python com GTK4 e LibAdwaita. O GitHub Actions gera os pacotes Flatpak e RPM.",
 
   "projects.quickLofi.title": "Quick Lofi",
   "projects.quickLofi.description":
-    "Uma extensão do GNOME Shell que permite ouvir Lo-fi com um único clique. Leve, perfeitamente integrada — alcançou mais de 10.000 downloads na loja oficial de extensões do GNOME.",
+    "Uma extensão do GNOME Shell que toca rádio lo-fi pela barra superior com um clique. Já passou de 10.000 downloads no site oficial de extensões do GNOME.",
 
   "projects.autoVolume.title": "Auto Volume",
   "projects.autoVolume.description":
-    "Um utilitário mobile em React Native que previne danos auditivos reduzindo automaticamente o volume ao conectar fones de ouvido. Roda invisível em background com notificações persistentes do sistema. Construído com React Native (Expo).",
+    "Um app em React Native (Expo) que baixa o volume quando o fone de ouvido é conectado, para proteger a audição. Roda em segundo plano e mantém uma notificação fixa.",
 
   "projects.pixDonation.title": "Sistema de Doações via PIX",
   "projects.pixDonation.description":
-    "Uma página simples e rápida que gera QR Codes PIX para doações. Inclui seleção de estado e cidade, valores dinâmicos e um gerador completo de BR Code feito em JavaScript puro.",
+    "Uma página que gera QR Codes PIX para doações, com seleção de estado e cidade e valor livre. O gerador de BR Code foi escrito em JavaScript puro.",
 
   "projects.scrolled.title": "Scrolled",
   "projects.scrolled.description":
-    "Scrolled é uma extensão leve para Firefox que adiciona um indicador sutil de rolagem, mostrando quanto da página você já leu. Perfeita para leitores, pesquisadores ou qualquer pessoa que queira um retorno visual melhor ao navegar por conteúdos longos.",
+    "Uma extensão para Firefox que adiciona um pequeno indicador de rolagem, para você ver quanto da página já leu. Ajuda em artigos longos e documentação.",
 
   "projects.feedPet.title": "Feed Pet",
   "projects.feedPet.description":
-    "Um aplicativo web simples desenvolvido com Next.js e shadcn/ui para ajudar os usuários a acompanhar os horários de alimentação dos pets. Criado para evitar confusões em casa e garantir que todos os pets sejam alimentados na hora certa, com uma interface limpa e intuitiva.",
+    "Um app em Next.js e shadcn/ui para registrar quando cada pet comeu, para ninguém em casa alimentar duas vezes ou esquecer.",
 
   "projects.cssCursorGallery.title": "Galeria de Cursores CSS",
   "projects.cssCursorGallery.description":
-    "Um projeto experimental que reúne de forma interativa todos os cursores disponíveis no CSS. Desenvolvido com HTML5, CSS moderno (incluindo :is, light-dark(), backdrop-filter, CSS Nesting e glassmorphism) e JavaScript Vanilla. O usuário pode explorar, buscar por cursores específicos e copiar o valor em um clique.",
+    "Uma galeria interativa com todos os cursores do CSS. Dá para buscar um cursor e copiar o valor com um clique. Feita com HTML, CSS moderno (:is(), light-dark(), nesting, backdrop-filter) e JavaScript puro.",
 
   "projects.myMovies.title": "My Movies",
-  "projects.myMovies.description":
-    "Um aplicativo web para ajudar você a organizar sua lista de filmes de forma prática e moderna. O objetivo é tornar o gerenciamento de seus filmes simples e intuitivo, com uma estrutura robusta que garante segurança e desempenho de primeira linha.",
+  "projects.myMovies.description": "Um app web para guardar e organizar sua lista de filmes.",
 
   "projects.urlShort.title": "URL Short",
-  "projects.urlShort.description":
-    "Uma aplicação web que permite aos usuários encurtar URLs de forma rápida e segura. Focada em oferecer uma experiência sem complicações, o aplicativo garante eficiência e simplicidade no gerenciamento de URLs.",
+  "projects.urlShort.description": "Um encurtador de links: cole um link longo e receba um curto.",
 
   "projects.snapTheWeb.title": "Snap The Web",
   "projects.snapTheWeb.description":
-    "Um aplicativo web que permite aos usuários capturar capturas de tela de sites sem esforço. Com foco na usabilidade, o aplicativo oferece uma solução direta e personalizável para tirar capturas de tela baseadas em navegador.",
+    "Um app web que tira um print de qualquer site a partir da URL, com algumas opções para ajustar a captura.",
 
   "projects.getCat.title": "Get Cat",
-  "projects.getCat.description":
-    "Um aplicativo divertido que exibe fotos e curiosidades aleatórias sobre gatos. Com foco na simplicidade e na experiência do usuário, o app proporciona uma interação agradável e descomplicada.",
+  "projects.getCat.description": "Um app pequeno que mostra uma foto aleatória de gato e uma curiosidade.",
 
   "projects.nautilusCopy.title": "Nautilus Copy File Contents",
   "projects.nautilusCopy.description":
-    "Uma extensão simples para o Nautilus que permite copiar rapidamente o conteúdo de um arquivo de texto com um clique.",
+    "Uma extensão do Nautilus que copia o conteúdo de um arquivo de texto com um clique.",
 
   "projects.decomp.title": "decomp",
-  "projects.decomp.description": "Uma maneira simples de descomprimir arquivos.",
+  "projects.decomp.description": "Uma ferramenta de linha de comando para descompactar arquivos.",
 
   "projects.harbor.title": "Harbor",
   "projects.harbor.description":
-    "Um daemon que organiza arquivos observando pastas e movendo arquivos por regras de extensão, tipo MIME, tamanho e data. Feito em Rust com threads nativas e sem runtime assíncrono, aguarda downloads terminarem, resolve conflitos de nome e trocas entre discos, e recarrega a configuração sem reiniciar.",
+    "Um daemon em Rust que organiza arquivos. Ele observa pastas e move arquivos por extensão, tipo MIME, tamanho ou data. Espera os downloads terminarem, resolve conflitos de nome e movimentações entre discos, e recarrega a configuração sem reiniciar. Usa threads nativas em vez de um runtime assíncrono.",
 
   "projects.redditAutoTheme.title": "Reddit Auto Theme",
   "projects.redditAutoTheme.description":
-    "Uma extensão simples que sincroniza o tema do Reddit com o tema do seu sistema.",
+    "Uma extensão para Firefox que troca o Reddit entre claro e escuro conforme o tema do sistema.",
 
-  "contact.title": "Entre em Contato",
+  "about.title": "Sobre",
+  "about.paragraph1":
+    "Sou engenheiro de software em Salvador. A maior parte do meu trabalho é web e mobile, com React, Next.js e React Native. Também gosto de descer na stack, então escrevo extensões do GNOME e apps GTK em Python e JavaScript, e um pouco de Rust.",
+  "about.paragraph2":
+    "Gosto de software simples de usar e simples de manter. Automatizo o que se repete, de pipelines de CI a empacotamento, e presto atenção em acessibilidade e nos detalhes pequenos de uma interface.",
+  "about.stack.title": "Caixa de ferramentas",
+  "about.stack.hint": "Arraste o cartão de cima para o lado, ou use o botão, para ver os outros.",
+  "about.stack.next": "Próximo cartão",
+  "about.stack.position": "Cartão {index} de {total}",
+  "skills.languages": "Linguagens",
+  "skills.frontend": "Frontend",
+  "skills.desktopBackend": "Desktop e Backend",
+  "skills.tools": "Ferramentas e fluxo",
+
+  "contact.title": "Fale comigo",
   "contact.subtitle":
-    "Tem um projeto em mente ou apenas quer dizer olá? Sinta-se à vontade para entrar em contato!",
-  "contact.info.title": "Informações de Contato",
-  "contact.info.subtitle": "Conecte-se comigo através destas plataformas",
-  "contact.info.email": "E-mail",
-  "contact.form.title": "Envie uma Mensagem",
-  "contact.form.subtitle": "Preencha o formulário abaixo e eu retornarei o mais breve possível",
+    "Escreva sobre uma vaga, um projeto ou qualquer outra coisa. Pode ser por e-mail ou pelo formulário.",
+  "contact.email": "E-mail",
+  "contact.copy": "Copiar endereço de e-mail",
+  "contact.copied": "Endereço de e-mail copiado",
   "contact.form.name": "Nome",
   "contact.form.email": "E-mail",
   "contact.form.message": "Mensagem",
-  "contact.form.submit": "Enviar Mensagem",
+  "contact.form.submit": "Enviar mensagem",
   "contact.form.sending": "Enviando...",
   "contact.form.namePlaceholder": "Seu nome",
-  "contact.form.emailPlaceholder": "Seu e-mail",
-  "contact.form.messagePlaceholder": "Sua mensagem",
-  "contact.form.success": "Sua mensagem foi enviada! Retorno em breve.",
-  "contact.form.error": "Falha ao enviar sua mensagem. Tente novamente mais tarde.",
-  "contact.form.error.name": "O nome deve ter pelo menos 2 caracteres",
-  "contact.form.error.email": "Digite um endereço de e-mail válido",
-  "contact.form.error.message": "A mensagem deve ter pelo menos 10 caracteres",
-  "contact.form.toast.success": "Sucesso",
-  "contact.form.toast.error": "Erro",
+  "contact.form.emailPlaceholder": "voce@exemplo.com",
+  "contact.form.messagePlaceholder": "Sobre o que você quer conversar?",
+  "contact.form.success": "Mensagem enviada. Respondo por e-mail.",
+  "contact.form.error": "Sua mensagem não foi enviada. Tente de novo ou me mande um e-mail.",
+  "contact.form.error.name": "O nome precisa ter pelo menos 2 caracteres",
+  "contact.form.error.email": "Digite um e-mail válido",
+  "contact.form.error.message": "A mensagem precisa ter pelo menos 10 caracteres",
 
   "footer.rights": "Todos os direitos reservados.",
   "footer.resume": "Currículo",
-
-  "language.en": "Inglês",
-  "language.pt-BR": "Português",
 };
