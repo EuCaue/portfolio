@@ -4,6 +4,7 @@ import {
   filterProjects,
   findProjectBySlug,
   mediaKind,
+  neighbors,
   previewKind,
   projectSlug,
   slugFromKey,
@@ -59,9 +60,9 @@ describe("helpers", () => {
     expect(opts[0].count).toBeGreaterThanOrEqual(opts[opts.length - 1].count);
   });
   test("mediaKind", () => {
-    expect(mediaKind(findProjectBySlug("auto-volume")!)).toBe("none");
-    expect(mediaKind(findProjectBySlug("harbor")!)).toBe("image");
-    expect(mediaKind(findProjectBySlug("flexa")!)).toBe("video");
+    expect(mediaKind(findProjectBySlug("auto-volume") ?? projects[0])).toBe("none");
+    expect(mediaKind(findProjectBySlug("harbor") ?? projects[0])).toBe("image");
+    expect(mediaKind(findProjectBySlug("flexa") ?? projects[0])).toBe("video");
   });
   test("previewKind tells store pages from demos", () => {
     expect(previewKind("https://extensions.gnome.org/extension/6904/quick-lofi/")).toBe("store");
@@ -79,5 +80,14 @@ describe("media assets", () => {
       });
       expect(await Bun.file(`public${p.video?.poster}`).exists()).toBe(true);
     }
+  });
+});
+
+describe("neighbors", () => {
+  test("walks the full list and wraps at both ends", () => {
+    const first = projectSlug(projects[0]);
+    const last = projectSlug(projects[projects.length - 1]);
+    expect(neighbors(first)).toEqual({ prev: last, next: projectSlug(projects[1]), index: 1 });
+    expect(neighbors(last).next).toBe(first);
   });
 });

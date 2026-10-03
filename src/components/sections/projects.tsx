@@ -1,251 +1,141 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ExternalLink, FolderGit, GithubIcon } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Suspense, useRef } from "react";
+import { ProjectCard } from "@/components/portfolio/project-card";
+import { ProjectDialog } from "@/components/portfolio/project-dialog";
+import { ProjectFilters } from "@/components/portfolio/project-filters";
+import { ProjectRow } from "@/components/portfolio/project-row";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/language-context";
-import { type Project, projects } from "@/data/projects";
+import { projects } from "@/data/projects";
+import { useUrlState } from "@/hooks/use-url-state";
+import { fill } from "@/lib/format";
+import { filterProjects, projectSlug } from "@/lib/projects";
+import type { UrlState } from "@/lib/url-state";
+
+const EMPTY: UrlState = { platform: null, tech: null, project: null };
+const noop = () => {};
 
 export default function Projects() {
-  const { t } = useLanguage();
-
-  const featuredProjects = projects.filter((p) => p.featured);
-  const otherProjects = projects.filter((p) => !p.featured);
-
   return (
-    <section id="projects" className="py-20">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        viewport={{ once: true }}
-        className="space-y-16"
-      >
-        <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{t("projects.title")}</h2>
-          <div className="mt-1 h-1 w-12 bg-primary mx-auto"></div>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-            {t("projects.subtitle")}
-          </p>
-        </div>
-
-        <div className="space-y-8">
-          <h3 className="text-2xl font-bold border-b pb-2 text-foreground/90">
-            ⭐ {t("projects.featured")}
-          </h3>
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredProjects.map((project, index) => (
-              <ProjectCard
-                project={project}
-                index={index}
-                key={project.titleKey}
-                isFeatured={true}
-              />
-            ))}
-          </div>
-        </div>
-
-        <div className="space-y-8 pt-6">
-          <h3 className="text-2xl font-bold border-b pb-2 text-foreground/90">
-            📁 {t("projects.other")}
-          </h3>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {otherProjects.map((project, index) => (
-              <ProjectCard
-                project={project}
-                index={index}
-                key={project.titleKey}
-                isFeatured={false}
-              />
-            ))}
-          </div>
-        </div>
-      </motion.div>
+    <section id="projects" aria-labelledby="projects-title" className="border-t py-20 md:py-24">
+      <div className="container">
+        <h2 id="projects-title" className="text-3xl font-semibold tracking-[-0.03em]">
+          <ProjectsTitle />
+        </h2>
+        <Suspense fallback={<ProjectsView state={EMPTY} onChange={noop} />}>
+          <ProjectsWithUrl />
+        </Suspense>
+      </div>
     </section>
   );
 }
 
-type ProjectProps = {
-  project: Project;
-  index: number;
-  isFeatured: boolean;
-};
-
-function ProjectCard({ project, index, isFeatured }: ProjectProps) {
+function ProjectsTitle() {
   const { t } = useLanguage();
-  return (
-    <Dialog>
-      <motion.div
-        key={project.titleKey}
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: index * 0.05 }}
-        viewport={{ once: true }}
-        className="h-full"
-      >
-        <Card
-          className={`h-full overflow-hidden transition-all hover:shadow-lg flex flex-col justify-between ${
-            isFeatured ? "border-primary/20 bg-card/60" : "border-border/60"
-          }`}
-        >
-          <div>
-            <div className="aspect-video overflow-hidden bg-muted flex items-center justify-center relative">
-              {project.image || project.video ? (
-                <DialogTrigger asChild>
-                  <button
-                    type="button"
-                    className="w-full h-full cursor-zoom-in text-left"
-                    aria-label={t("projects.openPreview")}
-                  >
-                    {project.video ? (
-                      <video
-                        controls={false}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        preload="metadata"
-                        aria-label={t(project.titleKey)}
-                        className="h-full w-full object-cover transition-transform hover:scale-105"
-                      >
-                        {project.video.sources.map(({ type, url }) => (
-                          <source src={url} type={`video/${type}`} key={url} />
-                        ))}
-                      </video>
-                    ) : (
-                      <img
-                        src={project.image || "/placeholder.svg"}
-                        alt={t(project.titleKey)}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition-transform hover:scale-105"
-                      />
-                    )}
-                  </button>
-                </DialogTrigger>
-              ) : (
-                <div className="flex flex-col items-center justify-center p-6 text-muted-foreground">
-                  <FolderGit className="h-12 w-12 mb-2" />
-                  <p className="text-sm">{t("projects.openPreview")}</p>
-                </div>
-              )}
-            </div>
-            <CardHeader className="p-5">
-              <CardTitle className="text-xl">{t(project.titleKey)}</CardTitle>
-              <div className="flex flex-wrap gap-1.5 pt-2">
-                {project.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-semibold text-secondary-foreground"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </CardHeader>
-            <CardContent className="px-5 pb-4 pt-0">
-              <CardDescription className="text-sm text-muted-foreground line-clamp-4 leading-relaxed">
-                {t(project.descriptionKey)}
-              </CardDescription>
-            </CardContent>
-          </div>
-          <CardFooter className="p-5 pt-0 flex gap-2">
-            {project.github && (
-              <Button variant="outline" size="sm" asChild className="h-8 text-xs">
-                <a href={project.github} target="_blank" rel="noopener noreferrer">
-                  <GithubIcon className="mr-1.5 h-3.5 w-3.5" />
-                  {t("projects.github")}
-                </a>
-              </Button>
-            )}
-            {project.preview && (
-              <Button size="sm" asChild className="h-8 text-xs">
-                <a href={project.preview} target="_blank" rel="noopener noreferrer">
-                  <ExternalLink className="mr-1.5 h-3.5 w-3.5" />
-                  {t("projects.liveDemo")}
-                </a>
-              </Button>
-            )}
-          </CardFooter>
-        </Card>
-      </motion.div>
+  return <>{t("projects.title")}</>;
+}
 
-      <DialogContent className="max-w-4xl w-[90vw] overflow-y-auto max-h-[90vh]">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold mb-2">{t(project.titleKey)}</DialogTitle>
-          <DialogDescription className="text-sm leading-relaxed text-foreground/80 mb-4">
-            {t(project.descriptionKey)}
-          </DialogDescription>
-        </DialogHeader>
-        {(project.image || project.video) && (
-          <div className="aspect-video w-full overflow-hidden bg-muted rounded-lg border border-border flex items-center justify-center mb-4">
-            {project.video ? (
-              <video
-                controls
-                autoPlay
-                loop
-                muted
-                className="w-full h-full object-contain"
-                aria-label={t(project.titleKey)}
-              >
-                {project.video.sources.map(({ type, url }) => (
-                  <source src={url} type={`video/${type}`} key={url} />
-                ))}
-              </video>
-            ) : (
-              <img
-                src={project.image || "/placeholder.svg"}
-                alt={t(project.titleKey)}
-                loading="lazy"
-                className="w-full h-full object-contain"
-              />
-            )}
-          </div>
-        )}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {project.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-semibold text-secondary-foreground"
-            >
-              {tag}
-            </span>
-          ))}
+function ProjectsWithUrl() {
+  const [state, set] = useUrlState();
+  // Remember what opened the dialog so focus can go back there when it closes.
+  const opener = useRef<HTMLElement | null>(null);
+  const change = (patch: Partial<UrlState>) => {
+    if (patch.project && !state.project)
+      opener.current = document.activeElement as HTMLElement | null;
+    set(patch);
+  };
+  return (
+    <>
+      <ProjectsView state={state} onChange={change} />
+      <ProjectDialog
+        slug={state.project}
+        returnFocus={() => opener.current?.focus()}
+        onClose={() => set({ project: null })}
+        onNavigate={(slug) => set({ project: slug })}
+      />
+    </>
+  );
+}
+
+function ProjectsView({
+  state,
+  onChange,
+}: {
+  state: UrlState;
+  onChange: (p: Partial<UrlState>) => void;
+}) {
+  const { t } = useLanguage();
+  const shown = filterProjects(projects, state);
+  const featured = shown.filter((p) => p.featured);
+  const others = shown.filter((p) => !p.featured);
+  const open = (slug: string) => onChange({ project: slug });
+  const filtered = state.platform || state.tech;
+
+  return (
+    <>
+      <p className="mt-2 max-w-[60ch] text-muted-foreground">{t("projects.subtitle")}</p>
+      <div className="mt-8">
+        <ProjectFilters state={state} onChange={onChange} />
+        <p role="status" className="mt-3 text-xs text-muted-foreground">
+          {filtered
+            ? fill(t("filter.count"), { shown: shown.length, total: projects.length })
+            : fill(t("filter.countAll"), { total: projects.length })}
+        </p>
+      </div>
+
+      {shown.length === 0 && (
+        <div className="mt-10 rounded-xl border border-dashed px-6 py-14 text-center">
+          <p className="text-muted-foreground">{t("filter.empty")}</p>
+          <Button
+            variant="outline"
+            className="mt-4"
+            onClick={() => onChange({ platform: null, tech: null })}
+          >
+            {t("filter.clear")}
+          </Button>
         </div>
-        <div className="flex gap-2">
-          {project.github && (
-            <Button variant="outline" size="sm" asChild>
-              <a href={project.github} target="_blank" rel="noopener noreferrer">
-                <GithubIcon className="mr-1.5 h-4 w-4" />
-                {t("projects.github")}
-              </a>
-            </Button>
-          )}
-          {project.preview && (
-            <Button size="sm" asChild>
-              <a href={project.preview} target="_blank" rel="noopener noreferrer">
-                <ExternalLink className="mr-1.5 h-4 w-4" />
-                {t("projects.liveDemo")}
-              </a>
-            </Button>
-          )}
-        </div>
-      </DialogContent>
-    </Dialog>
+      )}
+
+      {featured.length > 0 && (
+        <>
+          <h3 className="mb-4 mt-10 text-sm font-medium text-muted-foreground">
+            {t("projects.featured")}
+          </h3>
+          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <AnimatePresence mode="popLayout" initial={false}>
+              {featured.map((p) => (
+                <motion.li
+                  key={projectSlug(p)}
+                  layout
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <ProjectCard project={p} onOpen={open} />
+                </motion.li>
+              ))}
+            </AnimatePresence>
+          </ul>
+        </>
+      )}
+
+      {others.length > 0 && (
+        <>
+          <h3 className="mb-4 mt-12 text-sm font-medium text-muted-foreground">
+            {t("projects.other")}
+          </h3>
+          <ul className="divide-y overflow-hidden rounded-xl border">
+            {others.map((p) => (
+              <li key={projectSlug(p)}>
+                <ProjectRow project={p} onOpen={open} />
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </>
   );
 }
