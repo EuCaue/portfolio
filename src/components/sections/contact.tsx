@@ -1,15 +1,12 @@
 "use client";
 
 import emailjs from "@emailjs/browser";
-import { CheckCircle2, Github, Linkedin, Loader2, TriangleAlert } from "lucide-react";
-import { type FormEvent, useRef, useState } from "react";
+import { CheckCircle2, Github, Linkedin, Loader2, Send, TriangleAlert } from "lucide-react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { CopyEmail } from "@/components/portfolio/copy-email";
 import { Reveal } from "@/components/portfolio/reveal";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { useLanguage } from "@/contexts/language-context";
 import { cn } from "@/lib/utils";
 
@@ -25,6 +22,11 @@ export default function Contact() {
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<Status>(null);
   const [sending, setSending] = useState(false);
+  const [modKey, setModKey] = useState("Ctrl");
+
+  useEffect(() => {
+    if (/Mac|iPhone|iPad/.test(navigator.userAgent)) setModKey("⌘");
+  }, []);
 
   const schema = z.object({
     name: z
@@ -89,29 +91,27 @@ export default function Contact() {
     }
   };
 
-  const field = (name: Field, input: (props: object) => React.ReactNode) => {
-    const errorId = `${name}-error`;
-    return (
-      <div className="grid gap-2">
-        <Label htmlFor={name}>{t(`contact.form.${name}`)}</Label>
-        {input({
-          id: name,
-          name,
-          placeholder: t(`contact.form.${name}Placeholder`),
-          "aria-invalid": errors[name] ? true : undefined,
-          "aria-describedby": errors[name] ? errorId : undefined,
-          onBlur: (ev: { target: { value: string } }) =>
-            errors[name] && validateField(name, ev.target.value),
-          className: cn(errors[name] && "border-destructive focus-visible:ring-destructive"),
-        })}
-        {errors[name] && (
-          <p id={errorId} className="text-xs font-medium text-destructive">
-            {errors[name]}
-          </p>
-        )}
-      </div>
+  // Field rows of a mail composer: label on the left, borderless input, error under it.
+  const inputProps = (name: Field) => ({
+    id: name,
+    name,
+    placeholder: t(`contact.form.${name}Placeholder`),
+    "aria-invalid": errors[name] ? true : undefined,
+    "aria-describedby": errors[name] ? `${name}-error` : undefined,
+    onBlur: (ev: { target: { value: string } }) =>
+      errors[name] && validateField(name, ev.target.value),
+  });
+  const error = (name: Field) =>
+    errors[name] && (
+      <p id={`${name}-error`} className="text-xs font-medium text-destructive">
+        {errors[name]}
+      </p>
     );
-  };
+  // Focus shows as a tinted row with a 2px underline, since the inputs themselves have no border.
+  const row =
+    "transition-[background-color,box-shadow] focus-within:bg-muted/40 focus-within:shadow-[inset_0_-2px_0_hsl(var(--foreground))]";
+  const bare =
+    "w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground/80 focus-visible:outline-none";
 
   return (
     <section id="contact" aria-labelledby="contact-title" className="border-t py-20 md:py-24">
@@ -156,31 +156,71 @@ export default function Contact() {
           <form
             ref={formRef}
             onSubmit={onSubmit}
+            onKeyDown={(e) => {
+              if ((e.metaKey || e.ctrlKey) && e.key === "Enter") formRef.current?.requestSubmit();
+            }}
             noValidate
-            className="grid gap-5 rounded-xl border p-6 sm:p-8"
+            aria-labelledby="composer-title"
+            className="relative overflow-hidden rounded-2xl border bg-card shadow-[0_24px_48px_-32px_rgb(0_0_0/0.35)]"
           >
-            <div className="grid gap-5 sm:grid-cols-2">
-              {field("name", (p) => (
-                <Input type="text" autoComplete="name" {...p} />
-              ))}
-              {field("email", (p) => (
-                <Input type="email" autoComplete="email" {...p} />
-              ))}
+            <div className="flex items-center justify-between gap-4 border-b px-5 py-3">
+              <p id="composer-title" className="text-sm font-medium">
+                {t("contact.form.newMessage")}
+              </p>
+              <p className="truncate text-xs text-muted-foreground">
+                {t("contact.form.to")} <span className="text-foreground">Cauê Souza</span>
+              </p>
             </div>
-            {field("message", (p) => (
-              <Textarea rows={6} className="resize-y" {...p} />
+
+            {(["name", "email"] as const).map((name) => (
+              <div key={name} className={cn("border-b px-5", row)}>
+                <div className="flex items-center gap-4">
+                  <label
+                    htmlFor={name}
+                    className={cn(
+                      "w-16 shrink-0 text-sm text-muted-foreground",
+                      errors[name] && "text-destructive",
+                    )}
+                  >
+                    {t(`contact.form.${name}`)}
+                  </label>
+                  <input
+                    type={name === "email" ? "email" : "text"}
+                    autoComplete={name}
+                    className={cn(bare, "h-12")}
+                    {...inputProps(name)}
+                  />
+                </div>
+                {errors[name] && <div className="pb-2 pl-20">{error(name)}</div>}
+              </div>
             ))}
+
+            <div className={cn("px-5 pb-2 pt-4", row)}>
+              <label
+                htmlFor="message"
+                className={cn(
+                  "text-sm text-muted-foreground",
+                  errors.message && "text-destructive",
+                )}
+              >
+                {t("contact.form.message")}
+              </label>
+              <textarea
+                rows={7}
+                className={cn(bare, "mt-2 block min-h-40 resize-y leading-relaxed")}
+                {...inputProps("message")}
+              />
+              {error("message")}
+            </div>
+
             <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
               <label htmlFor="website">Website</label>
               <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
             </div>
-            <div className="flex flex-wrap items-center gap-4">
-              <Button type="submit" disabled={sending} className="gap-2 px-6">
-                {sending && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
-                {sending ? t("contact.form.sending") : t("contact.form.submit")}
-              </Button>
-              <p role="status" aria-live="polite" className="text-sm">
-                {status && (
+
+            <div className="flex flex-wrap items-center justify-between gap-3 border-t bg-muted/30 px-5 py-3">
+              <p role="status" aria-live="polite" className="min-h-5 text-sm">
+                {status ? (
                   <span
                     className={cn(
                       "inline-flex items-center gap-2 font-medium",
@@ -194,8 +234,27 @@ export default function Contact() {
                     )}
                     {status.message}
                   </span>
+                ) : (
+                  <span className="hidden text-xs text-muted-foreground sm:inline">
+                    <kbd className="rounded border bg-background px-1.5 py-0.5 font-mono text-[11px]">
+                      {modKey}
+                    </kbd>{" "}
+                    +{" "}
+                    <kbd className="rounded border bg-background px-1.5 py-0.5 font-mono text-[11px]">
+                      Enter
+                    </kbd>{" "}
+                    {t("contact.form.shortcut")}
+                  </span>
                 )}
               </p>
+              <Button type="submit" disabled={sending} className="gap-2 px-5">
+                {sending ? (
+                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                ) : (
+                  <Send className="h-4 w-4" aria-hidden="true" />
+                )}
+                {sending ? t("contact.form.sending") : t("contact.form.submit")}
+              </Button>
             </div>
           </form>
         </Reveal>

@@ -6,6 +6,7 @@ import { ProjectCard } from "@/components/portfolio/project-card";
 import { ProjectDialog } from "@/components/portfolio/project-dialog";
 import { ProjectFilters } from "@/components/portfolio/project-filters";
 import { ProjectRow } from "@/components/portfolio/project-row";
+import { Spotlight } from "@/components/portfolio/spotlight";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/language-context";
 import { projects } from "@/data/projects";
@@ -14,6 +15,9 @@ import { fill } from "@/lib/format";
 import { filterProjects, projectSlug } from "@/lib/projects";
 import type { UrlState } from "@/lib/url-state";
 
+const SPOTLIGHT = "quick-lofi";
+// Five cards read as two wide and three narrow instead of a row with a hole in it.
+const SPANS = ["lg:col-span-3", "lg:col-span-3", "lg:col-span-2", "lg:col-span-2", "lg:col-span-2"];
 const EMPTY: UrlState = { platform: null, tech: null, project: null };
 const noop = () => {};
 
@@ -82,7 +86,10 @@ function ProjectsView({
 }) {
   const { t } = useLanguage();
   const shown = filterProjects(projects, state);
-  const featured = shown.filter((p) => p.featured);
+  // Quick Lofi, the most proven project, gets the spotlight; the other featured projects follow.
+  const spotlight = shown.find((p) => projectSlug(p) === SPOTLIGHT);
+  const featured = shown.filter((p) => p.featured && p !== spotlight);
+  const bento = featured.length === 5;
   const others = shown.filter((p) => !p.featured);
   const open = (slug: string) => onChange({ project: slug });
   const filtered = state.platform || state.tech;
@@ -112,28 +119,34 @@ function ProjectsView({
         </div>
       )}
 
+      {(spotlight || featured.length > 0) && (
+        <h3 className="mb-4 mt-10 text-sm font-medium text-muted-foreground">
+          {t("projects.featured")}
+        </h3>
+      )}
+      {spotlight && <Spotlight project={spotlight} onOpen={open} />}
       {featured.length > 0 && (
-        <>
-          <h3 className="mb-4 mt-10 text-sm font-medium text-muted-foreground">
-            {t("projects.featured")}
-          </h3>
-          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            <AnimatePresence mode="popLayout" initial={false}>
-              {featured.map((p) => (
-                <motion.li
-                  key={projectSlug(p)}
-                  layout
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.98 }}
-                  transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <ProjectCard project={p} onOpen={open} />
-                </motion.li>
-              ))}
-            </AnimatePresence>
-          </ul>
-        </>
+        <ul
+          className={`mt-5 grid gap-5 sm:grid-cols-2 ${bento ? "lg:grid-cols-6" : "lg:grid-cols-3"}`}
+        >
+          <AnimatePresence mode="popLayout" initial={false}>
+            {featured.map((p, i) => (
+              <motion.li
+                key={projectSlug(p)}
+                className={
+                  bento ? `${SPANS[i]} ${i === 4 ? "sm:col-span-2 lg:col-span-2" : ""}` : ""
+                }
+                layout
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <ProjectCard project={p} onOpen={open} />
+              </motion.li>
+            ))}
+          </AnimatePresence>
+        </ul>
       )}
 
       {others.length > 0 && (

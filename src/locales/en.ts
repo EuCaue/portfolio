@@ -27,6 +27,9 @@ export const en = {
     "A mix of web apps, browser extensions and Linux desktop tools. Select a project to open its preview and details.",
   "projects.featured": "Featured",
   "projects.other": "More projects",
+  "spotlight.downloads": "downloads on the GNOME Extensions site",
+  "spotlight.summary":
+    "A GNOME Shell extension that plays lo-fi radio from the top bar with one click. Written in TypeScript and bundled with esbuild.",
 
   "filter.platform": "Filter by platform",
   "filter.all": "All",
@@ -130,6 +133,9 @@ export const en = {
   "contact.email": "Email",
   "contact.copy": "Copy email address",
   "contact.copied": "Email address copied",
+  "contact.form.newMessage": "New message",
+  "contact.form.to": "To",
+  "contact.form.shortcut": "to send",
   "contact.form.name": "Name",
   "contact.form.email": "Email",
   "contact.form.message": "Message",

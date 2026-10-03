@@ -29,6 +29,9 @@ export const ptBR: Record<TranslationKeys, string> = {
     "Apps web, extensões de navegador e ferramentas para o desktop Linux. Selecione um projeto para abrir a prévia e os detalhes.",
   "projects.featured": "Destaques",
   "projects.other": "Mais projetos",
+  "spotlight.downloads": "downloads no site de extensões do GNOME",
+  "spotlight.summary":
+    "Uma extensão do GNOME Shell que toca rádio lo-fi pela barra superior com um clique. Escrita em TypeScript e empacotada com esbuild.",
 
   "filter.platform": "Filtrar por plataforma",
   "filter.all": "Todos",
@@ -133,6 +136,9 @@ export const ptBR: Record<TranslationKeys, string> = {
   "contact.email": "E-mail",
   "contact.copy": "Copiar endereço de e-mail",
   "contact.copied": "Endereço de e-mail copiado",
+  "contact.form.newMessage": "Nova mensagem",
+  "contact.form.to": "Para",
+  "contact.form.shortcut": "para enviar",
   "contact.form.name": "Nome",
   "contact.form.email": "E-mail",
   "contact.form.message": "Mensagem",
