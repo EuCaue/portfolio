@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B · Poema concreto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Martian+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f6f6f4; --ink: #121212; --muted: #57574f; --line: #d9d9d4; --surface: #ebebe7;
+  --accent: #00773a; --on-accent: #ffffff; --accent-ink: #00773a;
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s6: 24px; --s8: 32px; --s12: 48px; --s16: 64px; --s24: 96px; --s32: 128px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111211; --ink: #ededea; --muted: #a3a39c; --line: #2c2d2b; --surface: #1c1d1b;
+    --accent: #0f7a42; --on-accent: #ffffff; --accent-ink: #5fd38f;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111211; --ink: #ededea; --muted: #a3a39c; --line: #2c2d2b; --surface: #1c1d1b;
+  --accent: #0f7a42; --on-accent: #ffffff; --accent-ink: #5fd38f;
+}
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { background: var(--bg); color: var(--ink); font: 400 17px/1.6 "Archivo", system-ui, sans-serif; font-variation-settings: "wdth" 100; }
+a, button { color: inherit; font: inherit; }
+:focus-visible { outline: 3px solid var(--accent-ink); outline-offset: 3px; }
+.wrap { max-width: 1312px; margin: 0 auto; padding: 0 var(--s4); }
+@media (min-width: 768px) { .wrap { padding: 0 var(--s8); } }
+.mono { font-family: "Martian Mono", monospace; font-size: 12px; letter-spacing: 0; }
+
+/* header */
+header { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+header .wrap { height: 64px; display: flex; align-items: center; gap: var(--s6); }
+.logo { font-weight: 800; font-variation-settings: "wdth" 62; font-size: 22px; text-decoration: none; letter-spacing: 0.01em; }
+nav { margin-left: auto; display: flex; gap: var(--s6); align-items: center; }
+nav a { text-decoration: none; font-size: 15px; }
+nav a:hover { color: var(--accent-ink); }
+.navlinks { display: none; gap: var(--s6); }
+@media (min-width: 768px) { .navlinks { display: flex; } }
+.icon-btn { background: none; border: 1px solid var(--line); height: 36px; padding: 0 var(--s3); cursor: pointer; font-size: 13px; }
+
+/* hero */
+.hero { padding-top: var(--s12); padding-bottom: var(--s16); }
+@media (min-width: 1024px) { .hero { padding-top: var(--s16); padding-bottom: var(--s24); } }
+.name { font-weight: 850; line-height: 0.86; font-size: clamp(76px, 19vw, 248px); font-variation-settings: "wdth" 62; text-transform: uppercase; letter-spacing: -0.01em; }
+.name span, .idx .ch { display: inline-block; transition: font-variation-settings 120ms linear; }
+.hero-row { display: grid; gap: var(--s8); margin-top: var(--s8); }
+@media (min-width: 1024px) { .hero-row { grid-template-columns: 5fr 7fr; align-items: end; } }
+.role { font-size: clamp(22px, 2.4vw, 32px); font-weight: 600; font-variation-settings: "wdth" 112; line-height: 1.2; }
+.role small { display: block; color: var(--muted); font-weight: 400; font-size: 17px; font-variation-settings: "wdth" 100; margin-top: var(--s2); }
+.lede { max-width: 56ch; color: var(--muted); }
+.ctas { display: flex; flex-wrap: wrap; gap: var(--s3); margin-top: var(--s6); }
+.btn { display: inline-flex; align-items: center; height: 48px; padding: 0 var(--s6); text-decoration: none; font-weight: 600; border: 1px solid var(--ink); white-space: nowrap; }
+.btn.primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.btn:active { transform: translateY(1px); }
+
+/* projects index */
+section { padding: var(--s16) 0; border-top: 1px solid var(--line); }
+@media (min-width: 1024px) { section { padding: var(--s24) 0; } }
+h2 { font-size: clamp(40px, 6vw, 80px); line-height: 0.95; font-weight: 800; font-variation-settings: "wdth" 62; text-transform: uppercase; margin-bottom: var(--s8); }
+.projects-grid { display: grid; gap: var(--s12); }
+@media (min-width: 1024px) { .projects-grid { grid-template-columns: 7fr 5fr; gap: var(--s16); } }
+.idx { font-size: clamp(30px, 4.4vw, 60px); line-height: 1.08; font-weight: 700; font-variation-settings: "wdth" 62; text-transform: uppercase; }
+.idx button { background: none; border: 0; padding: 0; cursor: pointer; text-align: left; text-transform: inherit; font-weight: inherit; line-height: inherit; }
+.idx button.other { color: var(--muted); font-weight: 400; }
+.idx button[aria-pressed="true"] { color: var(--accent-ink); }
+.idx .sep { color: var(--line); padding: 0 0.18em; font-weight: 300; }
+.idx-note { margin-top: var(--s6); color: var(--muted); font-size: 15px; }
+.panel { align-self: start; }
+@media (min-width: 1024px) { .panel { position: sticky; top: 96px; } }
+.frame { aspect-ratio: 16 / 10; background: var(--surface); overflow: hidden; display: grid; place-items: center; }
+.frame video, .frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.frame .none { color: var(--muted); font-size: 14px; }
+.panel h3 { font-size: 32px; line-height: 1.1; font-weight: 800; font-variation-settings: "wdth" 80; margin: var(--s6) 0 var(--s3); text-transform: uppercase; }
+.panel p { color: var(--muted); max-width: 60ch; }
+.tags { display: flex; flex-wrap: wrap; gap: var(--s2) var(--s4); margin: var(--s4) 0; color: var(--muted); list-style: none; padding: 0; }
+.links { display: flex; gap: var(--s6); flex-wrap: wrap; align-items: center; }
+.links a { font-weight: 600; text-underline-offset: 4px; }
+.shipped { color: var(--accent-ink); }
+
+/* about */
+.about { display: grid; gap: var(--s12); }
+@media (min-width: 1024px) { .about { grid-template-columns: 7fr 5fr; gap: var(--s16); } }
+.about p + p { margin-top: var(--s4); }
+.about p { max-width: 62ch; font-size: 19px; }
+.skills { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s8) var(--s6); }
+.skills h3 { font-size: 15px; font-weight: 700; font-variation-settings: "wdth" 112; margin-bottom: var(--s2); }
+.skills ul { list-style: none; padding: 0; color: var(--muted); font-size: 15px; line-height: 1.8; }
+
+/* contact: the one drenched field */
+.contact { background: var(--accent); color: var(--on-accent); border: 0; }
+.contact h2 { font-size: clamp(56px, 11vw, 160px); }
+.contact-grid { display: grid; gap: var(--s12); }
+@media (min-width: 1024px) { .contact-grid { grid-template-columns: 5fr 7fr; } }
+.contact-info a { display: block; color: var(--on-accent); font-size: 20px; font-weight: 600; text-underline-offset: 5px; margin-top: var(--s3); }
+.contact-info p { max-width: 40ch; }
+form { display: grid; gap: var(--s6); }
+.field { display: grid; gap: var(--s2); }
+label { font-weight: 600; font-size: 15px; }
+input, textarea { font: inherit; padding: var(--s3) var(--s4); border: 0; background: #f6f6f4; color: #121212; border-radius: 0; }
+input::placeholder, textarea::placeholder { color: #5f5f58; }
+textarea { min-height: 144px; resize: vertical; }
+.contact :focus-visible { outline-color: #ffffff; }
+.send { justify-self: start; background: #121212; color: #f6f6f4; border: 0; height: 48px; padding: 0 var(--s8); font-weight: 600; cursor: pointer; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: var(--s4) var(--s8); padding-top: var(--s8); padding-bottom: var(--s8); font-size: 14px; color: var(--muted); }
+footer a { text-underline-offset: 3px; }
+footer .end { margin-left: auto; }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="logo" href="#">Cauê Souza</a>
+    <nav aria-label="Main">
+      <div class="navlinks"><a href="#about">About</a><a href="#projects">Projects</a><a href="#contact">Contact</a><a href="#">Resume</a></div>
+      <button class="icon-btn" type="button" aria-label="Change language">EN</button>
+      <button class="icon-btn" type="button" onclick="toggleTheme()" aria-label="Toggle theme">Theme</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <h1 class="name prox" data-min="62" data-max="125">Cauê<br>Souza</h1>
+    <div class="hero-row">
+      <p class="role">Software Engineer<small>Salvador, Brazil</small></p>
+      <div>
+        <p class="lede">Software Engineer passionate about building complete digital solutions from web and mobile applications to native desktop integrations and system-level tooling.</p>
+        <div class="ctas"><a class="btn primary" href="#">Download CV</a><a class="btn" href="#projects">View My Work</a></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="projects">
+    <div class="wrap">
+      <h2>Projects</h2>
+      <div class="projects-grid">
+        <div>
+          <p class="idx prox" id="idx" data-min="62" data-max="125"></p>
+          <p class="idx-note">Featured projects in full ink. Other projects in gray.</p>
+        </div>
+        <article class="panel" id="panel" aria-live="polite"></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <h2>About Me</h2>
+      <div class="about">
+        <div>
+          <p>I'm a software engineer who enjoys working across different layers of technology. My experience spans modern, responsive interfaces for web and mobile (React, Next.js, React Native) all the way to native desktop applications and system extensions for Linux/GNOME built with Python and JavaScript.</p>
+          <p>I believe in using technology to solve real-world problems simply and efficiently. I combine technical rigor, sound design principles, and smart automation in my daily workflow to build experiences that are robust under the hood and seamless for the user.</p>
+        </div>
+        <div class="skills" id="skills"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <h2>Get In Touch</h2>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <p>Have a project in mind or just want to say hello? Feel free to reach out!</p>
+          <a href="mailto:souzacaue@proton.me">souzacaue@proton.me</a>
+          <a href="https://linkedin.com/in/caue-souza">LinkedIn</a>
+          <a href="https://github.com/EuCaue">GitHub</a>
+        </div>
+        <form onsubmit="event.preventDefault()">
+          <div class="field"><label for="n">Name</label><input id="n" placeholder="Your name" autocomplete="name"></div>
+          <div class="field"><label for="e">Email</label><input id="e" type="email" placeholder="Your email" autocomplete="email"></div>
+          <div class="field"><label for="m">Message</label><textarea id="m" placeholder="Your message"></textarea></div>
+          <button class="send" type="submit">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Cauê Souza. All rights reserved.</span>
+    <a href="https://eucaue.online">eucaue.online</a>
+    <a href="https://blog.eucaue.online">Blog</a>
+    <a class="end" href="#">Resume</a>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script>
+const idx = document.getElementById("idx");
+const panel = document.getElementById("panel");
+idx.innerHTML = PROJECTS.map((p, i) =>
+  `<button type="button" class="${p.featured ? "" : "other"}" data-i="${i}" aria-pressed="false">${p.name}</button>`
+).join('<span class="sep" aria-hidden="true">/</span>');
+
+function select(i) {
+  const p = PROJECTS[i];
+  idx.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.i == i));
+  panel.innerHTML = `
+    <div class="frame">${media(p) || '<span class="none">No preview available</span>'}</div>
+    <h3>${p.name}</h3>
+    <p>${p.desc}</p>
+    <ul class="tags mono">${p.tags.map(t => `<li>${t}</li>`).join("")}</ul>
+    <div class="links">
+      ${p.github ? `<a href="${p.github}">GitHub</a>` : ""}
+      ${p.preview ? `<a href="${p.preview}">Live Demo</a>` : ""}
+      ${p.preview ? '<span class="mono shipped">Published</span>' : ""}
+    </div>`;
+}
+idx.addEventListener("click", e => { const b = e.target.closest("button"); if (b) select(+b.dataset.i); });
+select(0);
+
+document.getElementById("skills").innerHTML = SKILLS.map(([h, items]) =>
+  `<div><h3>${h}</h3><ul>${items.map(s => `<li>${s}</li>`).join("")}</ul></div>`).join("");
+
+// Width proximity: letters near the pointer widen. Static under reduced motion.
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function wrapChars(node) {
+  [...node.childNodes].forEach(c => {
+    if (c.nodeType === 3) {
+      const frag = document.createDocumentFragment();
+      [...c.textContent].forEach(ch => {
+        if (ch === " ") return frag.appendChild(document.createTextNode(" "));
+        const s = document.createElement("span");
+        s.className = "ch"; s.textContent = ch; s.setAttribute("aria-hidden", "true");
+        frag.appendChild(s);
+      });
+      const label = document.createElement("span");
+      label.className = "sr"; label.style.cssText = "position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)";
+      label.textContent = c.textContent;
+      frag.appendChild(label);
+      c.replaceWith(frag);
+    } else if (c.nodeType === 1 && c.tagName !== "BR" && !c.classList.contains("sep")) wrapChars(c);
+  });
+}
+if (!reduce) {
+  document.querySelectorAll(".prox").forEach(el => {
+    wrapChars(el);
+    const min = +el.dataset.min, max = +el.dataset.max;
+    const chars = [...el.querySelectorAll(".ch")];
+    const radius = () => el.classList.contains("name") ? 260 : 160;
+    el.addEventListener("pointermove", e => {
+      const r = radius();
+      chars.forEach(c => {
+        const b = c.getBoundingClientRect();
+        const d = Math.hypot(e.clientX - (b.left + b.width / 2), e.clientY - (b.top + b.height / 2));
+        const t = Math.max(0, 1 - d / r);
+        c.style.fontVariationSettings = `"wdth" ${min + (max - min) * t}`;
+      });
+    });
+    el.addEventListener("pointerleave", () => chars.forEach(c => c.style.fontVariationSettings = ""));
+  });
+}
+// Keyboard parity: a focused project name widens fully.
+idx.addEventListener("focusin", e => e.target.querySelectorAll?.(".ch").forEach(c => c.style.fontVariationSettings = '"wdth" 125'));
+idx.addEventListener("focusout", e => e.target.querySelectorAll?.(".ch").forEach(c => c.style.fontVariationSettings = ""));
+</script>
+</body>
+</html>

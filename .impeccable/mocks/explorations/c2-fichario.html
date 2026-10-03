@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C2 · Fichário de biblioteca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Libre+Franklin:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* A steel library card cabinet: typed index cards, one red header rule as the only color. */
+:root {
+  --bg: #d9dfdc; --steel: #c9d1cd; --card: #fdfdfb; --rule: #b8cbe0; --ink: #1d2330; --muted: #4c5463; --line: #aab4af;
+  --accent: #c0174f; --on-accent: #ffffff;
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s6: 24px; --s8: 32px; --s12: 48px; --s16: 64px; --s24: 96px;
+  --lh: 28px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #171b1a; --steel: #222826; --card: #e9ebe6; --rule: #a9bccf; --line: #333a37; --accent: #e04d7c; }
+}
+:root[data-theme="dark"] { --bg: #171b1a; --steel: #222826; --card: #e9ebe6; --rule: #a9bccf; --line: #333a37; --accent: #e04d7c; }
+* { box-sizing: border-box; margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 400 17px/1.6 "Libre Franklin", system-ui, sans-serif; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body { color: #e4e7e5; } }
+:root[data-theme="dark"] body { color: #e4e7e5; }
+a, button { color: inherit; font: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 var(--s4); }
+@media (min-width: 768px) { .wrap { padding: 0 var(--s8); } }
+.type { font-family: "Courier Prime", monospace; }
+
+header { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+header .wrap { height: 64px; display: flex; align-items: center; gap: var(--s6); }
+.logo { font-weight: 800; font-size: 18px; text-decoration: none; }
+nav { margin-left: auto; display: flex; gap: var(--s6); align-items: center; }
+nav a { text-decoration: none; font-size: 15px; font-weight: 600; }
+.navlinks { display: none; gap: var(--s6); }
+@media (min-width: 768px) { .navlinks { display: flex; } }
+.icon-btn { background: none; border: 1px solid var(--line); height: 36px; padding: 0 var(--s3); cursor: pointer; font-size: 13px; }
+
+/* index card: ruled lines on a fixed 28px rhythm, one red header rule */
+.card { background: var(--card); color: #1d2330; font-family: "Courier Prime", monospace; position: relative;
+  background-image: linear-gradient(var(--card) 0 calc(var(--lh) * 2 + 8px), transparent 0),
+    repeating-linear-gradient(transparent 0 calc(var(--lh) - 1px), var(--rule) calc(var(--lh) - 1px) var(--lh));
+  background-position: 0 8px; line-height: var(--lh); padding: 8px var(--s6) var(--lh); box-shadow: 0 1px 0 #0000001a, 0 8px 24px -12px #1d233040; }
+.card::before { content: ""; position: absolute; left: 0; right: 0; top: calc(var(--lh) * 2 + 7px); border-top: 2px solid var(--accent); }
+.card .hd { height: calc(var(--lh) * 2); display: flex; align-items: end; justify-content: space-between; gap: var(--s4); padding-bottom: 6px; }
+.card .hole { position: absolute; left: 50%; bottom: 10px; width: 14px; height: 14px; border-radius: 50%; background: var(--bg); transform: translateX(-50%); }
+
+.hero { padding-top: var(--s12); padding-bottom: var(--s16); }
+.hero .card { max-width: 860px; padding-left: var(--s8); padding-right: var(--s8); }
+.hero h1 { font-size: clamp(28px, 4.4vw, 52px); line-height: 1; font-weight: 700; }
+.hero .card p { max-width: 56ch; font-size: 18px; }
+.hero .meta { font-size: 18px; }
+.ctas { display: flex; flex-wrap: wrap; gap: var(--s3); margin-top: var(--lh); }
+.btn { display: inline-flex; align-items: center; height: 44px; padding: 0 var(--s6); text-decoration: none; font-family: "Libre Franklin"; font-weight: 600; border: 2px solid #1d2330; white-space: nowrap; }
+.btn.primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+
+/* the drawer */
+section { padding: var(--s16) 0; }
+h2 { font-weight: 800; font-size: clamp(36px, 5vw, 64px); line-height: 1; margin-bottom: var(--s6); letter-spacing: -0.01em; }
+.tabs { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s4); }
+.tab { border: 0; background: var(--steel); padding: var(--s2) var(--s4); cursor: pointer; font-weight: 600; font-size: 15px; border-radius: 6px 6px 0 0; }
+.tab[aria-pressed="true"] { background: var(--card); color: #1d2330; box-shadow: inset 0 3px 0 var(--accent); }
+.drawer { background: var(--steel); padding: var(--s4); border-radius: 4px; }
+@media (min-width: 768px) { .drawer { padding: var(--s8); } }
+.stack { list-style: none; padding: 0; display: grid; }
+.stack li + li { margin-top: -6px; }
+.tophalf { all: unset; box-sizing: border-box; display: flex; width: 100%; cursor: pointer; justify-content: space-between; gap: var(--s4); align-items: baseline; }
+.stack .card { padding-bottom: 6px; }
+.stack .card .hd { height: 52px; }
+.stack .name { font-weight: 700; font-size: 20px; }
+.stack .other .name { font-weight: 400; }
+.stack .plat { color: #4c5463; font-size: 15px; white-space: nowrap; }
+.stack li[aria-expanded="true"] .card { padding-bottom: var(--lh); transform: translateY(-4px); box-shadow: 0 16px 32px -16px #1d233066; }
+.body { display: none; }
+li[aria-expanded="true"] .body { display: grid; gap: var(--lh); margin-top: var(--lh); }
+@media (min-width: 900px) { li[aria-expanded="true"] .body { grid-template-columns: 6fr 5fr; } }
+.frame { aspect-ratio: 16 / 10; background: #e7ebe9; overflow: hidden; display: grid; place-items: center; border: 1px solid #1d233026; color: #4c5463; font-size: 15px; }
+.frame video, .frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.body p { font-size: 16px; }
+.tags { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0 var(--s4); font-size: 14px; color: #4c5463; margin: var(--lh) 0 0; }
+.links { display: flex; gap: var(--s6); margin-top: var(--lh); flex-wrap: wrap; align-items: center; }
+.links a { font-weight: 700; text-underline-offset: 4px; }
+.stamp { color: var(--accent); border: 2px solid var(--accent); padding: 0 var(--s2); font-weight: 700; font-size: 14px; line-height: 24px; transform: rotate(-3deg); display: inline-block; }
+
+.about-card { display: grid; gap: var(--lh); }
+@media (min-width: 900px) { .about-card { grid-template-columns: 7fr 5fr; gap: var(--s12); } }
+.about-card p { font-size: 17px; }
+.skills { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--s6); }
+.skills h3 { font-size: 17px; font-weight: 700; }
+.skills ul { list-style: none; padding: 0; font-size: 15px; margin-bottom: var(--lh); }
+.contact-grid { display: grid; gap: var(--s12); }
+@media (min-width: 1024px) { .contact-grid { grid-template-columns: 5fr 7fr; } }
+.contact-info p { max-width: 40ch; }
+.contact-info a { display: block; font-size: 20px; font-weight: 600; margin-top: var(--s3); text-underline-offset: 5px; }
+form.card { display: grid; gap: 0; }
+.field { display: grid; }
+label { font-weight: 700; }
+input, textarea { font: inherit; line-height: var(--lh); border: 0; background: transparent; color: #1d2330; padding: 0; height: var(--lh); margin-bottom: var(--lh); }
+input::placeholder, textarea::placeholder { color: #5b6372; }
+textarea { height: calc(var(--lh) * 4); resize: none; }
+.send { justify-self: start; margin-top: var(--s2); }
+footer .wrap { display: flex; flex-wrap: wrap; gap: var(--s4) var(--s8); padding-top: var(--s8); padding-bottom: var(--s8); font-size: 14px; border-top: 1px solid var(--line); }
+footer .end { margin-left: auto; }
+</style>
+</head>
+<body>
+<main>
+  <div class="wrap hero">
+    <div class="card">
+      <div class="hd"><h1>SOUZA, Cauê</h1></div>
+      <p class="meta">Software Engineer.<br>Salvador, Brazil.</p>
+      <p>Software Engineer passionate about building complete digital solutions from web and mobile applications to native desktop integrations and system-level tooling.</p>
+      <div class="ctas"><a class="btn primary" href="#">Download CV</a><a class="btn" href="#projects">View My Work</a></div>
+      <span class="hole" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <section id="projects">
+    <div class="wrap">
+      <h2>Projects</h2>
+      <div class="tabs" id="tabs" role="group" aria-label="Filter by platform"></div>
+      <div class="drawer"><ul class="stack" id="stack"></ul></div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <h2>About Me</h2>
+      <div class="card about-card">
+        <div>
+          <p>I'm a software engineer who enjoys working across different layers of technology. My experience spans modern, responsive interfaces for web and mobile (React, Next.js, React Native) all the way to native desktop applications and system extensions for Linux/GNOME built with Python and JavaScript.</p>
+          <p style="margin-top: 28px">I believe in using technology to solve real-world problems simply and efficiently. I combine technical rigor, sound design principles, and smart automation in my daily workflow to build experiences that are robust under the hood and seamless for the user.</p>
+        </div>
+        <div class="skills" id="skills"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <h2>Get In Touch</h2>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <p>Have a project in mind or just want to say hello? Feel free to reach out!</p>
+          <a href="mailto:souzacaue@proton.me">souzacaue@proton.me</a>
+          <a href="https://linkedin.com/in/caue-souza">LinkedIn</a>
+          <a href="https://github.com/EuCaue">GitHub</a>
+        </div>
+        <form class="card" onsubmit="event.preventDefault()">
+          <div class="hd"><span style="font-weight:700">Send a Message</span></div>
+          <div class="field"><label for="n">Name</label><input id="n" placeholder="Your name" autocomplete="name"></div>
+          <div class="field"><label for="e">Email</label><input id="e" type="email" placeholder="Your email" autocomplete="email"></div>
+          <div class="field"><label for="m">Message</label><textarea id="m" placeholder="Your message"></textarea></div>
+          <button class="btn primary send" type="submit">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="data.js"></script>
+<script src="shared.js"></script>
+<script>
+chrome();
+const TABS = ["All", "Web", "Mobile", "GNOME", "Firefox", "CLI"];
+let filter = "All", open = 0;
+const tabs = document.getElementById("tabs"), stack = document.getElementById("stack");
+tabs.innerHTML = TABS.map(t => `<button type="button" class="tab" data-t="${t}" aria-pressed="${t === filter}">${t}</button>`).join("");
+const render = () => {
+  stack.innerHTML = PROJECTS.map((p, i) => ({ p, i })).filter(({ p }) => filter === "All" || p.platform === filter).map(({ p, i }) => `
+    <li class="${p.featured ? "" : "other"}" aria-expanded="${i === open}">
+      <div class="card">
+        <button type="button" class="tophalf hd" data-i="${i}" aria-expanded="${i === open}">
+          <span class="name">${p.name}</span><span class="plat">${p.platform}${p.featured ? ", featured" : ""}</span>
+        </button>
+        <div class="body">
+          <div class="frame">${i === open ? media(p) || "No preview available" : ""}</div>
+          <div>
+            <p>${p.desc}</p>
+            <ul class="tags">${p.tags.map(t => `<li>${t}</li>`).join("")}</ul>
+            <div class="links">${p.github ? `<a href="${p.github}">GitHub</a>` : ""}${p.preview ? `<a href="${p.preview}">Live Demo</a><span class="stamp">Published</span>` : ""}</div>
+          </div>
+        </div>
+      </div>
+    </li>`).join("");
+};
+tabs.addEventListener("click", e => { const b = e.target.closest(".tab"); if (!b) return; filter = b.dataset.t; tabs.querySelectorAll(".tab").forEach(t => t.setAttribute("aria-pressed", t === b)); render(); });
+stack.addEventListener("click", e => { const b = e.target.closest(".tophalf"); if (!b) return; open = +b.dataset.i === open ? -1 : +b.dataset.i; render(); stack.querySelector(`[data-i="${b.dataset.i}"]`)?.focus(); });
+render();
+</script>
+</body>
+</html>

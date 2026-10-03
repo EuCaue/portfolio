@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B3 · Bloco justificado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Martian+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<style>
+/* One rule everywhere: every display line is set to the full measure. */
+.fit { display: block; white-space: nowrap; text-transform: uppercase; line-height: 0.86; font-weight: 850; }
+.fit > span { display: inline-block; }
+.fit { overflow: hidden; padding-top: 0.08em; }
+.hero > *, .block-grid > * { min-width: 0; }
+.hero { padding-top: var(--s8); padding-bottom: var(--s16); display: grid; gap: var(--s8); }
+@media (min-width: 1024px) { .hero { grid-template-columns: 7fr 5fr; gap: var(--s12); align-items: end; } }
+.hero h1 .fit + .fit { margin-top: 0.04em; }
+.hero .role { color: var(--accent-ink); margin-top: var(--s3); font-weight: 700; }
+.hero p { color: var(--muted); max-width: 46ch; margin-bottom: var(--s6); }
+
+.block-grid { display: grid; gap: var(--s12); }
+@media (min-width: 1024px) { .block-grid { grid-template-columns: 7fr 5fr; } }
+.block { list-style: none; padding: 0; }
+
+.block li:first-child { border-top: 2px solid var(--ink); }
+.block button { all: unset; display: block; width: 100%; cursor: pointer; padding: 0.08em 0; }
+.block button:focus-visible { outline: 3px solid var(--accent-ink); outline-offset: 2px; }
+.block .other { color: var(--muted); font-weight: 400; }
+.block button[aria-pressed="true"] .fit { color: var(--accent-ink); }
+.panel { align-self: start; }
+@media (min-width: 1024px) { .panel { position: sticky; top: 88px; } }
+.legend { margin-top: var(--s4); font-size: 14px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <div class="wrap hero">
+    <div>
+      <h1><span class="fit" data-w="62">Cauê</span><span class="fit" data-w="62">Souza</span></h1>
+      <span class="fit role" data-w="125">Software Engineer</span>
+    </div>
+    <div>
+      <p>Software Engineer passionate about building complete digital solutions from web and mobile applications to native desktop integrations and system-level tooling. Salvador, Brazil.</p>
+      <div class="ctas"><a class="btn primary" href="#">Download CV</a><a class="btn" href="#projects">View My Work</a></div>
+    </div>
+  </div>
+  <section id="projects">
+    <div class="wrap">
+      <h2>Projects</h2>
+      <div class="block-grid">
+        <div>
+          <ul class="block" id="block"></ul>
+          <p class="legend">Featured projects in full ink. Other projects in gray.</p>
+        </div>
+        <article class="panel" id="panel" aria-live="polite"></article>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="data.js"></script>
+<script src="shared.js"></script>
+<script>
+document.querySelector("main").insertAdjacentHTML("beforeend", ABOUT + CONTACT());
+chrome();
+const block = document.getElementById("block"), panel = document.getElementById("panel");
+// Short names get a wider cut so the block keeps an even color instead of giant short lines.
+const widthFor = n => n.length <= 6 ? 125 : n.length <= 10 ? 100 : n.length <= 16 ? 80 : 62;
+block.innerHTML = PROJECTS.map((p, i) => `
+  <li><button type="button" data-i="${i}" aria-pressed="false">
+    <span class="fit ${p.featured ? "" : "other"}" data-w="${widthFor(p.name)}">${p.name}</span>
+  </button></li>`).join("");
+const select = i => {
+  block.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.i == i));
+  panel.innerHTML = panelHTML(PROJECTS[i]);
+};
+block.addEventListener("click", e => { const b = e.target.closest("button"); if (b) select(+b.dataset.i); });
+if (!REDUCE) block.addEventListener("pointerover", e => { const b = e.target.closest("button"); if (b && b.getAttribute("aria-pressed") !== "true") select(+b.dataset.i); });
+select(0);
+
+const fitAll = () => document.querySelectorAll(".fit").forEach(el => {
+  if (!el.firstElementChild) el.innerHTML = `<span>${el.textContent}</span>`;
+  const inner = el.firstElementChild;
+  el.style.fontVariationSettings = `"wdth" ${el.dataset.w}`;
+  el.style.fontSize = "100px";
+  el.style.fontSize = 100 * el.clientWidth / inner.offsetWidth + "px";
+});
+document.fonts.ready.then(fitAll);
+addEventListener("resize", fitAll);
+</script>
+</body>
+</html>

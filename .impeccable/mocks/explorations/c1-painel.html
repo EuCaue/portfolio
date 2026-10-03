@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C1 · Painel de partidas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* A split-flap departures board: the board is a physical object, so it stays dark in both themes. */
+:root {
+  --bg: #e4e6e8; --ink: #17191c; --muted: #4f545a; --line: #c6cacf;
+  --board: #17181a; --flap: #24262a; --flap-ink: #eceae4; --flap-dim: #8d9096; --accent: #f2c200; --on-accent: #17181a;
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s6: 24px; --s8: 32px; --s12: 48px; --s16: 64px; --s24: 96px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #0e0f10; --ink: #e8e9ea; --muted: #a0a4a9; --line: #2a2c30; --board: #050506; --flap: #1d1f22; }
+}
+:root[data-theme="dark"] { --bg: #0e0f10; --ink: #e8e9ea; --muted: #a0a4a9; --line: #2a2c30; --board: #050506; --flap: #1d1f22; }
+* { box-sizing: border-box; margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 400 17px/1.6 "Barlow", system-ui, sans-serif; }
+a, button { color: inherit; font: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.wrap { max-width: 1440px; margin: 0 auto; padding: 0 var(--s4); }
+@media (min-width: 768px) { .wrap { padding: 0 var(--s8); } }
+.cond { font-family: "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.02em; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+header { background: var(--bg); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 10; }
+header .wrap { height: 64px; display: flex; align-items: center; gap: var(--s6); }
+.logo { font-family: "Barlow Condensed"; font-weight: 700; font-size: 24px; text-transform: uppercase; text-decoration: none; }
+nav { margin-left: auto; display: flex; gap: var(--s6); align-items: center; }
+nav a { text-decoration: none; font-weight: 600; font-size: 15px; }
+.navlinks { display: none; gap: var(--s6); }
+@media (min-width: 768px) { .navlinks { display: flex; } }
+.icon-btn { background: none; border: 1px solid var(--line); height: 36px; padding: 0 var(--s3); cursor: pointer; font-size: 13px; }
+
+/* flaps */
+.flaps { display: inline-flex; gap: 2px; flex-wrap: wrap; row-gap: 4px; }
+.word { display: inline-flex; gap: 2px; }
+.f { display: inline-grid; place-items: center; width: 0.72em; height: 1.18em; background: var(--flap); color: var(--flap-ink); border-radius: 2px; position: relative; font-family: "Barlow Condensed"; font-weight: 700; line-height: 1; }
+.f::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px solid var(--board); }
+.f.sp { background: transparent; }
+
+.hero { padding-top: var(--s8); padding-bottom: var(--s12); }
+.board { background: var(--board); padding: var(--s6) var(--s4); border-radius: 4px; }
+@media (min-width: 768px) { .board { padding: var(--s8); } }
+.board h1 { font-size: clamp(30px, 6.4vw, 96px); }
+.board h1 .flaps { gap: 3px; }
+.board .role { font-size: clamp(18px, 2.4vw, 34px); margin-top: var(--s3); }
+.board .role .f { color: var(--accent); }
+.intro { display: grid; gap: var(--s6); margin-top: var(--s8); align-items: end; }
+@media (min-width: 1024px) { .intro { grid-template-columns: 1fr auto; } }
+.intro p { max-width: 60ch; color: var(--muted); }
+.ctas { display: flex; flex-wrap: wrap; gap: var(--s3); }
+.btn { display: inline-flex; align-items: center; height: 48px; padding: 0 var(--s6); text-decoration: none; font-weight: 600; border: 1px solid var(--ink); white-space: nowrap; }
+.btn.primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+
+/* departures */
+section { padding: var(--s16) 0; }
+h2 { font-family: "Barlow Condensed"; text-transform: uppercase; font-weight: 700; font-size: clamp(40px, 6vw, 80px); line-height: 1; margin-bottom: var(--s6); }
+.dep { display: grid; gap: var(--s8); }
+@media (min-width: 1100px) { .dep { grid-template-columns: 7fr 5fr; align-items: start; } }
+.rows { background: var(--board); border-radius: 4px; padding: var(--s4); font-size: clamp(14px, 1.45vw, 21px); }
+.thead, .row { display: grid; grid-template-columns: 1fr 7.5em 9em; gap: var(--s4); align-items: center; }
+@media (max-width: 640px) { .thead, .row { grid-template-columns: 1fr 7.5em; } .status { display: none; } }
+.thead { color: var(--flap-dim); font-family: "Barlow Condensed"; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; padding: 0 var(--s2) var(--s3); }
+.row { all: unset; box-sizing: border-box; display: grid; grid-template-columns: inherit; width: 100%; padding: var(--s2); border-radius: 3px; cursor: pointer; }
+@media (min-width: 641px) { .row { grid-template-columns: 1fr 7.5em 9em; gap: var(--s4); } }
+@media (max-width: 640px) { .row { grid-template-columns: 1fr 7.5em; gap: var(--s4); } }
+.row:focus-visible { outline: 3px solid var(--accent); }
+.row:hover { background: #ffffff0d; }
+.row[aria-pressed="true"] { background: #f2c2001f; }
+.row[aria-pressed="true"] .name .f { color: var(--accent); }
+.row.other .name .f { color: var(--flap-dim); }
+.status .f { color: var(--accent); }
+.status.src .f { color: var(--flap-dim); }
+
+.detail { align-self: start; }
+@media (min-width: 1100px) { .detail { position: sticky; top: 88px; } }
+.frame { aspect-ratio: 16 / 10; background: var(--board); border-radius: 4px; overflow: hidden; display: grid; place-items: center; color: var(--flap-dim); }
+.frame video, .frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.detail h3 { font-family: "Barlow Condensed"; text-transform: uppercase; font-weight: 700; font-size: 36px; line-height: 1; margin: var(--s6) 0 var(--s3); }
+.detail p { color: var(--muted); }
+.tags { display: flex; flex-wrap: wrap; gap: var(--s1) var(--s3); list-style: none; padding: 0; margin: var(--s4) 0; font-size: 14px; color: var(--muted); }
+.links { display: flex; gap: var(--s6); flex-wrap: wrap; }
+.links a { font-weight: 600; text-underline-offset: 4px; }
+
+.about { display: grid; gap: var(--s12); }
+@media (min-width: 1024px) { .about { grid-template-columns: 7fr 5fr; } }
+.about p { max-width: 62ch; font-size: 19px; }
+.about p + p { margin-top: var(--s4); }
+.skills { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s8) var(--s6); }
+.skills h3 { font-family: "Barlow Condensed"; text-transform: uppercase; font-size: 20px; }
+.skills ul { list-style: none; padding: 0; color: var(--muted); font-size: 15px; line-height: 1.8; }
+.contact-grid { display: grid; gap: var(--s12); }
+@media (min-width: 1024px) { .contact-grid { grid-template-columns: 5fr 7fr; } }
+.contact-info p { color: var(--muted); max-width: 40ch; }
+.contact-info a { display: block; font-size: 20px; font-weight: 600; margin-top: var(--s3); text-underline-offset: 5px; }
+form { display: grid; gap: var(--s6); }
+.field { display: grid; gap: var(--s2); }
+label { font-weight: 600; font-size: 15px; }
+input, textarea { font: inherit; padding: var(--s3) var(--s4); border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+textarea { min-height: 144px; }
+.send { justify-self: start; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: var(--s4) var(--s8); padding-top: var(--s8); padding-bottom: var(--s8); font-size: 14px; color: var(--muted); border-top: 1px solid var(--line); }
+footer .end { margin-left: auto; }
+</style>
+</head>
+<body>
+<main>
+  <div class="wrap hero">
+    <div class="board">
+      <h1 class="cond" aria-label="Cauê Souza"><span class="flaps" data-flap="CAUÊ SOUZA"></span></h1>
+      <p class="role" aria-label="Software Engineer, Salvador, Brazil"><span class="flaps" data-flap="SOFTWARE ENGINEER"></span></p>
+    </div>
+    <div class="intro">
+      <p>Software Engineer passionate about building complete digital solutions from web and mobile applications to native desktop integrations and system-level tooling. Salvador, Brazil.</p>
+      <div class="ctas"><a class="btn primary" href="#">Download CV</a><a class="btn" href="#projects">View My Work</a></div>
+    </div>
+  </div>
+
+  <section id="projects">
+    <div class="wrap">
+      <h2>Projects</h2>
+      <div class="dep">
+        <div class="rows" role="group" aria-label="Projects">
+          <div class="thead" aria-hidden="true"><span>Project</span><span>Platform</span><span class="status">Status</span></div>
+          <div id="rows"></div>
+        </div>
+        <article class="detail" id="detail" aria-live="polite"></article>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="data.js"></script>
+<script src="shared.js"></script>
+<script>
+document.querySelector("main").insertAdjacentHTML("beforeend", ABOUT + CONTACT());
+chrome();
+document.querySelectorAll("#about h2, #contact h2").forEach(h => h.classList.add("cond"));
+document.querySelector(".send").className = "btn primary send";
+
+const cells = (text, n) => [...text.toUpperCase().padEnd(n ?? text.length, " ").slice(0, n ?? text.length)]
+  .map(c => `<span class="f${c === " " ? " sp" : ""}" aria-hidden="true">${c === " " ? "" : c}</span>`).join("");
+// Names wrap only between words, one flap group per word.
+const words = t => t.split(" ").map(w => `<span class="word">${cells(w)}</span>`).join('<span class="f sp" aria-hidden="true"></span>');
+const status = p => p.preview ? "Published" : p.github ? "Source" : "";
+
+document.getElementById("rows").innerHTML = PROJECTS.map((p, i) => `
+  <button type="button" class="row ${p.featured ? "" : "other"}" data-i="${i}" aria-pressed="false">
+    <span class="sr">${p.name}, ${p.platform}${status(p) ? ", " + status(p) : ""}</span>
+    <span class="flaps name">${words(p.name)}</span>
+    <span class="flaps">${cells(p.platform, 7)}</span>
+    <span class="flaps status ${p.preview ? "" : "src"}">${cells(status(p), 9)}</span>
+  </button>`).join("");
+document.querySelectorAll("[data-flap]").forEach(el => (el.innerHTML = cells(el.dataset.flap)));
+
+const detail = document.getElementById("detail");
+const select = i => {
+  document.querySelectorAll(".row").forEach(r => r.setAttribute("aria-pressed", r.dataset.i == i));
+  const p = PROJECTS[i];
+  detail.innerHTML = `
+    <div class="frame">${media(p) || "No preview available"}</div>
+    <h3>${p.name}</h3><p>${p.desc}</p>
+    <ul class="tags">${p.tags.map(t => `<li>${t}</li>`).join("")}</ul>
+    <div class="links">${p.github ? `<a href="${p.github}">GitHub</a>` : ""}${p.preview ? `<a href="${p.preview}">Live Demo</a>` : ""}</div>`;
+  if (!REDUCE) flip(document.querySelector(`.row[data-i="${i}"] .name`));
+};
+document.getElementById("rows").addEventListener("click", e => { const r = e.target.closest(".row"); if (r) select(+r.dataset.i); });
+
+// Flaps cycle through letters before landing; skipped under reduced motion.
+const ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+function flip(scope) {
+  scope.querySelectorAll(".f:not(.sp)").forEach((f, k) => {
+    const final = f.textContent; let n = 4 + (k % 6);
+    const t = setInterval(() => { f.textContent = --n > 0 ? ABC[(Math.random() * 26) | 0] : final; if (n <= 0) clearInterval(t); }, 45);
+  });
+}
+select(0);
+if (!REDUCE) document.querySelectorAll(".board, #rows").forEach(flip);
+</script>
+</body>
+</html>

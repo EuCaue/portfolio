@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Rua do Pelourinho</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=Atkinson+Hyperlegible+Next:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #eef0ee; --facade: #e2e6e3; --line: #c3c9c5; --ink: #15181a; --muted: #4d5458;
+  --accent: #1f4fd1; --on-accent: #ffffff;
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s6: 24px; --s8: 32px; --s12: 48px; --s16: 64px; --s24: 96px;
+  --arch: 999px 999px 0 0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131615; --facade: #1c201e; --line: #333936; --ink: #e7ebe8; --muted: #a2aaa5;
+    --accent: #86a6ff; --on-accent: #0b1230;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #131615; --facade: #1c201e; --line: #333936; --ink: #e7ebe8; --muted: #a2aaa5;
+  --accent: #86a6ff; --on-accent: #0b1230;
+}
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { background: var(--bg); color: var(--ink); font: 400 17px/1.6 "Atkinson Hyperlegible Next", system-ui, sans-serif; }
+a, button { color: inherit; font: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.wrap { max-width: 1312px; margin: 0 auto; padding: 0 var(--s4); }
+@media (min-width: 768px) { .wrap { padding: 0 var(--s8); } }
+.display { font-family: "Big Shoulders Display", sans-serif; text-transform: uppercase; line-height: 0.9; letter-spacing: 0.01em; }
+
+/* header: a row of street plaques */
+header { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+header .wrap { height: 64px; display: flex; align-items: center; gap: var(--s6); }
+.logo { font-family: "Big Shoulders Display"; font-weight: 900; font-size: 26px; text-decoration: none; text-transform: uppercase; }
+nav { margin-left: auto; display: flex; gap: var(--s4); align-items: center; }
+.navlinks { display: none; gap: var(--s2); }
+@media (min-width: 768px) { .navlinks { display: flex; } }
+.navlinks a { text-decoration: none; font-size: 15px; font-weight: 600; padding: var(--s1) var(--s3); border: 1px solid var(--line); }
+.navlinks a:hover { border-color: var(--accent); color: var(--accent); }
+.icon-btn { background: none; border: 1px solid var(--line); height: 36px; padding: 0 var(--s3); cursor: pointer; font-size: 13px; }
+
+/* hero: the first façade */
+.hero { padding-top: var(--s8); padding-bottom: var(--s16); }
+.facade { background: var(--facade); border-top: 8px solid var(--ink); position: relative; }
+.facade::before { content: ""; position: absolute; left: 0; right: 0; top: 6px; border-top: 1px solid var(--ink); }
+.hero .facade { padding: var(--s8) var(--s4) 0; }
+@media (min-width: 768px) { .hero .facade { padding: var(--s12) var(--s12) 0; } }
+.hero h1 { font-weight: 900; font-size: clamp(64px, 15vw, 208px); }
+.hero .role { font-family: "Big Shoulders Display"; font-weight: 700; text-transform: uppercase; font-size: clamp(24px, 3vw, 40px); margin-top: var(--s2); }
+.hero .role span { color: var(--muted); font-weight: 500; }
+.ground { display: grid; gap: var(--s8); margin-top: var(--s8); align-items: end; }
+@media (min-width: 1024px) { .ground { grid-template-columns: 1fr auto auto auto; gap: var(--s6); } }
+.ground p { max-width: 52ch; color: var(--muted); padding-bottom: var(--s8); }
+.window { aspect-ratio: 3 / 5; width: 100%; border-radius: var(--arch); overflow: hidden; background: var(--bg); border: 6px solid var(--ink); border-bottom: 0; }
+.window video, .window img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero .window { width: 128px; display: none; }
+@media (min-width: 1024px) { .hero .window { display: block; } }
+.doors { display: flex; gap: var(--s4); flex-wrap: wrap; align-items: end; }
+.door { display: inline-grid; place-items: end center; min-width: 168px; height: 112px; padding: 0 var(--s6) var(--s4); border-radius: var(--arch); background: var(--accent); color: var(--on-accent); text-decoration: none; font-weight: 700; white-space: nowrap; }
+.door:active { transform: translateY(1px); }
+.plain { font-weight: 700; text-underline-offset: 5px; padding-bottom: var(--s4); }
+
+/* the street */
+section { padding: var(--s16) 0; }
+h2 { font-weight: 900; font-size: clamp(44px, 7vw, 96px); margin-bottom: var(--s8); }
+.street { display: grid; gap: var(--s6); }
+@media (min-width: 1024px) {
+  .street { display: flex; align-items: flex-start; overflow-x: auto; scroll-snap-type: x proximity; padding-bottom: var(--s6); gap: 0; }
+  .street > .house { flex: 0 0 auto; scroll-snap-align: start; }
+  .street > .house:nth-child(6n+1) { width: 440px; margin-top: 160px; }
+  .street > .house:nth-child(6n+2) { width: 380px; margin-top: 128px; }
+  .street > .house:nth-child(6n+3) { width: 420px; margin-top: 96px; }
+  .street > .house:nth-child(6n+4) { width: 400px; margin-top: 64px; }
+  .street > .house:nth-child(6n+5) { width: 380px; margin-top: 32px; }
+  .street > .house:nth-child(6n+6) { width: 440px; margin-top: 0; }
+  .street > .house + .house { border-left: 1px solid var(--line); }
+}
+.house { padding: var(--s8) var(--s6) var(--s6); display: flex; flex-direction: column; gap: var(--s4); }
+.house h3 { font-family: "Big Shoulders Display"; font-weight: 900; text-transform: uppercase; font-size: 40px; line-height: 0.95; }
+.house .window { width: 62%; aspect-ratio: 4 / 5; align-self: center; }
+.house .shutters { width: 62%; align-self: center; aspect-ratio: 4 / 5; border-radius: var(--arch); border: 6px solid var(--ink); border-bottom: 0; background: repeating-linear-gradient(90deg, var(--line) 0 2px, transparent 2px 14px); display: grid; place-items: center; font-size: 14px; color: var(--muted); text-align: center; padding: var(--s4); }
+.house p { color: var(--muted); font-size: 15px; }
+.tags { display: flex; flex-wrap: wrap; gap: var(--s1) var(--s3); list-style: none; padding: 0; font-size: 13px; color: var(--muted); }
+.house .links { display: flex; gap: var(--s4); flex-wrap: wrap; align-items: center; margin-top: auto; padding-top: var(--s2); }
+.house .links a { font-weight: 700; text-underline-offset: 4px; }
+.tile { display: inline-flex; align-items: center; gap: var(--s2); font-size: 13px; font-weight: 700; color: var(--accent); }
+.tile::before { content: ""; width: 12px; height: 12px; background: var(--accent); }
+.street-hint { font-size: 14px; color: var(--muted); margin-top: var(--s2); display: none; }
+@media (min-width: 1024px) { .street-hint { display: block; } }
+
+/* further down: smaller row houses */
+.row-houses { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); border-top: 8px solid var(--ink); }
+.row-houses .house { background: var(--facade); border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); }
+.row-houses .house h3 { font-size: 30px; }
+.row-houses .house .window, .row-houses .house .shutters { width: 46%; }
+
+/* about: plaque wall */
+.plaque-wall { display: grid; gap: var(--s12); }
+@media (min-width: 1024px) { .plaque-wall { grid-template-columns: 7fr 5fr; gap: var(--s16); } }
+.plaque-wall p { max-width: 62ch; font-size: 19px; }
+.plaque-wall p + p { margin-top: var(--s4); }
+.skills { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s6); }
+.skills div { border-top: 4px solid var(--ink); padding-top: var(--s3); }
+.skills h3 { font-family: "Big Shoulders Display"; text-transform: uppercase; font-weight: 700; font-size: 22px; }
+.skills ul { list-style: none; padding: 0; color: var(--muted); font-size: 15px; line-height: 1.8; }
+
+/* contact: the last door */
+.last { display: grid; gap: var(--s12); background: var(--facade); border-top: 8px solid var(--ink); padding: var(--s12) var(--s4) 0; }
+@media (min-width: 1024px) { .last { grid-template-columns: 5fr 6fr; padding: var(--s16) var(--s12) 0; } }
+.last .info p { color: var(--muted); max-width: 40ch; }
+.last .info a { display: block; font-weight: 700; font-size: 20px; margin-top: var(--s3); text-underline-offset: 5px; }
+.big-door { background: var(--accent); color: var(--on-accent); border-radius: 280px 280px 0 0; padding: 120px var(--s6) var(--s8); }
+@media (min-width: 768px) { .big-door { padding: 140px var(--s12) var(--s12); } }
+form { display: grid; gap: var(--s6); max-width: 440px; margin: 0 auto; }
+.field { display: grid; gap: var(--s2); }
+label { font-weight: 700; font-size: 15px; }
+input, textarea { font: inherit; padding: var(--s3) var(--s4); border: 0; background: #ffffff; color: #15181a; border-radius: 0; }
+input::placeholder, textarea::placeholder { color: #5a6166; }
+textarea { min-height: 128px; resize: vertical; }
+.big-door :focus-visible { outline-color: var(--on-accent); }
+.send { justify-self: start; background: var(--on-accent); color: var(--accent); border: 0; height: 48px; padding: 0 var(--s8); font-weight: 700; cursor: pointer; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: var(--s4) var(--s8); padding-top: var(--s8); padding-bottom: var(--s8); font-size: 14px; color: var(--muted); }
+footer .end { margin-left: auto; }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="logo" href="#">Cauê Souza</a>
+    <nav aria-label="Main">
+      <div class="navlinks"><a href="#about">About</a><a href="#projects">Projects</a><a href="#contact">Contact</a><a href="#">Resume</a></div>
+      <button class="icon-btn" type="button" aria-label="Change language">EN</button>
+      <button class="icon-btn" type="button" onclick="toggleTheme()" aria-label="Toggle theme">Theme</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div class="facade">
+      <h1 class="display">Cauê Souza</h1>
+      <p class="role">Software Engineer <span>/ Salvador, Brazil</span></p>
+      <div class="ground">
+        <div>
+          <p>Software Engineer passionate about building complete digital solutions from web and mobile applications to native desktop integrations and system-level tooling.</p>
+        </div>
+        <div class="window" id="w1"></div>
+        <div class="window" id="w2"></div>
+        <div class="doors"><a class="door" href="#">Download CV</a><a class="plain" href="#projects">View My Work</a></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="projects">
+    <div class="wrap">
+      <h2 class="display">Featured Projects</h2>
+      <div class="street" id="street" tabindex="0" aria-label="Featured projects, scrolls sideways"></div>
+      <p class="street-hint">Shift + wheel or arrow keys walk the street.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2 class="display">Other Projects</h2>
+      <div class="row-houses" id="others"></div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <h2 class="display">About Me</h2>
+      <div class="plaque-wall">
+        <div>
+          <p>I'm a software engineer who enjoys working across different layers of technology. My experience spans modern, responsive interfaces for web and mobile (React, Next.js, React Native) all the way to native desktop applications and system extensions for Linux/GNOME built with Python and JavaScript.</p>
+          <p>I believe in using technology to solve real-world problems simply and efficiently. I combine technical rigor, sound design principles, and smart automation in my daily workflow to build experiences that are robust under the hood and seamless for the user.</p>
+        </div>
+        <div class="skills" id="skills"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="last">
+        <div class="info">
+          <h2 class="display">Get In Touch</h2>
+          <p>Have a project in mind or just want to say hello? Feel free to reach out!</p>
+          <a href="mailto:souzacaue@proton.me">souzacaue@proton.me</a>
+          <a href="https://linkedin.com/in/caue-souza">LinkedIn</a>
+          <a href="https://github.com/EuCaue">GitHub</a>
+        </div>
+        <div class="big-door">
+          <form onsubmit="event.preventDefault()">
+            <div class="field"><label for="n">Name</label><input id="n" placeholder="Your name" autocomplete="name"></div>
+            <div class="field"><label for="e">Email</label><input id="e" type="email" placeholder="Your email" autocomplete="email"></div>
+            <div class="field"><label for="m">Message</label><textarea id="m" placeholder="Your message"></textarea></div>
+            <button class="send" type="submit">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Cauê Souza. All rights reserved.</span>
+    <a href="https://eucaue.online">eucaue.online</a>
+    <a href="https://blog.eucaue.online">Blog</a>
+    <a class="end" href="#">Resume</a>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script>
+const house = p => `
+  <article class="house">
+    <h3>${p.name}</h3>
+    ${media(p) ? `<div class="window">${media(p)}</div>` : `<div class="shutters">No preview available</div>`}
+    <p>${p.desc}</p>
+    <ul class="tags">${p.tags.map(t => `<li>${t}</li>`).join("")}</ul>
+    <div class="links">
+      ${p.github ? `<a href="${p.github}">GitHub</a>` : ""}
+      ${p.preview ? `<a href="${p.preview}">Live Demo</a><span class="tile">Published</span>` : ""}
+    </div>
+  </article>`;
+document.getElementById("street").innerHTML = PROJECTS.filter(p => p.featured).map(house).join("");
+document.getElementById("others").innerHTML = PROJECTS.filter(p => !p.featured).map(house).join("");
+document.getElementById("w1").innerHTML = media(PROJECTS[1]);
+document.getElementById("w2").innerHTML = media(PROJECTS[3]);
+document.getElementById("skills").innerHTML = SKILLS.map(([h, items]) =>
+  `<div><h3>${h}</h3><ul>${items.map(s => `<li>${s}</li>`).join("")}</ul></div>`).join("");
+</script>
+</body>
+</html>
