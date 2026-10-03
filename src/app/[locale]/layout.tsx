@@ -6,6 +6,7 @@ import { MotionProvider } from "@/components/common/motion-provider";
 import Navbar from "@/components/common/navbar";
 import { ThemeProvider } from "@/components/common/theme-provider";
 import { LanguageProvider } from "@/contexts/language-context";
+import { PROFILES, SEO, SITE_URL } from "@/lib/site";
 import "../globals.css";
 
 const sans = Geist({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
@@ -13,85 +14,55 @@ const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono", display: 
 
 const LOCALES = ["en", "pt-br"];
 
-const SITE_URL = "https://www.eucaue.online";
-
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const urlPath = locale === "pt-br" ? "pt-br" : "en";
-  const isPT = locale === "pt-br";
+  const lang = locale === "pt-br" ? "pt-br" : "en";
+  const seo = SEO[lang];
 
   return {
     metadataBase: new URL(SITE_URL),
-    title: isPT ? "Cauê Souza | Desenvolvedor de Software" : "Cauê Souza | Software Engineer",
-    description: isPT
-      ? "Portfólio pessoal mostrando meus projetos e habilidades. Software Engineer com experiência em web, mobile, desktop e integrações de sistema."
-      : "Personal portfolio showcasing my projects and skills. Software Engineer with hands-on experience across web, mobile, desktop, and system-integrated applications.",
-    keywords: isPT
-      ? [
-          "Cauê Souza",
-          "Desenvolvedor de Software",
-          "Software Engineer",
-          "React",
-          "Next.js",
-          "TypeScript",
-          "Node.js",
-          "Python",
-          "React Native",
-          "GNOME",
-          "Portfólio",
-        ]
-      : [
-          "Cauê Souza",
-          "Software Engineer",
-          "React",
-          "Next.js",
-          "TypeScript",
-          "Node.js",
-          "Python",
-          "React Native",
-          "GNOME",
-          "Portfolio",
-        ],
+    title: seo.title,
+    description: seo.description,
+    keywords: [
+      "Cauê Souza",
+      seo.role,
+      "React",
+      "Next.js",
+      "TypeScript",
+      "React Native",
+      "GNOME",
+      "Linux",
+      "Python",
+      "Rust",
+    ],
     authors: [{ name: "Cauê Souza", url: SITE_URL }],
     creator: "Cauê Souza",
     openGraph: {
-      type: "website",
-      url: `/${urlPath}`,
-      title: isPT ? "Cauê Souza | Desenvolvedor de Software" : "Cauê Souza | Software Engineer",
-      description: isPT
-        ? "Portfólio pessoal mostrando meus projetos e habilidades."
-        : "Personal portfolio showcasing my projects and skills.",
+      type: "profile",
+      url: `/${lang}`,
+      title: seo.title,
+      description: seo.description,
       siteName: "Cauê Souza",
-      locale: isPT ? "pt_BR" : "en_US",
+      locale: lang === "pt-br" ? "pt_BR" : "en_US",
+      alternateLocale: lang === "pt-br" ? "en_US" : "pt_BR",
     },
     twitter: {
       card: "summary_large_image",
-      title: isPT ? "Cauê Souza | Desenvolvedor de Software" : "Cauê Souza | Software Engineer",
-      description: isPT
-        ? "Portfólio pessoal mostrando meus projetos e habilidades."
-        : "Personal portfolio showcasing my projects and skills.",
+      title: seo.title,
+      description: seo.description,
     },
     robots: {
       index: true,
       follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-      },
+      googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
     },
     alternates: {
-      canonical: `/${urlPath}`,
-      languages: {
-        en: "/en",
-        "pt-BR": "/pt-br",
-        "x-default": "/en",
-      },
+      canonical: `/${lang}`,
+      languages: { en: "/en", "pt-BR": "/pt-br", "x-default": "/en" },
     },
   };
 }
@@ -210,6 +181,36 @@ export default async function LocaleLayout({
               >
                 {locale === "pt-br" ? "Pular para o conteúdo" : "Skip to content"}
               </a>
+              <script
+                type="application/ld+json"
+                // biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD built from constants
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "Person",
+                    name: "Cauê Souza",
+                    jobTitle: SEO[locale === "pt-br" ? "pt-br" : "en"].role,
+                    url: `${SITE_URL}/${locale}`,
+                    email: "mailto:souzacaue@proton.me",
+                    address: {
+                      "@type": "PostalAddress",
+                      addressLocality: "Salvador",
+                      addressCountry: "BR",
+                    },
+                    sameAs: PROFILES,
+                    knowsAbout: [
+                      "React",
+                      "Next.js",
+                      "React Native",
+                      "TypeScript",
+                      "Python",
+                      "GNOME",
+                      "GTK",
+                      "Rust",
+                    ],
+                  }),
+                }}
+              />
               <Navbar />
               {children}
             </MotionProvider>
