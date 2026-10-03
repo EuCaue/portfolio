@@ -1,0 +1,38 @@
+import { type Project, projects } from "@/data/projects";
+
+export type Platform = "web" | "mobile" | "extension" | "gnome" | "cli";
+export const PLATFORMS: Platform[] = ["web", "mobile", "extension", "gnome", "cli"];
+export type Filters = { platform: Platform | null; tech: string | null };
+export type MediaKind = "video" | "image" | "none";
+
+export const slugFromKey = (titleKey: string) =>
+  titleKey
+    .split(".")[1]
+    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+    .toLowerCase();
+
+export const projectSlug = (p: Project) => slugFromKey(p.titleKey);
+
+export const findProjectBySlug = (slug: string | null) =>
+  slug ? projects.find((p) => projectSlug(p) === slug) : undefined;
+
+export const filterProjects = (list: Project[], f: Filters) =>
+  list.filter(
+    (p) => (!f.platform || p.platform === f.platform) && (!f.tech || p.tags.includes(f.tech)),
+  );
+
+export const techOptions = (list: Project[]) => {
+  const counts = new Map<string, number>();
+  for (const p of list) for (const t of p.tags) counts.set(t, (counts.get(t) ?? 0) + 1);
+  return [...counts]
+    .filter(([, count]) => count > 1)
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .map(([tag, count]) => ({ tag, count }));
+};
+
+export const mediaKind = (p: Project): MediaKind =>
+  p.video ? "video" : p.image ? "image" : "none";
+
+const STORE_HOSTS = ["extensions.gnome.org", "addons.mozilla.org"];
+export const hostOf = (url: string) => new URL(url).hostname.replace(/^www\./, "");
+export const previewKind = (url: string) => (STORE_HOSTS.includes(hostOf(url)) ? "store" : "demo");

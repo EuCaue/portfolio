@@ -1,3 +1,5 @@
+import type { Platform } from "@/lib/projects";
+
 export type Video = {
   sources: { url: string; type: string }[];
 };
@@ -11,11 +13,13 @@ export type Project = {
   github?: string;
   preview?: string;
   featured: boolean;
+  platform: Platform;
 };
 
 export const projects: Project[] = [
   {
     titleKey: "projects.quickLofi.title",
+    platform: "gnome",
     descriptionKey: "projects.quickLofi.description",
     video: {
       sources: [
@@ -32,6 +36,7 @@ export const projects: Project[] = [
   },
   {
     titleKey: "projects.flexa.title",
+    platform: "gnome",
     descriptionKey: "projects.flexa.description",
     video: {
       sources: [
@@ -47,6 +52,7 @@ export const projects: Project[] = [
   },
   {
     titleKey: "projects.autoVolume.title",
+    platform: "mobile",
     descriptionKey: "projects.autoVolume.description",
     tags: ["React Native", "Expo", "TypeScript", "Mobile", "Background Processing"],
     github: "https://github.com/EuCaue/auto-volume",
@@ -54,6 +60,7 @@ export const projects: Project[] = [
   },
   {
     titleKey: "projects.scrolled.title",
+    platform: "extension",
     descriptionKey: "projects.scrolled.description",
     video: {
       sources: [
@@ -79,6 +86,7 @@ export const projects: Project[] = [
   },
   {
     titleKey: "projects.pixDonation.title",
+    platform: "web",
     descriptionKey: "projects.pixDonation.description",
     video: {
       sources: [
@@ -93,6 +101,7 @@ export const projects: Project[] = [
   },
   {
     titleKey: "projects.harbor.title",
+    platform: "cli",
     descriptionKey: "projects.harbor.description",
     image: "/harbor.gif",
     tags: ["Rust", "CLI", "Daemon", "File Watcher", "Automation"],
@@ -101,6 +110,7 @@ export const projects: Project[] = [
   },
   {
     titleKey: "projects.feedPet.title",
+    platform: "web",
     descriptionKey: "projects.feedPet.description",
     image: "/feed-pet.png",
     tags: [
@@ -117,6 +127,7 @@ export const projects: Project[] = [
   },
   {
     titleKey: "projects.cssCursorGallery.title",
+    platform: "web",
     descriptionKey: "projects.cssCursorGallery.description",
     video: {
       sources: [
@@ -131,6 +142,7 @@ export const projects: Project[] = [
   },
   {
     titleKey: "projects.myMovies.title",
+    platform: "web",
     descriptionKey: "projects.myMovies.description",
     image: "https://github.com/EuCaue/my-movies/blob/master/app.png?raw=true",
     tags: [
@@ -151,6 +163,7 @@ export const projects: Project[] = [
   },
   {
     titleKey: "projects.redditAutoTheme.title",
+    platform: "extension",
     descriptionKey: "projects.redditAutoTheme.description",
     video: {
       sources: [{ type: "mp4", url: "/reddit-auto-theme.mp4" }],
@@ -174,6 +187,7 @@ export const projects: Project[] = [
   },
   {
     titleKey: "projects.urlShort.title",
+    platform: "web",
     descriptionKey: "projects.urlShort.description",
     image: "https://github.com/EuCaue/url-short/blob/master/app.png?raw=true",
     tags: ["TypeScript", "React", "Next.js", "TailwindCSS", "Git"],
@@ -183,6 +197,7 @@ export const projects: Project[] = [
   },
   {
     titleKey: "projects.snapTheWeb.title",
+    platform: "web",
     descriptionKey: "projects.snapTheWeb.description",
     image: "https://github.com/EuCaue/snap-the-web/blob/master/preview.png?raw=true",
     tags: ["Angular", "PrimeNG", "TypeScript", "HTML5", "CSS3", "REST API"],
@@ -192,6 +207,7 @@ export const projects: Project[] = [
   },
   {
     titleKey: "projects.getCat.title",
+    platform: "web",
     descriptionKey: "projects.getCat.description",
     image: "/get-cat.png",
     tags: ["HTML5", "CSS3", "JavaScript", "TypeScript", "React", "Next.js"],
@@ -201,6 +217,7 @@ export const projects: Project[] = [
   },
   {
     titleKey: "projects.nautilusCopy.title",
+    platform: "gnome",
     descriptionKey: "projects.nautilusCopy.description",
     image: "/nautilus-extension-copy-file-contents.png",
     tags: ["Python", "Nautilus API", "Make"],
@@ -209,6 +226,7 @@ export const projects: Project[] = [
   },
   {
     titleKey: "projects.decomp.title",
+    platform: "cli",
     descriptionKey: "projects.decomp.description",
     tags: ["Node.js", "TypeScript", "Jest", "CLI"],
     github: "https://github.com/EuCaue/decomp",
