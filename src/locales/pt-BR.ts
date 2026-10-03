@@ -17,10 +17,10 @@ export const ptBR: Record<TranslationKeys, string> = {
   "language.en": "Inglês",
   "language.pt-BR": "Português",
 
-  "intro.role": "Engenheiro de Software",
+  "intro.role": "Desenvolvedor Full Stack",
   "intro.location": "Salvador, Brasil",
   "intro.description":
-    "Desenvolvo apps web e mobile com React, Next.js e React Native. Fora isso, crio ferramentas para o desktop Linux, como extensões do GNOME e apps GTK.",
+    "Desenvolvo apps web e mobile, e as APIs por trás deles, com React, Next.js, React Native e Go. Fora isso, crio ferramentas para o desktop Linux, como extensões do GNOME e apps GTK.",
   "intro.downloadCv": "Ver currículo",
   "resume.title": "Currículo",
   "resume.download": "Baixar PDF",
@@ -134,7 +134,7 @@ export const ptBR: Record<TranslationKeys, string> = {
 
   "about.title": "Sobre",
   "about.paragraph1":
-    "Sou engenheiro de software em Salvador. No trabalho, desenvolvo produtos web e mobile com React, Next.js e React Native. A maior parte disso é privada, então o que você vê aqui são projetos meus.",
+    "Sou desenvolvedor full stack em Salvador. No trabalho, cuido tanto da API quanto da parte web dos produtos, com React, Next.js, React Native e Go. A maior parte disso é privada, então o que você vê aqui são projetos meus.",
   "about.paragraph2":
     "Também gosto de descer na stack: extensões do GNOME, apps GTK e um pouco de Rust. Seja qual for a camada, quero software simples de usar e fácil de manter, e deixo a automação cuidar do que é repetitivo.",
   "about.stack.title": "Caixa de ferramentas",

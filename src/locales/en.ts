@@ -15,10 +15,10 @@ export const en = {
   "language.en": "English",
   "language.pt-BR": "Portuguese",
 
-  "intro.role": "Software Engineer",
+  "intro.role": "Full Stack Developer",
   "intro.location": "Salvador, Brazil",
   "intro.description":
-    "I build web and mobile apps with React, Next.js and React Native. Outside of that, I make tools for the Linux desktop, like GNOME extensions and GTK apps.",
+    "I build web and mobile apps, and the APIs behind them, with React, Next.js, React Native and Go. Outside of that, I make tools for the Linux desktop, like GNOME extensions and GTK apps.",
   "intro.downloadCv": "View resume",
   "resume.title": "Resume",
   "resume.download": "Download PDF",
@@ -131,7 +131,7 @@ export const en = {
 
   "about.title": "About",
   "about.paragraph1":
-    "I'm a software engineer from Salvador, Brazil. At work I build web and mobile products with React, Next.js and React Native. Most of that work is private, so what you see here are my own projects.",
+    "I'm a full stack developer from Salvador, Brazil. At work I build both the API and the web side of our products, using React, Next.js, React Native and Go. Most of that work is private, so what you see here are my own projects.",
   "about.paragraph2":
     "I also enjoy going lower in the stack: GNOME extensions, GTK apps and a bit of Rust. Whatever the layer, I care about software that is simple to use and easy to maintain, and I let automation handle the repetitive parts.",
   "about.stack.title": "Toolbox",

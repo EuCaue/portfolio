@@ -10,5 +10,6 @@ test("titles and descriptions fit search snippets and match the hero role", () =
     expect(SEO[lang].description.length).toBeLessThanOrEqual(160);
     expect(SEO[lang].title.length).toBeLessThanOrEqual(60);
   }
-  expect(SEO["pt-br"].title).toContain("Engenheiro de Software");
+  expect(SEO.en.title).toBe("Cauê Souza | Full Stack Developer");
+  expect(SEO["pt-br"].title).toBe("Cauê Souza | Desenvolvedor Full Stack");
 });

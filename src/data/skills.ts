@@ -6,7 +6,7 @@ export type SkillGroup = {
 export const skillsData: SkillGroup[] = [
   {
     categoryKey: "skills.languages",
-    items: ["TypeScript", "JavaScript", "Python", "Shell Script"],
+    items: ["TypeScript", "JavaScript", "Go", "Python", "Shell Script"],
   },
   {
     categoryKey: "skills.frontend",

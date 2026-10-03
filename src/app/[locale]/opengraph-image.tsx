@@ -3,7 +3,7 @@ import { SEO } from "@/lib/site";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Cauê Souza, Software Engineer";
+export const alt = "Cauê Souza, Full Stack Developer";
 
 export function generateStaticParams() {
   return [{ locale: "en" }, { locale: "pt-br" }];

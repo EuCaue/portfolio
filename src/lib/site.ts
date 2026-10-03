@@ -2,16 +2,16 @@ export const SITE_URL = "https://portfolio.eucaue.online";
 
 export const SEO = {
   en: {
-    title: "Cauê Souza | Software Engineer",
-    role: "Software Engineer",
+    title: "Cauê Souza | Full Stack Developer",
+    role: "Full Stack Developer",
     description:
-      "Software engineer in Salvador, Brazil, building web and mobile apps with React and Next.js, plus GNOME extensions and tools for Linux.",
+      "Full stack developer in Salvador, Brazil, building web and mobile apps with React, Next.js and Go, plus GNOME extensions and tools for Linux.",
   },
   "pt-br": {
-    title: "Cauê Souza | Engenheiro de Software",
-    role: "Engenheiro de Software",
+    title: "Cauê Souza | Desenvolvedor Full Stack",
+    role: "Desenvolvedor Full Stack",
     description:
-      "Engenheiro de software em Salvador, criando apps web e mobile com React e Next.js, além de extensões do GNOME e ferramentas para Linux.",
+      "Desenvolvedor full stack em Salvador, criando apps web e mobile com React, Next.js e Go, além de extensões do GNOME e ferramentas para Linux.",
   },
 } as const;
 
