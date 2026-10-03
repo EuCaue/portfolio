@@ -71,7 +71,7 @@ export default function Navbar() {
             Cauê Souza
           </a>
 
-          <nav aria-label="Main" className="hidden items-center gap-5 md:flex">
+          <nav aria-label={t("nav.label.main")} className="hidden items-center gap-5 md:flex">
             {links}
             <span className="h-4 w-px bg-border" aria-hidden="true" />
             {external}
@@ -104,7 +104,7 @@ export default function Navbar() {
               </SheetTrigger>
               <SheetContent side="right" className="w-72">
                 <SheetTitle className="text-base">Cauê Souza</SheetTitle>
-                <nav aria-label="Mobile" className="mt-6 flex flex-col gap-1">
+                <nav aria-label={t("nav.label.mobile")} className="mt-6 flex flex-col gap-1">
                   {links}
                   <span className="my-3 h-px bg-border" aria-hidden="true" />
                   {external}

@@ -21,7 +21,11 @@ export default function Projects() {
   return (
     <section id="projects" aria-labelledby="projects-title" className="border-t py-20 md:py-24">
       <div className="container">
-        <h2 id="projects-title" className="text-3xl font-semibold tracking-[-0.03em]">
+        <h2
+          id="projects-title"
+          tabIndex={-1}
+          className="text-3xl font-semibold tracking-[-0.03em] outline-none"
+        >
           <ProjectsTitle />
         </h2>
         <Suspense fallback={<ProjectsView state={EMPTY} onChange={noop} />}>
@@ -41,6 +45,8 @@ function ProjectsWithUrl() {
   const [state, set] = useUrlState();
   // Remember what opened the dialog so focus can go back there when it closes.
   const opener = useRef<HTMLElement | null>(null);
+  const lastProject = useRef<string | null>(null);
+  if (state.project) lastProject.current = state.project;
   const change = (patch: Partial<UrlState>) => {
     if (patch.project && !state.project)
       opener.current = document.activeElement as HTMLElement | null;
@@ -51,7 +57,15 @@ function ProjectsWithUrl() {
       <ProjectsView state={state} onChange={change} />
       <ProjectDialog
         slug={state.project}
-        returnFocus={() => opener.current?.focus()}
+        returnFocus={() => {
+          // A dialog opened from a shared link has no opener: fall back to that project's card.
+          const target =
+            opener.current ??
+            document.querySelector<HTMLElement>(`[data-open="${lastProject.current}"]`) ??
+            document.getElementById("projects-title");
+          target?.focus();
+          opener.current = null;
+        }}
         onClose={() => set({ project: null })}
         onNavigate={(slug) => set({ project: slug })}
       />

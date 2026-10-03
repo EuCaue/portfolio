@@ -38,3 +38,6 @@ export function historyAction(
   if ("project" in patch && !patch.project && current.project && openedByPush) return "back";
   return "replace";
 }
+
+// Changing language keeps the current view: filters and the open project carry over.
+export const localePath = (locale: string, search: string) => `/${locale}${search}`;

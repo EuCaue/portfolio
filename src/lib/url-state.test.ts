@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { historyAction, parseUrlState, writeUrlState } from "./url-state";
+import { historyAction, localePath, parseUrlState, writeUrlState } from "./url-state";
 
 const p = (s: string) => new URLSearchParams(s);
 
@@ -49,5 +49,14 @@ describe("historyAction", () => {
   });
   test("filters replace", () => {
     expect(historyAction(closed, { platform: "web" }, false)).toBe("replace");
+  });
+});
+
+describe("localePath", () => {
+  test("switching language keeps filters and the open project", () => {
+    expect(localePath("pt-br", "?platform=web&project=flexa")).toBe(
+      "/pt-br?platform=web&project=flexa",
+    );
+    expect(localePath("en", "")).toBe("/en");
   });
 });

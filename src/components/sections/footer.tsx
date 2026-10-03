@@ -13,7 +13,7 @@ export default function Footer() {
         <p>
           © {year} Cauê Souza. {t("footer.rights")}
         </p>
-        <nav aria-label="Footer" className="flex flex-wrap gap-x-5 gap-y-2">
+        <nav aria-label={t("nav.label.footer")} className="flex flex-wrap gap-x-5 gap-y-2">
           <a
             href="https://eucaue.online"
             target="_blank"

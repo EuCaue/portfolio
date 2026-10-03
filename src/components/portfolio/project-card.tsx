@@ -39,6 +39,7 @@ export function ProjectCard({
           <button
             type="button"
             onClick={() => onOpen(projectSlug(project))}
+            data-open={projectSlug(project)}
             aria-haspopup="dialog"
             aria-label={t("project.open").replace("{name}", name)}
             className="text-left after:absolute after:inset-0 after:z-0 after:content-[''] focus-visible:outline-none after:focus-visible:rounded-xl after:focus-visible:ring-2 after:focus-visible:ring-ring"

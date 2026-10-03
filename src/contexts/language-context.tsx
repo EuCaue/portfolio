@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { createContext, type ReactNode, useContext, useEffect, useState } from "react";
+import { localePath } from "@/lib/url-state";
 import { en, type TranslationKeys } from "@/locales/en";
 import { ptBR } from "@/locales/pt-BR";
 
@@ -53,7 +54,7 @@ export function LanguageProvider({
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
-    router.push(`/${LANG_TO_URL[lang]}`);
+    router.push(localePath(LANG_TO_URL[lang], window.location.search), { scroll: false });
     // biome-ignore lint/suspicious/noDocumentCookie: persist locale choice for next redirect
     document.cookie = `NEXT_LOCALE=${LANG_TO_URL[lang]}; path=/; max-age=${60 * 60 * 24 * 365}`;
   };
