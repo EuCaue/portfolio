@@ -1,5 +1,6 @@
 "use client";
 
+import { ResumeLink } from "@/components/portfolio/resume-link";
 import { useLanguage } from "@/contexts/language-context";
 
 export default function Footer() {
@@ -30,9 +31,7 @@ export default function Footer() {
           >
             {t("nav.blog")}
           </a>
-          <a href={t("nav.resumeUrl")} target="_blank" rel="noopener noreferrer" className={link}>
-            {t("footer.resume")}
-          </a>
+          <ResumeLink className={link}>{t("footer.resume")}</ResumeLink>
         </nav>
       </div>
     </footer>

@@ -21,7 +21,14 @@ export const ptBR: Record<TranslationKeys, string> = {
   "intro.location": "Salvador, Brasil",
   "intro.description":
     "Desenvolvo apps web e mobile com React, Next.js e React Native. Fora isso, crio ferramentas para o desktop Linux, como extensões do GNOME e apps GTK.",
-  "intro.downloadCv": "Baixar currículo",
+  "intro.downloadCv": "Ver currículo",
+  "resume.title": "Currículo",
+  "resume.download": "Baixar PDF",
+  "resume.open": "Abrir em nova aba",
+  "resume.language": "Idioma do currículo",
+  "resume.noViewer": "Este navegador não mostra o PDF aqui, mas você pode abrir ou baixar.",
+  "posts.title": "Últimos posts",
+  "posts.all": "Todos os posts",
   "intro.getInTouch": "Fale comigo",
 
   "projects.title": "Projetos",

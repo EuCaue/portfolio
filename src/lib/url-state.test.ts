@@ -9,6 +9,7 @@ describe("parseUrlState", () => {
       platform: "gnome",
       tech: "Python",
       project: "flexa",
+      resume: null,
     });
   });
   test("ignores unknown or badly cased values", () => {
@@ -16,13 +17,19 @@ describe("parseUrlState", () => {
       platform: null,
       tech: null,
       project: null,
+      resume: null,
     });
   });
   test("a platform with no projects is ignored", () => {
     expect(parseUrlState(p("platform=mobile")).platform).toBeNull();
   });
   test("empty params", () => {
-    expect(parseUrlState(p(""))).toEqual({ platform: null, tech: null, project: null });
+    expect(parseUrlState(p(""))).toEqual({
+      platform: null,
+      tech: null,
+      project: null,
+      resume: null,
+    });
   });
 });
 
@@ -35,7 +42,7 @@ describe("writeUrlState", () => {
 });
 
 describe("historyAction", () => {
-  const closed = { platform: null, tech: null, project: null };
+  const closed = { platform: null, tech: null, project: null, resume: null };
   const open = { ...closed, project: "flexa" };
   test("opening a project pushes, so Back closes it", () => {
     expect(historyAction(closed, { project: "flexa" }, false)).toBe("push");
@@ -58,5 +65,17 @@ describe("localePath", () => {
       "/pt-br?platform=web&project=flexa",
     );
     expect(localePath("en", "")).toBe("/en");
+  });
+});
+
+describe("resume preview state", () => {
+  const closed = { platform: null, tech: null, project: null, resume: null };
+  test("?resume=open opens the preview, anything else is ignored", () => {
+    expect(parseUrlState(p("resume=open")).resume).toBe("open");
+    expect(parseUrlState(p("resume=yes")).resume).toBeNull();
+  });
+  test("opening the resume pushes, closing goes back", () => {
+    expect(historyAction(closed, { resume: "open" }, false)).toBe("push");
+    expect(historyAction({ ...closed, resume: "open" }, { resume: null }, true)).toBe("back");
   });
 });

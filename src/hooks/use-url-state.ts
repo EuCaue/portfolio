@@ -1,42 +1,41 @@
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo } from "react";
 import { historyAction, parseUrlState, type UrlState, writeUrlState } from "@/lib/url-state";
 
-// Filters and the open project live in the query string, so every view can be linked and restored.
+// Whether the open dialog added its own history entry. Shared by every caller, so a dialog
+// opened from the navbar can still be closed with history.back() by the dialog itself.
+let pushedOverlay = false;
+
 // Writes go through the History API: instant, no server round trip, and Next keeps
-// useSearchParams in sync. Opening a project pushes an entry, so Back closes the dialog.
+// useSearchParams in sync. Opening a dialog pushes an entry, so Back closes it.
+export function updateUrlState(patch: Partial<UrlState>) {
+  const search = new URLSearchParams(window.location.search);
+  const action = historyAction(parseUrlState(search), patch, pushedOverlay);
+  if (action === "back") {
+    pushedOverlay = false;
+    window.history.back();
+    return;
+  }
+  const url = `${window.location.pathname}${writeUrlState(search, patch)}${window.location.hash}`;
+  if (action === "push") {
+    pushedOverlay = true;
+    window.history.pushState(null, "", url);
+  } else {
+    window.history.replaceState(null, "", url);
+  }
+}
+
+// Filters and open dialogs live in the query string, so every view can be linked and restored.
 export function useUrlState() {
   const params = useSearchParams();
-  const pathname = usePathname();
-  const pushed = useRef(false);
-
+  usePathname();
   const state = useMemo(() => parseUrlState(new URLSearchParams(params.toString())), [params]);
 
   useEffect(() => {
-    if (!state.project) pushed.current = false;
-  }, [state.project]);
+    if (!state.project && !state.resume) pushedOverlay = false;
+  }, [state.project, state.resume]);
 
-  const set = useCallback(
-    (patch: Partial<UrlState>) => {
-      const search = new URLSearchParams(window.location.search);
-      const action = historyAction(parseUrlState(search), patch, pushed.current);
-      if (action === "back") {
-        pushed.current = false;
-        window.history.back();
-        return;
-      }
-      const url = `${pathname}${writeUrlState(search, patch)}${window.location.hash}`;
-      if (action === "push") {
-        pushed.current = true;
-        window.history.pushState(null, "", url);
-      } else {
-        window.history.replaceState(null, "", url);
-      }
-    },
-    [pathname],
-  );
-
-  return [state, set] as const;
+  return [state, updateUrlState] as const;
 }

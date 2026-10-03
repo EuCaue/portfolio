@@ -1,7 +1,8 @@
 "use client";
 
-import { FileDown, Github, Linkedin, MapPin } from "lucide-react";
+import { FileText, Github, Linkedin, MapPin } from "lucide-react";
 import { CopyEmail } from "@/components/portfolio/copy-email";
+import { ResumeLink } from "@/components/portfolio/resume-link";
 import BlurText from "@/components/react-bits/blur-text";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/language-context";
@@ -32,10 +33,10 @@ export default function Intro() {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button size="lg" asChild className="gap-2 px-6">
-              <a href={t("nav.resumeUrl")} target="_blank" rel="noopener noreferrer">
-                <FileDown className="h-4 w-4" aria-hidden="true" />
+              <ResumeLink>
+                <FileText className="h-4 w-4" aria-hidden="true" />
                 {t("intro.downloadCv")}
-              </a>
+              </ResumeLink>
             </Button>
             <Button size="lg" variant="outline" asChild className="px-6">
               <a href="#contact">{t("intro.getInTouch")}</a>

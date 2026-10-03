@@ -1,7 +1,7 @@
 import { projects } from "@/data/projects";
 import { type Filters, findProjectBySlug, PLATFORMS, type Platform } from "./projects";
 
-export type UrlState = Filters & { project: string | null };
+export type UrlState = Filters & { project: string | null; resume: "open" | null };
 
 const TAGS = new Set(projects.flatMap((p) => p.tags));
 
@@ -13,6 +13,7 @@ export function parseUrlState(params: URLSearchParams): UrlState {
     platform: PLATFORMS.includes(platform as Platform) ? (platform as Platform) : null,
     tech: tech && TAGS.has(tech) ? tech : null,
     project: findProjectBySlug(project) ? project : null,
+    resume: params.get("resume") === "open" ? "open" : null,
   };
 }
 
@@ -28,14 +29,19 @@ export function writeUrlState(current: URLSearchParams, patch: Partial<UrlState>
 
 export type HistoryAction = "push" | "replace" | "back";
 
-// Opening a project adds a history entry so Back closes the dialog; everything else replaces.
+// Dialogs that live in the URL. Opening one adds a history entry so Back closes it.
+const OVERLAYS = ["project", "resume"] as const;
+
+// Everything that is not opening or closing an overlay replaces the current entry.
 export function historyAction(
   current: UrlState,
   patch: Partial<UrlState>,
   openedByPush: boolean,
 ): HistoryAction {
-  if (patch.project && !current.project) return "push";
-  if ("project" in patch && !patch.project && current.project && openedByPush) return "back";
+  for (const key of OVERLAYS) {
+    if (patch[key] && !current[key]) return "push";
+    if (key in patch && !patch[key] && current[key] && openedByPush) return "back";
+  }
   return "replace";
 }
 

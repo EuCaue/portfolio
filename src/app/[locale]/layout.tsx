@@ -159,11 +159,6 @@ export default async function LocaleLayout({
           href="/apple-touch-icon-dark.png"
           media="(prefers-color-scheme: dark)"
         />
-        <script
-          defer
-          src="https://umami-w117k4faahzuioue6p3dkq8f.25122003.xyz/script.js"
-          data-website-id="9aeb97a1-de4a-416b-bfd3-ac4ce0b6bca4"
-        ></script>
       </head>
 
       <body className={`${sans.variable} ${mono.variable} font-sans`}>

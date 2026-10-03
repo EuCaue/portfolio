@@ -18,7 +18,7 @@ import type { UrlState } from "@/lib/url-state";
 const SPOTLIGHT = "quick-lofi";
 // Five cards read as two wide and three narrow instead of a row with a hole in it.
 const SPANS = ["lg:col-span-3", "lg:col-span-3", "lg:col-span-2", "lg:col-span-2", "lg:col-span-2"];
-const EMPTY: UrlState = { platform: null, tech: null, project: null };
+const EMPTY: UrlState = { platform: null, tech: null, project: null, resume: null };
 const noop = () => {};
 
 export default function Projects() {

@@ -4,6 +4,7 @@ import { ArrowUpRight, FileDown, Menu } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import LanguageSwitcher from "@/components/common/language-switcher";
 import ThemeToggle from "@/components/common/theme-toggle";
+import { ResumeLink } from "@/components/portfolio/resume-link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useLanguage } from "@/contexts/language-context";
@@ -86,10 +87,10 @@ export default function Navbar() {
               asChild
               className="ml-1 hidden gap-2 sm:inline-flex"
             >
-              <a href={t("nav.resumeUrl")} target="_blank" rel="noopener noreferrer">
+              <ResumeLink>
                 <FileDown className="h-4 w-4" aria-hidden="true" />
                 {t("nav.resume")}
-              </a>
+              </ResumeLink>
             </Button>
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
@@ -110,10 +111,10 @@ export default function Navbar() {
                   {external}
                 </nav>
                 <Button variant="outline" asChild className="mt-6 w-full gap-2">
-                  <a href={t("nav.resumeUrl")} target="_blank" rel="noopener noreferrer">
+                  <ResumeLink onClick={() => setOpen(false)}>
                     <FileDown className="h-4 w-4" aria-hidden="true" />
                     {t("nav.resume")}
-                  </a>
+                  </ResumeLink>
                 </Button>
               </SheetContent>
             </Sheet>

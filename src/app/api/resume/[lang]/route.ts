@@ -13,7 +13,7 @@ function htmlFallback(message: string) {
   );
 }
 
-export async function GET(_request: Request, { params }: { params: Promise<{ lang: string }> }) {
+export async function GET(request: Request, { params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
 
   if (!VALID_LANGS.includes(lang)) {
@@ -34,8 +34,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ lan
       return htmlFallback("Resume not uploaded yet");
     }
 
+    // ?download=1 asks Blob for an attachment; without it the PDF opens inline (used by the preview).
+    const download = new URL(request.url).searchParams.has("download");
     const downloadFilename = `CAUE-SOUZA-RESUME-${lang.toUpperCase()}.pdf`;
-    return NextResponse.redirect(latest.url, {
+    return NextResponse.redirect(download ? latest.downloadUrl : latest.url, {
       headers: {
         "Content-Disposition": `attachment; filename="${downloadFilename}"`,
       },

@@ -19,7 +19,14 @@ export const en = {
   "intro.location": "Salvador, Brazil",
   "intro.description":
     "I build web and mobile apps with React, Next.js and React Native. Outside of that, I make tools for the Linux desktop, like GNOME extensions and GTK apps.",
-  "intro.downloadCv": "Download CV",
+  "intro.downloadCv": "View resume",
+  "resume.title": "Resume",
+  "resume.download": "Download PDF",
+  "resume.open": "Open in a new tab",
+  "resume.language": "Resume language",
+  "resume.noViewer": "This browser can't show the PDF here, but you can open it or download it.",
+  "posts.title": "Latest posts",
+  "posts.all": "All posts",
   "intro.getInTouch": "Get in touch",
 
   "projects.title": "Projects",
