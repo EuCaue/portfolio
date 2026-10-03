@@ -18,6 +18,9 @@ describe("parseUrlState", () => {
       project: null,
     });
   });
+  test("a platform with no projects is ignored", () => {
+    expect(parseUrlState(p("platform=mobile")).platform).toBeNull();
+  });
   test("empty params", () => {
     expect(parseUrlState(p(""))).toEqual({ platform: null, tech: null, project: null });
   });

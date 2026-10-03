@@ -5,6 +5,7 @@ import {
   findProjectBySlug,
   mediaKind,
   neighbors,
+  PLATFORMS,
   previewKind,
   projectSlug,
   slugFromKey,
@@ -31,6 +32,23 @@ describe("slugs", () => {
 describe("order", () => {
   test("Quick Lofi is the first featured project", () => {
     expect(projects.filter((p) => p.featured)[0].titleKey).toBe("projects.quickLofi.title");
+  });
+  test("featured projects, with the blog where Auto Volume was", () => {
+    expect(projects.filter((p) => p.featured).map(projectSlug)).toEqual([
+      "quick-lofi",
+      "flexa",
+      "blog",
+      "scrolled",
+      "pix-donation",
+      "harbor",
+    ]);
+  });
+  test("Auto Volume and My Movies are gone", () => {
+    expect(findProjectBySlug("auto-volume")).toBeUndefined();
+    expect(findProjectBySlug("my-movies")).toBeUndefined();
+  });
+  test("only platforms that have projects are offered", () => {
+    expect(PLATFORMS).toEqual(["web", "extension", "gnome", "cli"]);
   });
 });
 
@@ -60,7 +78,7 @@ describe("helpers", () => {
     expect(opts[0].count).toBeGreaterThanOrEqual(opts[opts.length - 1].count);
   });
   test("mediaKind", () => {
-    expect(mediaKind(findProjectBySlug("auto-volume") ?? projects[0])).toBe("none");
+    expect(mediaKind(findProjectBySlug("decomp") ?? projects[0])).toBe("none");
     expect(mediaKind(findProjectBySlug("harbor") ?? projects[0])).toBe("image");
     expect(mediaKind(findProjectBySlug("flexa") ?? projects[0])).toBe("video");
   });

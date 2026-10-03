@@ -1,7 +1,9 @@
 import { type Project, projects } from "@/data/projects";
 
 export type Platform = "web" | "mobile" | "extension" | "gnome" | "cli";
-export const PLATFORMS: Platform[] = ["web", "mobile", "extension", "gnome", "cli"];
+const ALL_PLATFORMS: Platform[] = ["web", "mobile", "extension", "gnome", "cli"];
+// Only platforms that have at least one project are offered as filters.
+export const PLATFORMS = ALL_PLATFORMS.filter((k) => projects.some((p) => p.platform === k));
 export type Filters = { platform: Platform | null; tech: string | null };
 export type MediaKind = "video" | "image" | "none";
 

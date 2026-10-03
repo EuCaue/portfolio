@@ -64,9 +64,9 @@ export const ptBR: Record<TranslationKeys, string> = {
   "projects.quickLofi.description":
     "Uma extensão do GNOME Shell que toca rádio lo-fi pela barra superior com um clique. Já passou de 10.000 downloads no site oficial de extensões do GNOME.",
 
-  "projects.autoVolume.title": "Auto Volume",
-  "projects.autoVolume.description":
-    "Um app em React Native (Expo) que baixa o volume quando o fone de ouvido é conectado, para proteger a audição. Roda em segundo plano e mantém uma notificação fixa.",
+  "projects.blog.title": "Blog",
+  "projects.blog.description":
+    "Meu blog bilíngue, em inglês e português, feito com Astro, Tailwind CSS e MDX. É todo estático, com um feed RSS por idioma, busca por texto ou #tag e uma checagem de traduções que roda no CI antes de cada build.",
 
   "projects.pixDonation.title": "Sistema de Doações via PIX",
   "projects.pixDonation.description":
@@ -83,9 +83,6 @@ export const ptBR: Record<TranslationKeys, string> = {
   "projects.cssCursorGallery.title": "Galeria de Cursores CSS",
   "projects.cssCursorGallery.description":
     "Uma galeria interativa com todos os cursores do CSS. Dá para buscar um cursor e copiar o valor com um clique. Feita com HTML, CSS moderno (:is(), light-dark(), nesting, backdrop-filter) e JavaScript puro.",
-
-  "projects.myMovies.title": "My Movies",
-  "projects.myMovies.description": "Um app web para guardar e organizar sua lista de filmes.",
 
   "projects.urlShort.title": "URL Short",
   "projects.urlShort.description": "Um encurtador de links: cole um link longo e receba um curto.",

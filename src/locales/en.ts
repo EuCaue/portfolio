@@ -62,9 +62,9 @@ export const en = {
   "projects.quickLofi.description":
     "A GNOME Shell extension that plays lo-fi radio from the top bar with one click. It has passed 10,000 downloads on the official GNOME Extensions site.",
 
-  "projects.autoVolume.title": "Auto Volume",
-  "projects.autoVolume.description":
-    "A React Native (Expo) app that lowers the volume when headphones connect, to protect your hearing. It runs in the background and keeps a persistent notification.",
+  "projects.blog.title": "Blog",
+  "projects.blog.description":
+    "My bilingual blog, in English and Portuguese, built with Astro, Tailwind CSS and MDX. It is fully static, with an RSS feed per language, search by text or #tag, and a translation check that runs in CI before every build.",
 
   "projects.pixDonation.title": "PIX Donation System",
   "projects.pixDonation.description":
@@ -81,9 +81,6 @@ export const en = {
   "projects.cssCursorGallery.title": "CSS Cursor Gallery",
   "projects.cssCursorGallery.description":
     "An interactive gallery of every CSS cursor. You can search for one and copy its value with a click. Built with HTML, modern CSS (:is(), light-dark(), nesting, backdrop-filter) and vanilla JavaScript.",
-
-  "projects.myMovies.title": "My Movies",
-  "projects.myMovies.description": "A web app for keeping and organizing your list of movies.",
 
   "projects.urlShort.title": "URL Short",
   "projects.urlShort.description": "A URL shortener: paste a long link and get a short one back.",
