@@ -17,8 +17,8 @@ export function ProjectRow({
   const name = t(project.titleKey);
 
   return (
-    <div className="group relative grid grid-cols-[96px_minmax(0,1fr)] gap-x-4 gap-y-3 px-4 py-4 transition-colors hover:bg-muted/50 focus-within:bg-muted/50 sm:grid-cols-[128px_minmax(0,1fr)_auto] sm:items-center sm:px-5">
-      <div className="aspect-video overflow-hidden rounded-md border bg-muted">
+    <div className="group relative grid grid-cols-[96px_minmax(0,1fr)] gap-x-4 gap-y-3 px-4 py-4 transition-colors hover:bg-muted/50 focus-within:bg-muted/50 sm:grid-cols-[128px_minmax(0,1fr)_auto] sm:items-center sm:px-5 [@media(hover:hover)_and_(min-width:640px)]:grid-cols-[minmax(0,1fr)_auto]">
+      <div className="aspect-video overflow-hidden rounded-md border bg-muted [@media(hover:hover)_and_(min-width:640px)]:hidden">
         <ProjectMedia project={project} title={name} mode="card" emptyLabel="" />
       </div>
       <div className="min-w-0">

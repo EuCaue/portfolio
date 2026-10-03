@@ -2,10 +2,10 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Suspense, useRef } from "react";
+import { HoverPreviewList } from "@/components/portfolio/hover-preview-list";
 import { ProjectCard } from "@/components/portfolio/project-card";
 import { ProjectDialog } from "@/components/portfolio/project-dialog";
 import { ProjectFilters } from "@/components/portfolio/project-filters";
-import { ProjectRow } from "@/components/portfolio/project-row";
 import { Spotlight } from "@/components/portfolio/spotlight";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/language-context";
@@ -154,13 +154,7 @@ function ProjectsView({
           <h3 className="mb-4 mt-12 text-sm font-medium text-muted-foreground">
             {t("projects.other")}
           </h3>
-          <ul className="divide-y overflow-hidden rounded-xl border">
-            {others.map((p) => (
-              <li key={projectSlug(p)}>
-                <ProjectRow project={p} onOpen={open} />
-              </li>
-            ))}
-          </ul>
+          <HoverPreviewList projects={others} onOpen={open} />
         </>
       )}
     </>
