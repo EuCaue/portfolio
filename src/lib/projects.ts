@@ -37,7 +37,9 @@ export const mediaKind = (p: Project): MediaKind =>
 
 const STORE_HOSTS = ["extensions.gnome.org", "addons.mozilla.org"];
 export const hostOf = (url: string) => new URL(url).hostname.replace(/^www\./, "");
-export const previewKind = (url: string) => (STORE_HOSTS.includes(hostOf(url)) ? "store" : "demo");
+const OWN_SITES = ["blog.eucaue.online"];
+export const previewKind = (url: string) =>
+  STORE_HOSTS.includes(hostOf(url)) ? "store" : OWN_SITES.includes(hostOf(url)) ? "site" : "demo";
 
 // Previous and next project in the full list (filters do not apply), wrapping at the ends.
 export const neighbors = (slug: string) => {

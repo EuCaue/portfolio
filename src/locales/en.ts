@@ -49,6 +49,7 @@ export const en = {
   "project.source": "GitHub",
   "project.store": "Store page",
   "project.demo": "Live demo",
+  "project.visit": "Visit site",
   "project.published": "Published on {host}",
   "project.online": "Live online",
   "project.noPreview": "No preview available",

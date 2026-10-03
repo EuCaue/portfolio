@@ -51,6 +51,7 @@ export const ptBR: Record<TranslationKeys, string> = {
   "project.source": "GitHub",
   "project.store": "Página na loja",
   "project.demo": "Ver online",
+  "project.visit": "Visitar site",
   "project.published": "Publicado em {host}",
   "project.online": "No ar",
   "project.noPreview": "Sem prévia disponível",

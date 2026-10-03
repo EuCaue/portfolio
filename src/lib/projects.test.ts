@@ -86,6 +86,7 @@ describe("helpers", () => {
     expect(previewKind("https://extensions.gnome.org/extension/6904/quick-lofi/")).toBe("store");
     expect(previewKind("https://addons.mozilla.org/en-US/firefox/addon/scrolled/")).toBe("store");
     expect(previewKind("https://get-cat.vercel.app/")).toBe("demo");
+    expect(previewKind("https://blog.eucaue.online/")).toBe("site");
   });
 });
 

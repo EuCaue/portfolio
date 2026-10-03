@@ -33,10 +33,13 @@ export function ProjectLinks({
   if (!project.github && !project.preview) {
     return <span className="text-xs text-muted-foreground">{t("project.sourcePrivate")}</span>;
   }
+  const kind = project.preview ? previewKind(project.preview) : "demo";
   const label =
-    project.preview && previewKind(project.preview) === "store"
+    kind === "store"
       ? t("project.store")
-      : t("project.demo");
+      : kind === "site"
+        ? t("project.visit")
+        : t("project.demo");
   return (
     <>
       {project.github && (
