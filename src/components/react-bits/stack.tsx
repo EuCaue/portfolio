@@ -2,14 +2,9 @@
 
 // Adapted from React Bits "Stack" (reactbits.dev): framer-motion instead of motion/react,
 // a stable rotation per card, and an imperative `next()` so a keyboard button can flip cards.
-import {
-  motion,
-  type PanInfo,
-  useMotionValue,
-  useReducedMotion,
-  useTransform,
-} from "framer-motion";
+import { motion, type PanInfo, useMotionValue, useTransform } from "framer-motion";
 import { forwardRef, type ReactNode, useImperativeHandle, useState } from "react";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
 type CardRotateProps = {
   children: ReactNode;
@@ -62,7 +57,7 @@ const Stack = forwardRef<StackHandle, StackProps>(function Stack(
   { cards, sensitivity = 120, onChange },
   ref,
 ) {
-  const reduce = useReducedMotion() ?? false;
+  const reduce = usePrefersReducedMotion();
   const [order, setOrder] = useState(() => cards.map((c) => c.id));
 
   const sendToBack = (id: string) => {

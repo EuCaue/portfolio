@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { parseUrlState, writeUrlState } from "./url-state";
+import { historyAction, parseUrlState, writeUrlState } from "./url-state";
 
 const p = (s: string) => new URLSearchParams(s);
 
@@ -28,5 +28,23 @@ describe("writeUrlState", () => {
     expect(writeUrlState(p("utm=x"), { platform: "web" })).toBe("?utm=x&platform=web");
     expect(writeUrlState(p("platform=web&project=flexa"), { project: null })).toBe("?platform=web");
     expect(writeUrlState(p("platform=web"), { platform: null })).toBe("");
+  });
+});
+
+describe("historyAction", () => {
+  const closed = { platform: null, tech: null, project: null };
+  const open = { ...closed, project: "flexa" };
+  test("opening a project pushes, so Back closes it", () => {
+    expect(historyAction(closed, { project: "flexa" }, false)).toBe("push");
+  });
+  test("moving between projects replaces", () => {
+    expect(historyAction(open, { project: "harbor" }, true)).toBe("replace");
+  });
+  test("closing goes back when we pushed, replaces after a shared link", () => {
+    expect(historyAction(open, { project: null }, true)).toBe("back");
+    expect(historyAction(open, { project: null }, false)).toBe("replace");
+  });
+  test("filters replace", () => {
+    expect(historyAction(closed, { platform: "web" }, false)).toBe("replace");
   });
 });

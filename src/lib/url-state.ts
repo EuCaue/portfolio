@@ -25,3 +25,16 @@ export function writeUrlState(current: URLSearchParams, patch: Partial<UrlState>
   const qs = next.toString();
   return qs ? `?${qs}` : "";
 }
+
+export type HistoryAction = "push" | "replace" | "back";
+
+// Opening a project adds a history entry so Back closes the dialog; everything else replaces.
+export function historyAction(
+  current: UrlState,
+  patch: Partial<UrlState>,
+  openedByPush: boolean,
+): HistoryAction {
+  if (patch.project && !current.project) return "push";
+  if ("project" in patch && !patch.project && current.project && openedByPush) return "back";
+  return "replace";
+}

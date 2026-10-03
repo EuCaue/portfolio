@@ -1,9 +1,9 @@
 "use client";
 
-import { useReducedMotion } from "framer-motion";
 import { ImageOff } from "lucide-react";
 import { useEffect, useRef } from "react";
 import type { Project } from "@/data/projects";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { mediaKind } from "@/lib/projects";
 import { cn } from "@/lib/utils";
 
@@ -18,7 +18,7 @@ type Props = {
 // Card videos load nothing until visible, then play muted while on screen.
 // Dialog videos get controls and start on open, unless the visitor prefers reduced motion.
 export function ProjectMedia({ project, title, mode, emptyLabel, className }: Props) {
-  const reduce = useReducedMotion();
+  const reduce = usePrefersReducedMotion();
   const ref = useRef<HTMLVideoElement>(null);
   const kind = mediaKind(project);
 

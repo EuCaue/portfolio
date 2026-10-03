@@ -76,3 +76,47 @@
     outline-offset: 2px;
   }
 }
+
+@layer components {
+  @media (prefers-reduced-motion: no-preference) {
+    .blur-word {
+      animation: blur-in 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @supports (animation-timeline: view()) {
+      .reveal {
+        animation: reveal-up linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 35%;
+      }
+    }
+  }
+}
+
+@keyframes blur-in {
+  0% {
+    filter: blur(10px);
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+  50% {
+    filter: blur(4px);
+    opacity: 0.6;
+    transform: translateY(4px);
+  }
+  100% {
+    filter: blur(0);
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

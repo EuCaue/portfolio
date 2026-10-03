@@ -1,27 +1,8 @@
-"use client";
-
-import { motion } from "framer-motion";
 import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
-// One fade-up the first time a block scrolls into view. MotionConfig turns it off for reduced motion.
-export function Reveal({
-  children,
-  className,
-  delay = 0,
-}: {
-  children: ReactNode;
-  className?: string;
-  delay?: number;
-}) {
-  return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.5, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
+// Fades a block up as it scrolls into view, with a CSS scroll-driven animation (.reveal in
+// globals.css). Content is visible without JavaScript, in browsers without support and with reduced motion.
+export function Reveal({ children, className }: { children: ReactNode; className?: string }) {
+  return <div className={cn("reveal", className)}>{children}</div>;
 }

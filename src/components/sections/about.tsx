@@ -1,6 +1,5 @@
 "use client";
 
-import { useReducedMotion } from "framer-motion";
 import { Code2, Hand, LayoutTemplate, type LucideIcon, Server, Wrench } from "lucide-react";
 import { useRef, useState } from "react";
 import { Reveal } from "@/components/portfolio/reveal";
@@ -8,6 +7,7 @@ import Stack, { type StackHandle } from "@/components/react-bits/stack";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/language-context";
 import { type SkillGroup, skillsData } from "@/data/skills";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { fill } from "@/lib/format";
 
 const ICONS: Record<string, LucideIcon> = {
@@ -41,7 +41,7 @@ function SkillCard({ group }: { group: SkillGroup }) {
 
 export default function About() {
   const { t } = useLanguage();
-  const reduce = useReducedMotion();
+  const reduce = usePrefersReducedMotion();
   const stack = useRef<StackHandle>(null);
   const [top, setTop] = useState(skillsData[0].categoryKey);
   const position = skillsData.findIndex((g) => g.categoryKey === top) + 1;

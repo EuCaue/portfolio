@@ -1,7 +1,7 @@
 "use client";
 
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { motion, useDragControls, useReducedMotion } from "framer-motion";
+import { motion, useDragControls } from "framer-motion";
 import { ChevronLeft, ChevronRight, GripHorizontal, X } from "lucide-react";
 import { useRef } from "react";
 import { ProjectMedia } from "@/components/portfolio/project-media";
@@ -25,9 +25,9 @@ export function ProjectDialog({ slug, onClose, onNavigate, returnFocus }: Props)
   const project = findProjectBySlug(slug);
   const bounds = useRef<HTMLDivElement>(null);
   const controls = useDragControls();
-  const reduce = useReducedMotion();
   const wide = useMediaQuery("(min-width: 640px)");
-  const canDrag = wide && !reduce;
+  // Dragging is started by the visitor, so it stays available with reduced motion.
+  const canDrag = wide;
 
   if (!project || !slug) return <DialogPrimitive.Root open={false} />;
 
@@ -58,7 +58,6 @@ export function ProjectDialog({ slug, onClose, onNavigate, returnFocus }: Props)
             }}
           >
             <motion.div
-              key={slug}
               drag={canDrag}
               dragControls={controls}
               dragListener={false}
@@ -96,7 +95,13 @@ export function ProjectDialog({ slug, onClose, onNavigate, returnFocus }: Props)
                 </DialogPrimitive.Close>
               </div>
 
-              <div className="min-h-0 overflow-y-auto">
+              <motion.div
+                key={slug}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.2 }}
+                className="min-h-0 overflow-y-auto"
+              >
                 <div className="aspect-video bg-muted">
                   <ProjectMedia
                     key={slug}
@@ -136,7 +141,7 @@ export function ProjectDialog({ slug, onClose, onNavigate, returnFocus }: Props)
                     <ProjectLinks project={project} size="default" />
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               <div className="flex shrink-0 items-center justify-between gap-2 border-t px-2 py-2">
                 <Button
