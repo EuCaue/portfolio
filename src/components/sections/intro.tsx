@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowDown, FileDown, MapPin } from "lucide-react";
+import { FileDown, Github, Linkedin, MapPin } from "lucide-react";
+import { CopyEmail } from "@/components/portfolio/copy-email";
+import BlurText from "@/components/react-bits/blur-text";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/language-context";
 
@@ -9,61 +10,60 @@ export default function Intro() {
   const { t } = useLanguage();
 
   return (
-    <section className="flex min-h-[90vh] flex-col items-center justify-center py-20 text-center relative">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="space-y-6 max-w-3xl"
-      >
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-          <span className="block text-primary">{t("intro.hello")}</span>
-          <span className="mt-2 block bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
-            Cauê Souza
-          </span>
-          <span className="mt-3 block text-xl sm:text-2xl md:text-3xl font-semibold text-muted-foreground">
-            {t("intro.role")}
-          </span>
-        </h1>
-
-        <div className="flex items-center justify-center gap-2 text-muted-foreground">
-          <MapPin className="h-4 w-4" />
-          <span className="text-sm sm:text-base">{t("intro.location")}</span>
-        </div>
-
-        <p className="mx-auto max-w-xl text-xl text-muted-foreground leading-relaxed">
-          {t("intro.description")}
-        </p>
-
-        <div className="flex flex-wrap justify-center gap-4 pt-4">
-          <Button asChild size="lg">
-            <a href="#projects">{t("intro.viewWork")}</a>
-          </Button>
-          <Button variant="outline" size="lg" asChild className="gap-2">
-            <a href={t("nav.resumeUrl")} target="_blank" rel="noopener noreferrer">
-              <FileDown className="h-5 w-5" />
-              {t("intro.downloadCv")}
+    <section aria-labelledby="hero-title" className="pb-16 pt-14 md:pb-20 md:pt-24">
+      <div className="container">
+        <div className="max-w-3xl">
+          <h1
+            id="hero-title"
+            className="text-5xl font-semibold leading-[1.05] tracking-[-0.04em] md:text-6xl"
+          >
+            <span className="sr-only">Cauê Souza</span>
+            <BlurText text="Cauê Souza" />
+          </h1>
+          <p className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-lg">
+            <span>{t("intro.role")}</span>
+            <span className="inline-flex items-center gap-1.5 text-sm text-muted-foreground">
+              <MapPin className="h-4 w-4" aria-hidden="true" />
+              {t("intro.location")}
+            </span>
+          </p>
+          <p className="mt-4 max-w-[62ch] text-lg leading-relaxed text-muted-foreground">
+            {t("intro.description")}
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button size="lg" asChild className="gap-2 px-6">
+              <a href={t("nav.resumeUrl")} target="_blank" rel="noopener noreferrer">
+                <FileDown className="h-4 w-4" aria-hidden="true" />
+                {t("intro.downloadCv")}
+              </a>
+            </Button>
+            <Button size="lg" variant="outline" asChild className="px-6">
+              <a href="#contact">{t("intro.getInTouch")}</a>
+            </Button>
+          </div>
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 border-t pt-6 text-sm text-muted-foreground">
+            <CopyEmail />
+            <a
+              href="https://github.com/EuCaue"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 py-1 transition-colors hover:text-foreground"
+            >
+              <Github className="h-4 w-4" aria-hidden="true" />
+              GitHub
             </a>
-          </Button>
-          <Button variant="ghost" size="lg" asChild>
-            <a href="#contact">{t("intro.getInTouch")}</a>
-          </Button>
+            <a
+              href="https://linkedin.com/in/caue-souza"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 py-1 transition-colors hover:text-foreground"
+            >
+              <Linkedin className="h-4 w-4" aria-hidden="true" />
+              LinkedIn
+            </a>
+          </div>
         </div>
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 1 }}
-        className="absolute bottom-10"
-      >
-        <a
-          href="#about"
-          className="flex flex-col items-center text-muted-foreground hover:text-primary transition-colors"
-        >
-          <span className="mb-2 text-sm">{t("intro.scrollDown")}</span>
-          <ArrowDown className="h-5 w-5 animate-bounce" />
-        </a>
-      </motion.div>
+      </div>
     </section>
   );
 }

@@ -6,14 +6,14 @@ import Projects from "@/components/sections/projects";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background">
-      <main className="container mx-auto px-4 py-8">
+    <>
+      <main id="main" tabIndex={-1} className="outline-none">
         <Intro />
-        <About />
         <Projects />
+        <About />
         <Contact />
       </main>
       <Footer />
-    </div>
+    </>
   );
 }

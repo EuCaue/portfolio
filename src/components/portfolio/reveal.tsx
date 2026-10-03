@@ -1,6 +1,6 @@
 "use client";
 
-import { m } from "framer-motion";
+import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 
 // One fade-up the first time a block scrolls into view. MotionConfig turns it off for reduced motion.
@@ -14,7 +14,7 @@ export function Reveal({
   delay?: number;
 }) {
   return (
-    <m.div
+    <motion.div
       className={className}
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -22,6 +22,6 @@ export function Reveal({
       transition={{ duration: 0.5, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
-    </m.div>
+    </motion.div>
   );
 }

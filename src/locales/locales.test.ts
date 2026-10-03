@@ -2,7 +2,8 @@ import { describe, expect, test } from "bun:test";
 import { en } from "./en";
 import { ptBR } from "./pt-BR";
 
-const BANNED = /passionate|seamless|robust|elevate|leverage|cutting-edge|top-notch|apaixonad|perfeitamente|de primeira linha/i;
+const BANNED =
+  /passionate|seamless|robust|elevate|leverage|cutting-edge|top-notch|apaixonad|perfeitamente|de primeira linha/i;
 
 describe.each([
   ["en", en as Record<string, string>],

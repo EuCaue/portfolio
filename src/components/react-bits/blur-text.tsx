@@ -2,7 +2,7 @@
 
 // Adapted from React Bits "BlurText" (reactbits.dev): framer-motion instead of motion/react,
 // words only, hidden from assistive tech (the parent carries the real text), static under reduced motion.
-import { m, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 type BlurTextProps = {
   text: string;
@@ -38,7 +38,7 @@ export default function BlurText({
   return (
     <span aria-hidden="true" className={className}>
       {words.map((word, index) => (
-        <m.span
+        <motion.span
           // biome-ignore lint/suspicious/noArrayIndexKey: words can repeat, order never changes
           key={index}
           className="inline-block will-change-[transform,filter,opacity]"
@@ -53,7 +53,7 @@ export default function BlurText({
         >
           {word}
           {index < words.length - 1 && " "}
-        </m.span>
+        </motion.span>
       ))}
     </span>
   );

@@ -95,7 +95,8 @@ export const ptBR: Record<TranslationKeys, string> = {
     "Um app web que tira um print de qualquer site a partir da URL, com algumas opções para ajustar a captura.",
 
   "projects.getCat.title": "Get Cat",
-  "projects.getCat.description": "Um app pequeno que mostra uma foto aleatória de gato e uma curiosidade.",
+  "projects.getCat.description":
+    "Um app pequeno que mostra uma foto aleatória de gato e uma curiosidade.",
 
   "projects.nautilusCopy.title": "Nautilus Copy File Contents",
   "projects.nautilusCopy.description":

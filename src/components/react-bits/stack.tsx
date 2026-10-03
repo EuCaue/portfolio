@@ -2,7 +2,13 @@
 
 // Adapted from React Bits "Stack" (reactbits.dev): framer-motion instead of motion/react,
 // a stable rotation per card, and an imperative `next()` so a keyboard button can flip cards.
-import { m, type PanInfo, useMotionValue, useReducedMotion, useTransform } from "framer-motion";
+import {
+  motion,
+  type PanInfo,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+} from "framer-motion";
 import { forwardRef, type ReactNode, useImperativeHandle, useState } from "react";
 
 type CardRotateProps = {
@@ -29,7 +35,7 @@ function CardRotate({ children, onSendToBack, sensitivity, disabled }: CardRotat
   if (disabled) return <div className="absolute inset-0">{children}</div>;
 
   return (
-    <m.div
+    <motion.div
       className="absolute inset-0 cursor-grab active:cursor-grabbing"
       style={{ x, y, rotateX, rotateY }}
       drag
@@ -38,7 +44,7 @@ function CardRotate({ children, onSendToBack, sensitivity, disabled }: CardRotat
       onDragEnd={handleDragEnd}
     >
       {children}
-    </m.div>
+    </motion.div>
   );
 }
 
@@ -83,7 +89,7 @@ const Stack = forwardRef<StackHandle, StackProps>(function Stack(
             sensitivity={sensitivity}
             disabled={reduce || !isTop}
           >
-            <m.div
+            <motion.div
               className="h-full w-full"
               aria-hidden={!isTop}
               animate={{
@@ -95,7 +101,7 @@ const Stack = forwardRef<StackHandle, StackProps>(function Stack(
               transition={{ type: "spring", stiffness: 260, damping: 22 }}
             >
               {card.content}
-            </m.div>
+            </motion.div>
           </CardRotate>
         );
       })}
