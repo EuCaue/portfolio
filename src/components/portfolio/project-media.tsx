@@ -2,6 +2,7 @@
 
 import { ImageOff } from "lucide-react";
 import { useEffect, useRef } from "react";
+import { VideoPlayer } from "@/components/portfolio/video-player";
 import type { Project } from "@/data/projects";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { mediaKind } from "@/lib/projects";
@@ -48,6 +49,10 @@ export function ProjectMedia({ project, title, mode, emptyLabel, className }: Pr
         <span>{emptyLabel}</span>
       </div>
     );
+  }
+
+  if (kind === "video" && mode === "dialog" && project.video) {
+    return <VideoPlayer video={project.video} title={title} />;
   }
 
   if (kind === "image") {

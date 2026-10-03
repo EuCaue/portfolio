@@ -58,6 +58,15 @@ export const en = {
   "project.builtWith": "Built with",
   "project.sourcePrivate": "Source not public",
   "project.position": "{index} of {total}",
+  "player.label": "Video player",
+  "player.play": "Play",
+  "player.pause": "Pause",
+  "player.seek": "Seek",
+  "player.speed": "Playback speed",
+  "player.mute": "Mute",
+  "player.unmute": "Unmute",
+  "player.fullscreen": "Fullscreen",
+  "player.exitFullscreen": "Exit fullscreen",
 
   "projects.flexa.title": "Flexa",
   "projects.flexa.description":

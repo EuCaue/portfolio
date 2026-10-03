@@ -60,6 +60,15 @@ export const ptBR: Record<TranslationKeys, string> = {
   "project.builtWith": "Feito com",
   "project.sourcePrivate": "Código não público",
   "project.position": "{index} de {total}",
+  "player.label": "Player de vídeo",
+  "player.play": "Reproduzir",
+  "player.pause": "Pausar",
+  "player.seek": "Avançar ou voltar",
+  "player.speed": "Velocidade",
+  "player.mute": "Silenciar",
+  "player.unmute": "Ativar som",
+  "player.fullscreen": "Tela cheia",
+  "player.exitFullscreen": "Sair da tela cheia",
 
   "projects.flexa.title": "Flexa",
   "projects.flexa.description":

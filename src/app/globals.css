@@ -120,3 +120,37 @@
     transform: none;
   }
 }
+
+/* Video player scrubber: the native range input stays for keyboard and screen readers,
+   only its thumb is drawn, and it grows when the player is hovered or the input is focused. */
+.player-range::-webkit-slider-thumb {
+  appearance: none;
+  height: 12px;
+  width: 12px;
+  border-radius: 9999px;
+  background: #fff;
+  transform: scale(0);
+  transition: transform 150ms ease-out;
+}
+.player-range::-moz-range-thumb {
+  height: 12px;
+  width: 12px;
+  border: 0;
+  border-radius: 9999px;
+  background: #fff;
+  transform: scale(0);
+  transition: transform 150ms ease-out;
+}
+.group\/player:hover .player-range::-webkit-slider-thumb,
+.player-range:focus-visible::-webkit-slider-thumb {
+  transform: scale(1);
+}
+.group\/player:hover .player-range::-moz-range-thumb,
+.player-range:focus-visible::-moz-range-thumb {
+  transform: scale(1);
+}
+.player-range:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
