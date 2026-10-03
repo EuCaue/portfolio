@@ -56,7 +56,7 @@ type StackProps = {
   onChange?: (topId: string) => void;
 };
 
-const TILT = [-4, 3, -2, 5, -3, 2];
+const TILT = [-7, 5, -4, 8, -5, 3];
 
 const Stack = forwardRef<StackHandle, StackProps>(function Stack(
   { cards, sensitivity = 120, onChange },
@@ -94,8 +94,9 @@ const Stack = forwardRef<StackHandle, StackProps>(function Stack(
               aria-hidden={!isTop}
               animate={{
                 rotateZ: isTop ? 0 : TILT[cards.indexOf(card) % TILT.length],
-                scale: 1 - depth * 0.05,
-                y: depth * 10,
+                scale: 1 - depth * 0.04,
+                x: depth * 10,
+                y: depth * 6,
               }}
               initial={false}
               transition={{ type: "spring", stiffness: 260, damping: 22 }}
