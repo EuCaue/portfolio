@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>F3 · Mapa de linhas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+/* A transit diagram of the work. Every platform is a line, every project a station, and all lines meet at
+   one interchange: the engineer. Select a station to read it; its shared technologies light up every other
+   station that uses them. Printed in one ink, with a single green for the line or station in focus. */
+:root {
+  --paper: #f8f8f6; --ink: #15171a; --muted: #50545b; --line: #d6d7d3; --dim: #c2c4c0; --panel: #efefec;
+  --go: #0b7a53; --on-go: #ffffff; --go-ink: #0b7a53; --err: #b3261e;
+  --sign: #15181d; --on-sign: #f4f4f1; --sign-muted: #b5b9c0;
+  --f-xs: 13px; --f-sm: 15px; --f-base: 17px; --f-md: 20px; --f-lg: 28px; --f-xl: 40px; --f-2xl: 56px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --paper: #121417; --ink: #ebece8; --muted: #a6abb2; --line: #2c3036; --dim: #3a3f46; --panel: #1a1d21; --go: #4fd1a0; --on-go: #062a1c; --go-ink: #5fdcac; --err: #ffab9f; --sign: #0b0d10; }
+}
+:root[data-theme="dark"] { --paper: #121417; --ink: #ebece8; --muted: #a6abb2; --line: #2c3036; --dim: #3a3f46; --panel: #1a1d21; --go: #4fd1a0; --on-go: #062a1c; --go-ink: #5fdcac; --err: #ffab9f; --sign: #0b0d10; }
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 16px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { background: var(--paper); color: var(--ink); font: 400 var(--f-base)/1.55 "Overpass", system-ui, sans-serif; }
+::selection { background: var(--go); color: var(--on-go); }
+a, button { color: inherit; font: inherit; }
+a { text-underline-offset: 4px; }
+:focus-visible { outline: 3px solid var(--go); outline-offset: 3px; }
+.wrap { max-width: 1440px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 768px) { .wrap { padding: 0 32px; } }
+
+/* the station sign: always the dark enamel of signage, in both themes */
+.sign { background: var(--sign); color: var(--on-sign); }
+.sign .bar { display: flex; align-items: center; gap: 24px; height: 48px; font-size: var(--f-sm); border-bottom: 1px solid #2a2e35; }
+.sign .bar nav { display: none; gap: 24px; }
+.sign .bar nav a { text-decoration: none; color: var(--sign-muted); }
+.sign .bar nav a:hover { color: var(--on-sign); }
+@media (min-width: 900px) { .sign .bar nav { display: flex; } }
+.sign .tools { margin-left: auto; display: flex; gap: 8px; }
+.sbtn { height: 32px; padding: 0 12px; border: 1px solid #3b4049; border-radius: 999px; background: none; color: var(--on-sign); cursor: pointer; font-size: var(--f-xs); text-decoration: none; display: inline-flex; align-items: center; }
+.sbtn:hover { border-color: var(--on-sign); }
+.sign .plate { display: grid; gap: 24px; padding-top: 32px; padding-bottom: 32px; }
+@media (min-width: 1024px) { .sign .plate { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 40px; padding-top: 28px; padding-bottom: 28px; } }
+.roundel { width: 64px; height: 64px; border-radius: 50%; border: 10px solid var(--on-sign); display: none; }
+@media (min-width: 1024px) { .roundel { display: block; } }
+.sign h1 { font-size: var(--f-2xl); line-height: 1; font-weight: 900; letter-spacing: -0.02em; }
+@media (max-width: 479px) { .sign h1 { font-size: 44px; } }
+.sign .role { color: var(--sign-muted); font-size: var(--f-md); margin-top: 8px; }
+.sign .role b { color: var(--on-sign); font-weight: 600; }
+.ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn { display: inline-flex; align-items: center; height: 48px; padding: 0 24px; border-radius: 999px; font-weight: 800; text-decoration: none; white-space: nowrap; border: 2px solid currentColor; background: none; cursor: pointer; }
+.btn.go { background: var(--go); color: var(--on-go); border-color: var(--go); }
+.sign .btn.go { background: #4fd1a0; border-color: #4fd1a0; color: #062a1c; }
+.btn:hover { filter: brightness(1.1); }
+.btn:active { transform: scale(.98); }
+.btn:disabled { opacity: .6; cursor: progress; }
+
+/* map + station panel */
+.network { display: grid; gap: 24px; padding: 32px 0 16px; }
+@media (min-width: 1200px) { .network { grid-template-columns: minmax(0, 1fr) 400px; gap: 40px; align-items: start; } }
+.mapbox { display: none; }
+@media (min-width: 768px) { .mapbox { display: block; } }
+.mapbox p.how { font-size: var(--f-sm); color: var(--muted); margin-bottom: 8px; }
+svg.map { width: 100%; height: auto; display: block; overflow: visible; }
+.map .ln { fill: none; stroke: var(--ink); stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; transition: stroke 200ms ease-out, opacity 200ms ease-out; }
+.map .st circle { fill: var(--paper); stroke: var(--ink); stroke-width: 4; transition: fill 160ms ease-out, stroke 160ms ease-out, r 160ms ease-out; }
+.map .st text, .map .term text, .map .hub text { fill: var(--ink); font: 600 15px "Overpass", sans-serif; transition: opacity 200ms ease-out; }
+.map .st { cursor: pointer; outline: none; }
+.map .st:hover circle, .map .st:focus-visible circle { fill: var(--go); stroke: var(--go); }
+.map .st:focus-visible text { text-decoration: underline; }
+.map .st.on circle { fill: var(--go); stroke: var(--ink); r: 11; }
+.map .st.on text { font-weight: 900; }
+.map .st.lit circle { fill: var(--go); }
+.map .term rect { fill: var(--ink); transition: fill 200ms ease-out; }
+.map .term text { fill: var(--paper); font-weight: 800; font-size: 14px; }
+.map .term { cursor: pointer; outline: none; }
+.map .term:focus-visible rect { stroke: var(--go); stroke-width: 4; }
+.map .hub circle { fill: var(--paper); stroke: var(--ink); stroke-width: 8; }
+.map .hub text { font-weight: 900; font-size: 18px; }
+.map.focus .ln:not(.sel), .map.focus .st:not(.sel):not(.lit) { opacity: .25; }
+.map .ln.sel { stroke: var(--go); }
+.map .term.sel rect { fill: var(--go); }
+.map .term.sel text { fill: var(--on-go); }
+@media (prefers-reduced-motion: reduce) { .map * { transition: none !important; } }
+
+.panel { background: var(--panel); border-radius: 16px; padding: 24px; }
+@media (max-width: 767px) { .panel { display: none; } .network { padding: 0; } }
+@media (min-width: 1200px) { .panel { position: sticky; top: 16px; } }
+.panel .lineTag { display: inline-flex; align-items: center; gap: 8px; font-size: var(--f-xs); font-weight: 800; }
+.panel .lineTag i { width: 28px; height: 8px; border-radius: 4px; background: var(--go); }
+.panel h2 { font-size: var(--f-xl); font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; margin-top: 8px; }
+.panel .m { aspect-ratio: 16 / 10; border-radius: 8px; overflow: hidden; background: var(--paper); margin-top: 16px; display: grid; place-items: center; }
+.panel .m video, .panel .m img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.panel .m .none { font-size: var(--f-sm); color: var(--muted); }
+.panel p.d { margin-top: 16px; font-size: var(--f-sm); }
+.panel h3 { font-size: var(--f-xs); font-weight: 800; margin-top: 20px; }
+.chips { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.chips button { height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--ink); background: var(--paper); cursor: pointer; font-size: var(--f-xs); font-weight: 600; }
+.chips button[aria-pressed="true"], .chips button:hover { background: var(--ink); color: var(--paper); }
+.chips small { color: inherit; opacity: .7; margin-left: 4px; }
+.panel .links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+.panel .links a { font-weight: 800; }
+.panel .hint { font-size: var(--f-xs); color: var(--muted); margin-top: 8px; min-height: 1.5em; }
+.swap { animation: swap 240ms cubic-bezier(.16, 1, .3, 1); }
+@keyframes swap { from { opacity: .3; transform: translateY(6px); } }
+@media (prefers-reduced-motion: reduce) { .swap { animation: none; } }
+
+/* strip maps: each line as the diagram over a train door, with every station in full */
+.strips { padding: 64px 0 0; }
+.strips > h2, .sec h2 { font-size: var(--f-xl); font-weight: 900; letter-spacing: -0.02em; line-height: 1; margin-bottom: 32px; }
+.strip { display: grid; gap: 0; margin-bottom: 48px; }
+@media (min-width: 1024px) { .strip { grid-template-columns: 240px minmax(0, 1fr); gap: 32px; } }
+.strip header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+@media (min-width: 1024px) { .strip header { align-items: flex-start; flex-direction: column; } }
+.strip header b { background: var(--ink); color: var(--paper); border-radius: 999px; padding: 4px 14px; font-weight: 800; font-size: var(--f-sm); }
+.strip header span { color: var(--muted); font-size: var(--f-sm); }
+.stops { list-style: none; padding: 0; position: relative; }
+.stops::before { content: ""; position: absolute; left: 11px; top: 12px; bottom: 12px; width: 8px; border-radius: 4px; background: var(--ink); }
+.stop { position: relative; display: grid; gap: 16px; padding: 0 0 32px 48px; scroll-margin-top: 16px; }
+.stop:last-child { padding-bottom: 0; }
+.stop::before { content: ""; position: absolute; left: 3px; top: 4px; width: 24px; height: 24px; border-radius: 50%; background: var(--paper); border: 4px solid var(--ink); box-sizing: border-box; }
+.stop.feat { }
+@media (min-width: 768px) { .stop.feat { grid-template-columns: minmax(0, 1fr) 280px; align-items: start; gap: 24px; } }
+.stop h3 { font-size: var(--f-md); font-weight: 800; line-height: 1.3; }
+.stop .plat { font-size: var(--f-xs); color: var(--muted); }
+.stop p.d { font-size: var(--f-sm); margin-top: 6px; max-width: 64ch; }
+.stop .links { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 8px; font-size: var(--f-sm); font-weight: 800; }
+.stop .m { aspect-ratio: 16 / 10; border-radius: 8px; overflow: hidden; background: var(--panel); }
+.stop .m video, .stop .m img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.stop button.show { background: none; border: 0; padding: 0; cursor: pointer; font-weight: 800; text-decoration: underline; text-underline-offset: 4px; display: none; }
+@media (min-width: 768px) { .stop button.show { display: inline; } }
+
+.sec { padding: 64px 0 0; }
+.about { display: grid; gap: 32px; }
+@media (min-width: 1024px) { .about { grid-template-columns: 7fr 5fr; gap: 64px; } }
+.about p { max-width: 62ch; }
+.about p + p { margin-top: 16px; }
+.skills { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.skills h3 { font-size: var(--f-sm); font-weight: 800; }
+.skills ul { list-style: none; padding: 0; font-size: var(--f-sm); color: var(--muted); }
+.contact { display: grid; gap: 32px; }
+@media (min-width: 1024px) { .contact { grid-template-columns: 5fr 7fr; gap: 64px; } }
+.contact .ways a { display: block; font-size: var(--f-md); font-weight: 800; margin-top: 8px; }
+form { display: grid; gap: 16px; background: var(--panel); border-radius: 16px; padding: 24px; }
+@media (min-width: 768px) { form { padding: 32px; } }
+.field { display: grid; gap: 4px; }
+label { font-weight: 800; font-size: var(--f-sm); }
+input, textarea { font: inherit; border: 2px solid var(--line); background: var(--paper); color: var(--ink); padding: 10px 14px; border-radius: 8px; }
+input:hover, textarea:hover { border-color: var(--muted); }
+input::placeholder, textarea::placeholder { color: var(--muted); }
+[aria-invalid="true"] { border-color: var(--err); }
+textarea { min-height: 136px; resize: vertical; }
+.err { color: var(--err); font-size: var(--f-xs); font-weight: 800; }
+.err:empty { display: none; }
+.form-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+.ok { font-weight: 800; color: var(--go-ink); }
+
+.foot { margin-top: 96px; background: var(--sign); color: var(--sign-muted); }
+.foot .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 24px; padding-bottom: 32px; font-size: var(--f-xs); }
+.foot a { color: var(--on-sign); }
+.foot .end { margin-left: auto; }
+</style>
+</head>
+<body>
+<header class="sign">
+  <div class="wrap bar">
+    <a href="#top" style="font-weight:800;text-decoration:none">Cauê Souza</a>
+    <nav aria-label="Main"><a href="#lines">Projects</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+    <div class="tools"><a class="sbtn" href="#">Resume</a><button class="sbtn" type="button" aria-label="Change language">EN</button><button class="sbtn" type="button" onclick="toggleTheme()" aria-label="Toggle theme">Theme</button></div>
+  </div>
+  <div class="wrap plate" id="top">
+    <span class="roundel" aria-hidden="true"></span>
+    <div>
+      <h1>Cauê Souza</h1>
+      <p class="role"><b>Software Engineer</b>, Salvador, Brazil. <span id="intro"></span></p>
+    </div>
+    <div class="ctas"><a class="btn go" href="#">Download CV</a><a class="btn" href="#contact">Get In Touch</a></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="network">
+    <div class="mapbox">
+      <p class="how">Every platform is a line and every project a station. Select a station, or a line name to follow it.</p>
+      <svg class="map" id="map" viewBox="0 0 1200 600" role="group" aria-label="Network of projects by platform"></svg>
+    </div>
+    <aside class="panel" id="panel" aria-live="polite" aria-label="Selected project"></aside>
+  </div>
+
+  <section class="strips" id="lines" aria-labelledby="lines-t">
+    <h2 id="lines-t">All projects, line by line</h2>
+    <div id="strips"></div>
+  </section>
+
+  <section class="sec" id="about" aria-labelledby="about-t">
+    <h2 id="about-t">About Me</h2>
+    <div class="about"><div id="about-p"></div><div class="skills" id="skills"></div></div>
+  </section>
+
+  <section class="sec" id="contact" aria-labelledby="contact-t">
+    <div class="contact">
+      <div class="ways">
+        <h2 id="contact-t">Get In Touch</h2>
+        <p>Have a project in mind or just want to say hello? Feel free to reach out!</p>
+        <a href="mailto:souzacaue@proton.me">souzacaue@proton.me</a>
+        <a href="https://linkedin.com/in/caue-souza">LinkedIn</a>
+        <a href="https://github.com/EuCaue">GitHub</a>
+      </div>
+      <div id="form-slot"></div>
+    </div>
+  </section>
+</main>
+<footer class="foot"><div class="wrap"><span>© 2026 Cauê Souza. All rights reserved.</span><a href="https://eucaue.online">eucaue.online</a><a href="https://blog.eucaue.online">Blog</a><a class="end" href="#">Resume</a></div></footer>
+
+<script src="data.js"></script>
+<script src="e-shared.js"></script>
+<script>
+document.getElementById("intro").textContent = INTRO;
+const find = n => PROJECTS.find(p => p.name === n);
+const C = [520, 330];
+// Octilinear routes out of one interchange. Station label: [dx, dy, anchor, rotate]
+const LINES = [
+  { key: "Web", name: "Web line", term: [1150, 330], path: `M${C} H1150`,
+    stops: ["PIX Donation System", "My Movies", "Get Cat", "URL Short", "Snap The Web", "Feed Pet", "CSS Cursor Gallery"].map((n, i) => [n, 620 + i * 80, 330, 4, -18, "start", -45]) },
+  { key: "Mobile", name: "Mobile line", term: [340, 170], path: `M${C} L400 210 H340`,
+    stops: [["Auto Volume", 420, 230, -18, 6, "end", 0]] },
+  { key: "Firefox", name: "Extensions line", term: [520, 60], path: `M${C} V60`,
+    stops: [["Scrolled", 520, 240, 18, 6, "start", 0], ["Reddit Auto Theme", 520, 150, 18, 6, "start", 0]] },
+  { key: "GNOME", name: "GNOME line", term: [70, 330], path: `M${C} H70`,
+    stops: [["Quick Lofi", 420, 330, 0, 34, "middle", 0], ["Flexa", 320, 330, 0, -20, "middle", 0], ["Nautilus Copy File Contents", 200, 330, 0, 34, "middle", 0]] },
+  { key: "CLI", name: "System line", term: [800, 520], path: `M${C} V440 L520 440 L600 520 H800`,
+    stops: [["Harbor", 520, 430, 18, 6, "start", 0], ["decomp", 690, 520, 0, 34, "middle", 0]] },
+];
+const map = document.getElementById("map");
+map.innerHTML = `
+  ${LINES.map(l => `<path class="ln" data-line="${l.key}" d="${l.path}"/>`).join("")}
+  ${LINES.map(l => {
+    const w = l.name.length * 8.4 + 24;
+    return `<g class="term" data-line="${l.key}" tabindex="0" role="button" aria-label="Follow the ${l.name}">
+      <rect x="${l.term[0] - w / 2}" y="${l.term[1] - 15}" width="${w}" height="30" rx="15"/>
+      <text x="${l.term[0]}" y="${l.term[1] + 5}" text-anchor="middle">${l.name}</text></g>`;
+  }).join("")}
+  ${LINES.flatMap(l => l.stops.map(([n, x, y, dx, dy, a, rot]) => `
+    <a class="st" href="#${slug(n)}" data-name="${n}" data-line="${l.key}" aria-label="${n}, ${l.name}">
+      <circle cx="${x}" cy="${y}" r="${find(n).featured ? 10 : 7}"/>
+      <text x="${x + dx}" y="${y + dy}" text-anchor="${a}" ${rot ? `transform="rotate(${rot} ${x + dx} ${y + dy})"` : ""}>${n}</text>
+    </a>`)).join("")}
+  <g class="hub" aria-hidden="true"><circle cx="${C[0]}" cy="${C[1]}" r="22"/><text x="${C[0] + 34}" y="${C[1] + 42}">Cauê Souza</text></g>`;
+
+const lineOf = p => LINES.find(l => l.key === p.platform);
+const others = tag => PROJECTS.filter(q => q.tags.includes(tag));
+const panel = document.getElementById("panel");
+let current;
+function select(name, { scroll = false } = {}) {
+  const p = find(name); current = p;
+  map.classList.remove("focus");
+  map.querySelectorAll(".sel, .lit").forEach(e => e.classList.remove("sel", "lit"));
+  map.querySelectorAll(".st").forEach(s => s.classList.toggle("on", s.dataset.name === name));
+  panel.innerHTML = `
+    <span class="lineTag"><i></i>${lineOf(p).name}, ${PLATFORM_LABEL[p.platform]}</span>
+    <h2>${p.name}</h2>
+    <div class="m">${media(p) || `<span class="none">No preview available</span>`}</div>
+    <p class="d">${p.desc}</p>
+    <h3>Interchanges: select one to see which stations share it</h3>
+    <ul class="chips">${p.tags.map(t => `<li><button type="button" data-tag="${t}" aria-pressed="false">${t}<small>${others(t).length}</small></button></li>`).join("")}</ul>
+    <p class="hint" id="hint"></p>
+    <p class="links">${p.github ? `<a href="${p.github}">GitHub</a>` : ""}${p.preview ? `<a href="${p.preview}">Live Demo</a>` : ""}<a href="#${slug(p.name)}">Read on the line</a></p>`;
+  panel.classList.remove("swap"); void panel.offsetWidth; panel.classList.add("swap");
+  playInView(panel);
+  if (scroll && innerWidth < 1200) panel.scrollIntoView({ behavior: REDUCE_E ? "auto" : "smooth", block: "start" });
+}
+function follow(key) {
+  const on = !map.querySelector(`.ln.sel[data-line="${key}"]`);
+  map.querySelectorAll(".sel, .lit").forEach(e => e.classList.remove("sel", "lit"));
+  map.classList.toggle("focus", on);
+  if (on) map.querySelectorAll(`[data-line="${key}"]`).forEach(e => e.classList.add("sel"));
+}
+map.addEventListener("click", e => {
+  const st = e.target.closest(".st"); if (st) { e.preventDefault(); select(st.dataset.name, { scroll: true }); return; }
+  const t = e.target.closest(".term"); if (t) follow(t.dataset.line);
+});
+map.addEventListener("keydown", e => { const t = e.target.closest(".term"); if (t && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); follow(t.dataset.line); } });
+panel.addEventListener("click", e => {
+  const b = e.target.closest("[data-tag]"); if (!b) return;
+  const was = b.getAttribute("aria-pressed") === "true";
+  panel.querySelectorAll("[data-tag]").forEach(x => x.setAttribute("aria-pressed", "false"));
+  map.querySelectorAll(".sel, .lit").forEach(x => x.classList.remove("sel", "lit"));
+  map.classList.toggle("focus", !was);
+  const hint = document.getElementById("hint");
+  if (was) { hint.textContent = ""; return; }
+  b.setAttribute("aria-pressed", "true");
+  const names = others(b.dataset.tag).map(q => q.name);
+  map.querySelectorAll(".st").forEach(s => s.classList.toggle("lit", names.includes(s.dataset.name)));
+  hint.textContent = `${b.dataset.tag}: ${names.join(", ")}`;
+});
+
+document.getElementById("strips").innerHTML = LINES.map(l => {
+  const list = l.stops.map(s => find(s[0]));
+  return `<div class="strip"><header><b>${l.name}</b><span>${PLATFORM_LABEL[l.key]}, ${list.length} ${list.length === 1 ? "station" : "stations"}</span></header>
+    <ol class="stops">${list.map(p => `<li class="stop ${p.featured && media(p) ? "feat" : ""}" id="${slug(p.name)}">
+      <div><h3>${p.name}</h3><p class="plat">${p.tags.slice(0, 4).join(", ")}</p><p class="d">${p.desc}</p>
+      <p class="links">${p.github ? `<a href="${p.github}">GitHub</a>` : ""}${p.preview ? `<a href="${p.preview}">Live Demo</a>` : ""}<button class="show" type="button" data-show="${p.name}">Show on the map</button></p></div>
+      ${p.featured && media(p) ? `<div class="m">${media(p)}</div>` : ""}</li>`).join("")}</ol></div>`;
+}).join("");
+document.getElementById("strips").addEventListener("click", e => {
+  const b = e.target.closest("[data-show]"); if (!b) return;
+  select(b.dataset.show);
+  document.querySelector(".network").scrollIntoView({ behavior: REDUCE_E ? "auto" : "smooth" });
+});
+
+document.getElementById("about-p").innerHTML = ABOUT_P.map(t => `<p>${t}</p>`).join("");
+document.getElementById("skills").innerHTML = SKILLS.map(([h, items]) => `<div><h3>${h}</h3><ul>${items.map(s => `<li>${s}</li>`).join("")}</ul></div>`).join("");
+document.getElementById("form-slot").innerHTML = formHTML("cf");
+document.querySelector("#cf .send").className = "btn go send";
+mockForm(document.getElementById("cf"));
+select("Scrolled");
+playInView();
+</script>
+</body>
+</html>

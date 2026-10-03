@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>F2 · Corte da stack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;500;700;900&family=Chivo+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* An architect's section drawing of the stack. Each floor is a layer of technology, from mobile on the
+   roof down to system tools below ground; each room is a project. A title block carries the name and the
+   actions. Ink linework on drafting paper, with one highlighter yellow for what is selected or primary. */
+:root {
+  --paper: #f7f6f1; --ink: #17181a; --muted: #4d4f53; --line: #b9b9b2; --mark: #f4c430; --on-mark: #17181a; --err: #a3261c;
+  --f-xs: 13px; --f-sm: 15px; --f-base: 17px; --f-md: 20px; --f-lg: 28px; --f-xl: 40px; --f-2xl: 64px;
+  --hatch: repeating-linear-gradient(-45deg, var(--ink) 0 1px, transparent 1px 7px);
+  --earth: radial-gradient(var(--muted) 1px, transparent 1.4px) 0 0 / 10px 10px, radial-gradient(var(--muted) 1px, transparent 1.4px) 5px 5px / 10px 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --paper: #141518; --ink: #e9e7e0; --muted: #a9a8a2; --line: #45464a; --mark: #f4c430; --on-mark: #141518; --err: #ff9d94; }
+}
+:root[data-theme="dark"] { --paper: #141518; --ink: #e9e7e0; --muted: #a9a8a2; --line: #45464a; --mark: #f4c430; --on-mark: #141518; --err: #ff9d94; }
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { background: var(--paper); color: var(--ink); font: 400 var(--f-base)/1.55 "Chivo", system-ui, sans-serif; }
+::selection { background: var(--mark); color: var(--on-mark); }
+a, button { color: inherit; font: inherit; }
+a { text-underline-offset: 4px; text-decoration-thickness: 1px; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; box-shadow: 0 0 0 6px var(--mark); }
+.mono { font-family: "Chivo Mono", monospace; }
+
+.run { position: sticky; top: 0; z-index: 20; background: var(--paper); border-bottom: 1px solid var(--line); }
+.run .in { max-width: 1440px; margin: 0 auto; height: 52px; display: flex; align-items: center; gap: 24px; padding: 0 16px; font-size: var(--f-sm); }
+@media (min-width: 768px) { .run .in { padding: 0 32px; } }
+.run .home { font-weight: 700; text-decoration: none; white-space: nowrap; }
+.run nav { display: none; gap: 24px; }
+.run nav a { text-decoration: none; color: var(--muted); }
+.run nav a:hover { color: var(--ink); }
+@media (min-width: 1024px) { .run nav { display: flex; } }
+.run .tools { margin-left: auto; display: flex; gap: 8px; }
+.tool { height: 32px; padding: 0 12px; border: 1px solid var(--ink); background: none; cursor: pointer; font: 400 var(--f-xs) "Chivo Mono", monospace; text-decoration: none; display: inline-flex; align-items: center; }
+.tool:hover { background: var(--mark); color: var(--on-mark); }
+
+/* the sheet: a drawing border with the section on the left and the title block on the right */
+.sheet { max-width: 1440px; margin: 16px auto 0; padding: 0 16px; }
+@media (min-width: 768px) { .sheet { margin-top: 32px; padding: 0 32px; } }
+.frame { border: 2px solid var(--ink); outline: 1px solid var(--ink); outline-offset: 4px; display: grid; }
+@media (min-width: 1100px) { .frame { grid-template-columns: minmax(0, 1fr) 384px; } }
+
+/* title block */
+.tb { display: grid; align-content: start; border-bottom: 2px solid var(--ink); }
+@media (min-width: 1100px) { .tb { border-bottom: 0; border-left: 2px solid var(--ink); grid-column: 2; grid-row: 1; } }
+.cell { padding: 16px 24px; border-bottom: 1px solid var(--ink); }
+.cell:last-child { border-bottom: 0; }
+.cell .k { font: 400 var(--f-xs) "Chivo Mono", monospace; color: var(--muted); display: block; margin-bottom: 4px; }
+.tb h1 { font-size: var(--f-2xl); line-height: .95; font-weight: 900; letter-spacing: -0.03em; }
+@media (max-width: 479px) { .tb h1 { font-size: 52px; } }
+.tb .two { display: grid; grid-template-columns: 1fr 1fr; }
+.tb .two .cell + .cell { border-left: 1px solid var(--ink); }
+.tb .intro { font-size: var(--f-sm); }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn { display: inline-flex; align-items: center; height: 44px; padding: 0 20px; border: 2px solid var(--ink); background: none; font-weight: 700; text-decoration: none; white-space: nowrap; cursor: pointer; }
+.btn:hover { background: var(--ink); color: var(--paper); }
+.btn.primary { background: var(--mark); color: var(--on-mark); }
+.btn.primary:hover { background: var(--ink); color: var(--paper); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: .6; cursor: progress; }
+.elsewhere { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: var(--f-sm); }
+.legend { display: flex; align-items: center; gap: 12px; font-size: var(--f-xs); }
+.legend i { width: 28px; height: 16px; border: 2px solid var(--ink); background: var(--mark); }
+.legend .h { background: var(--hatch); }
+
+/* the section drawing */
+.draw { position: relative; padding: 24px 16px 32px; overflow: hidden; }
+@media (min-width: 768px) { .draw { padding: 40px 40px 48px 32px; } }
+.dim { display: grid; grid-template-columns: 1fr; margin: 0 0 16px 0; font: 400 var(--f-xs) "Chivo Mono", monospace; color: var(--muted); text-align: center; position: relative; }
+.dim::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px solid var(--muted); }
+.dim::after { content: ""; position: absolute; left: 0; right: 0; top: calc(50% - 6px); height: 12px; border-left: 1px solid var(--muted); border-right: 1px solid var(--muted); }
+.dim span { position: relative; z-index: 1; background: var(--paper); justify-self: center; padding: 0 8px; }
+.building { display: grid; grid-template-columns: 1fr; }
+@media (min-width: 768px) { .building { grid-template-columns: 120px minmax(0, 1fr); } }
+.lvl { display: flex; align-items: flex-end; gap: 8px; font: 400 var(--f-xs)/1.2 "Chivo Mono", monospace; padding: 0 0 12px; }
+@media (min-width: 768px) { .lvl { padding: 0 12px 12px 0; justify-content: flex-end; text-align: right; } }
+.lvl svg { width: 12px; height: 10px; flex: none; }
+.floor { display: grid; }
+.slabline { height: 12px; border: 2px solid var(--ink); background: var(--hatch); }
+.rooms { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); border-left: 2px solid var(--ink); border-right: 2px solid var(--ink); min-height: 120px; }
+@media (max-width: 767px) { .rooms { grid-template-columns: repeat(min(var(--n), 2), minmax(0, 1fr)); } }
+.room { position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px; padding: 12px; min-height: 120px; text-decoration: none; border-right: 2px solid var(--ink); transition: background-color 160ms ease-out; }
+.room:last-child { border-right: 0; }
+@media (max-width: 767px) { .room:nth-child(2n) { border-right: 0; } .room:nth-child(n+3) { border-top: 2px solid var(--ink); } .room:last-child:nth-child(odd) { grid-column: span 2; } }
+@media (min-width: 768px) { .room:nth-child(n) { border-top: 0; } }
+/* a door: a gap in the wall with its swing */
+.room::after { content: ""; position: absolute; right: -2px; bottom: 0; width: 2px; height: 36px; background: var(--paper); }
+.room:last-child::after { display: none; }
+.room b { font-weight: 700; font-size: var(--f-sm); line-height: 1.2; }
+.room small { font: 400 12px "Chivo Mono", monospace; color: var(--muted); }
+.room:hover, .room:focus-visible, .room[aria-current="true"] { background: var(--mark); color: var(--on-mark); }
+.room:hover small, .room:focus-visible small, .room[aria-current="true"] small { color: var(--on-mark); }
+@media (prefers-reduced-motion: reduce) { .room { transition: none; } }
+
+.roof { margin-left: auto; width: min(100%, 360px); }
+.roof .rooms { min-height: 112px; }
+.ground { height: 2px; background: var(--ink); margin: 0 -40px; position: relative; }
+.ground span { position: absolute; left: 40px; top: 6px; font: 400 var(--f-xs) "Chivo Mono", monospace; color: var(--muted); }
+@media (max-width: 767px) { .ground { margin: 0 -16px; } .ground span { left: 16px; } }
+.under { background: var(--earth); margin: 0 -40px; padding: 28px 40px 32px; }
+@media (max-width: 767px) { .under { margin: 0 -16px; padding: 28px 16px; } }
+.under .rooms, .under .slabline { background-color: var(--paper); }
+.under .rooms { background: var(--paper); }
+.under .slabline { background: var(--hatch), var(--paper); }
+
+/* details */
+.details { max-width: 1440px; margin: 0 auto; padding: 64px 16px 0; }
+@media (min-width: 768px) { .details { padding: 96px 32px 0; } }
+h2 { font-size: var(--f-xl); font-weight: 900; letter-spacing: -0.02em; line-height: 1; }
+.floorhead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 24px; padding-bottom: 16px; border-bottom: 2px solid var(--ink); margin-top: 64px; }
+.floorhead:first-of-type { margin-top: 0; }
+.floorhead .mono { font-size: var(--f-xs); color: var(--muted); }
+.detail { display: grid; gap: 24px; padding: 40px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 72px; }
+@media (min-width: 1024px) { .detail { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 48px; } }
+.detail.nomedia { grid-template-columns: minmax(0, 1fr); }
+.drawing { position: relative; padding: 12px; border: 1px solid var(--ink); }
+/* registration ticks at the corners, as on a plotted sheet */
+.drawing::before, .drawing::after { content: ""; position: absolute; width: 16px; height: 16px; border: 0 solid var(--ink); }
+.drawing::before { left: -9px; top: -9px; border-right-width: 1px; border-bottom-width: 1px; }
+.drawing::after { right: -9px; bottom: -9px; border-left-width: 1px; border-top-width: 1px; }
+.drawing .m { aspect-ratio: 16 / 10; overflow: hidden; background: var(--line); }
+.drawing video, .drawing img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.detail h3 { font-size: var(--f-lg); font-weight: 900; line-height: 1.1; }
+.detail .plat { font: 400 var(--f-xs) "Chivo Mono", monospace; color: var(--muted); margin-top: 4px; }
+.detail p.d { margin-top: 16px; max-width: 62ch; }
+.kv { display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; margin-top: 16px; font-size: var(--f-sm); }
+.kv dt { font: 400 var(--f-xs)/1.9 "Chivo Mono", monospace; color: var(--muted); }
+.links { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 24px; font-weight: 700; font-size: var(--f-sm); }
+.links .up { font-weight: 400; color: var(--muted); margin-left: auto; }
+.compact { display: grid; gap: 32px 32px; padding: 40px 0; border-bottom: 1px solid var(--line); }
+@media (min-width: 640px) { .compact { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .compact { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.compact article { scroll-margin-top: 72px; }
+.compact h3 { font-size: var(--f-md); margin-top: 16px; }
+.compact p.d { font-size: var(--f-sm); margin-top: 8px; }
+.compact .drawing { padding: 8px; }
+
+.notes { max-width: 1440px; margin: 0 auto; padding: 96px 16px 0; display: grid; gap: 48px; }
+@media (min-width: 768px) { .notes { padding: 96px 32px 0; } }
+@media (min-width: 1024px) { .notes { grid-template-columns: 1fr 1fr; gap: 64px; } }
+.notes h2 { margin-bottom: 24px; }
+.notes p { max-width: 62ch; }
+.notes p + p { margin-top: 16px; }
+.sched { width: 100%; border-collapse: collapse; margin-top: 32px; font-size: var(--f-sm); }
+.sched th, .sched td { border: 1px solid var(--ink); padding: 8px 12px; text-align: left; vertical-align: top; }
+.sched th { font: 400 var(--f-xs) "Chivo Mono", monospace; width: 36%; }
+.contact .ways a { display: block; font-size: var(--f-md); font-weight: 700; margin-top: 8px; }
+form { display: grid; gap: 16px; border: 2px solid var(--ink); padding: 24px; }
+.field { display: grid; gap: 4px; }
+label { font: 500 var(--f-xs) "Chivo Mono", monospace; }
+input, textarea { font: inherit; border: 0; border-bottom: 2px solid var(--ink); background: transparent; color: var(--ink); padding: 8px 0; border-radius: 0; }
+input:focus-visible, textarea:focus-visible { box-shadow: none; outline: 0; background: color-mix(in srgb, var(--mark) 35%, transparent); }
+input::placeholder, textarea::placeholder { color: var(--muted); }
+[aria-invalid="true"] { border-bottom-color: var(--err); }
+textarea { min-height: 128px; resize: vertical; }
+.err { color: var(--err); font-size: var(--f-xs); font-weight: 700; }
+.err:empty { display: none; }
+.form-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+.ok { font-weight: 700; }
+
+.foot { max-width: 1440px; margin: 96px auto 0; padding: 16px 16px 32px; border-top: 2px solid var(--ink); display: flex; flex-wrap: wrap; gap: 8px 24px; font: 400 var(--f-xs) "Chivo Mono", monospace; color: var(--muted); }
+@media (min-width: 768px) { .foot { margin: 96px 32px 0; padding: 16px 0 32px; } }
+@media (min-width: 1504px) { .foot { margin-left: auto; margin-right: auto; } }
+.foot .end { margin-left: auto; }
+</style>
+</head>
+<body>
+<div class="run"><div class="in">
+  <a class="home" href="#top">Cauê Souza</a>
+  <nav aria-label="Main"><a href="#details">Projects</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+  <div class="tools"><a class="tool" href="#">Resume</a><button class="tool" type="button" aria-label="Change language">EN</button><button class="tool" type="button" onclick="toggleTheme()" aria-label="Toggle theme">Theme</button></div>
+</div></div>
+
+<main id="top">
+  <div class="sheet"><div class="frame">
+    <aside class="tb" aria-labelledby="who">
+      <div class="cell"><span class="k">Engineer</span><h1 id="who">Cauê Souza</h1></div>
+      <div class="two"><div class="cell"><span class="k">Role</span>Software Engineer</div><div class="cell"><span class="k">Location</span>Salvador, Brazil</div></div>
+      <div class="cell intro" id="intro"></div>
+      <div class="cell"><div class="btns"><a class="btn primary" href="#">Download CV</a><a class="btn" href="#contact">Get In Touch</a></div></div>
+      <div class="cell elsewhere"><a href="https://github.com/EuCaue">GitHub</a><a href="https://linkedin.com/in/caue-souza">LinkedIn</a><a href="https://eucaue.online">eucaue.online</a><a href="https://blog.eucaue.online">Blog</a></div>
+      <div class="cell"><p class="legend"><i></i>Room: a project, select to open its detail</p><p class="legend" style="margin-top:8px"><i class="h"></i>Slab between layers of the stack</p></div>
+    </aside>
+    <section class="draw" aria-label="Section through the stack: every project, by layer">
+      <div class="dim"><span id="dimlabel"></span></div>
+      <div id="building"></div>
+    </section>
+  </div></div>
+
+  <div class="details" id="details"></div>
+
+  <div class="notes">
+    <section id="about" aria-labelledby="about-t">
+      <h2 id="about-t">About Me</h2>
+      <div id="about-p"></div>
+      <table class="sched"><caption class="mono" style="text-align:left;font-size:13px;padding-bottom:8px">Skills</caption><tbody id="sched"></tbody></table>
+    </section>
+    <section id="contact" class="contact" aria-labelledby="contact-t">
+      <h2 id="contact-t">Get In Touch</h2>
+      <div class="ways">
+        <p style="margin-top:24px">Have a project in mind or just want to say hello? Feel free to reach out!</p>
+        <a href="mailto:souzacaue@proton.me">souzacaue@proton.me</a>
+        <a href="https://linkedin.com/in/caue-souza">LinkedIn</a>
+        <a href="https://github.com/EuCaue">GitHub</a>
+      </div>
+      <div id="form-slot" style="margin-top:32px"></div>
+    </section>
+  </div>
+</main>
+<footer class="foot"><span>© 2026 Cauê Souza. All rights reserved.</span><a href="https://eucaue.online">eucaue.online</a><a href="https://blog.eucaue.online">Blog</a><a class="end" href="#">Resume</a></footer>
+
+<script src="data.js"></script>
+<script src="e-shared.js"></script>
+<script>
+document.getElementById("intro").textContent = INTRO;
+document.getElementById("dimlabel").textContent = `${PROJECTS.length} projects across 5 layers`;
+const LV = [
+  ["Mobile", "Mobile", "roof"],
+  ["Web", "Web apps"],
+  ["Firefox", "Browser extensions"],
+  ["GNOME", "Desktop, GNOME / Linux"],
+  ["CLI", "System and command line", "under"],
+];
+const tri = `<svg viewBox="0 0 12 10" aria-hidden="true"><path d="M0 0H12L6 10Z" fill="currentColor"/></svg>`;
+const room = p => `<a class="room" href="#${slug(p.name)}" data-name="${p.name}"><b>${p.name}</b><small>${p.tags[0]}</small></a>`;
+const floor = ([k, label, kind]) => {
+  const list = SORTED.filter(p => p.platform === k);
+  return `<div class="lvl" id="lvl-${k}">${tri}<span>${label}</span></div>
+  <div class="floor ${kind === "roof" ? "roof" : ""}"><div class="rooms" style="--n:${list.length}">${list.map(room).join("")}</div><div class="slabline"></div></div>`;
+};
+document.getElementById("building").innerHTML = `
+  <div class="building">${LV.slice(0, 4).map(floor).join("")}</div>
+  <div class="ground"><span>Ground</span></div>
+  <div class="under"><div class="building">${floor(LV[4])}</div></div>`;
+// the roof floor's slab spans the full building beneath it
+document.querySelector(".roof .slabline").style.cssText = "";
+
+const kv = p => `<dl class="kv"><dt>Built with</dt><dd>${p.tags.join(", ")}</dd>${p.preview ? `<dt>Published</dt><dd>${host(p.preview)}</dd>` : ""}</dl>`;
+const links = p => `<p class="links">${p.github ? `<a href="${p.github}">GitHub</a>` : ""}${p.preview ? `<a href="${p.preview}">Live Demo</a>` : ""}<a class="up" href="#top">Back to the section</a></p>`;
+document.getElementById("details").innerHTML = `<h2 class="sr" style="position:absolute;left:-9999px">Projects</h2>` + LV.map(([k, label]) => {
+  const list = SORTED.filter(p => p.platform === k);
+  const feat = list.filter(p => p.featured), rest = list.filter(p => !p.featured);
+  return `<div class="floorhead"><h2>${label}</h2><span class="mono">${list.length} ${list.length === 1 ? "project" : "projects"}</span></div>
+    ${feat.map(p => `<article class="detail ${media(p) ? "" : "nomedia"}" id="${slug(p.name)}" aria-labelledby="h-${slug(p.name)}">
+      ${media(p) ? `<div class="drawing"><div class="m">${media(p)}</div></div>` : ""}
+      <div><h3 id="h-${slug(p.name)}">${p.name}</h3><p class="plat">${PLATFORM_LABEL[p.platform]}</p><p class="d">${p.desc}</p>${kv(p)}${links(p)}</div>
+    </article>`).join("")}
+    ${rest.length ? `<div class="compact">${rest.map(p => `<article id="${slug(p.name)}" aria-labelledby="h-${slug(p.name)}">
+      ${media(p) ? `<div class="drawing"><div class="m">${media(p)}</div></div>` : ""}
+      <h3 id="h-${slug(p.name)}">${p.name}</h3><p class="d">${p.desc}</p>${links(p)}</article>`).join("")}</div>` : ""}`;
+}).join("");
+
+document.getElementById("about-p").innerHTML = ABOUT_P.map(t => `<p>${t}</p>`).join("");
+document.getElementById("sched").innerHTML = SKILLS.map(([h, items]) => `<tr><th scope="row">${h}</th><td>${items.join(", ")}</td></tr>`).join("");
+document.getElementById("form-slot").innerHTML = formHTML("cf");
+document.querySelector("#cf .send").className = "btn primary send";
+mockForm(document.getElementById("cf"));
+playInView();
+
+// Signature: the room for the detail you are reading stays highlighted in the drawing.
+const rooms = [...document.querySelectorAll(".room")];
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  rooms.forEach(r => r.setAttribute("aria-current", String(r.dataset.name === e.target.querySelector("h3").textContent)));
+}), { rootMargin: "-40% 0px -55% 0px" });
+document.querySelectorAll("#details article").forEach(a => io.observe(a));
+</script>
+</body>
+</html>
