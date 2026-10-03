@@ -3,7 +3,7 @@
 // Adapted from React Bits "Stack" (reactbits.dev): framer-motion instead of motion/react,
 // a stable rotation per card, and an imperative `next()` so a keyboard button can flip cards.
 import { motion, type PanInfo, useMotionValue, useTransform } from "framer-motion";
-import { forwardRef, type ReactNode, useImperativeHandle, useState } from "react";
+import { forwardRef, type ReactNode, useEffect, useImperativeHandle, useState } from "react";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
 type CardRotateProps = {
@@ -60,15 +60,17 @@ const Stack = forwardRef<StackHandle, StackProps>(function Stack(
   const reduce = usePrefersReducedMotion();
   const [order, setOrder] = useState(() => cards.map((c) => c.id));
 
-  const sendToBack = (id: string) => {
-    setOrder((prev) => {
-      const next = [id, ...prev.filter((x) => x !== id)];
-      onChange?.(next[next.length - 1]);
-      return next;
-    });
-  };
+  const sendToBack = (id: string) => setOrder((prev) => [id, ...prev.filter((x) => x !== id)]);
 
-  useImperativeHandle(ref, () => ({ next: () => sendToBack(order[order.length - 1]) }));
+  // Report the new top card after the state settles, never from inside the state updater.
+  const top = order[order.length - 1];
+  useEffect(() => {
+    onChange?.(top);
+  }, [top, onChange]);
+
+  useImperativeHandle(ref, () => ({
+    next: () => setOrder((prev) => [prev[prev.length - 1], ...prev.slice(0, -1)]),
+  }));
 
   return (
     <div className="relative h-full w-full" style={{ perspective: 800 }}>
