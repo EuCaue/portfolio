@@ -145,6 +145,8 @@ export const projects: Project[] = [
       ],
     },
     tags: ["HTML5", "CSS3", "JavaScript", "GitHub", "GitHub Pages", "Glassmorphism"],
+    github: "https://github.com/EuCaue/css-cursor-gallery",
+    preview: "https://eucaue.github.io/css-cursor-gallery/",
     featured: false,
   },
   {

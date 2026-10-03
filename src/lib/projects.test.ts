@@ -110,3 +110,11 @@ describe("neighbors", () => {
     expect(neighbors(last).next).toBe(first);
   });
 });
+
+describe("links", () => {
+  test("CSS Cursor Gallery links to its public repo and live page", () => {
+    const p = findProjectBySlug("css-cursor-gallery");
+    expect(p?.github).toBe("https://github.com/EuCaue/css-cursor-gallery");
+    expect(p?.preview).toBe("https://eucaue.github.io/css-cursor-gallery/");
+  });
+});
