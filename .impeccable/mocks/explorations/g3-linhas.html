@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>G3 · Linhas, funcional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="g-base.css">
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<style>
+/* F3's transit diagram, put to work: the network map sits on top of the project list and drives it.
+   A line filters by platform, a station jumps to its project, a technology lights every station that uses it. */
+:root {
+  --bg: #f8f8f6; --surface: #ffffff; --ink: #15171a; --muted: #50545b; --line: #dcddd9;
+  --accent: #0b7a53; --on-accent: #ffffff; --accent-ink: #0b7a53; --err: #b3261e;
+  --sign: #15181d; --on-sign: #f4f4f1; --sign-muted: #b5b9c0; --sign-line: #2e333b;
+  --font: "Overpass", system-ui, sans-serif;
+  --f-xs: 13px; --f-sm: 15px; --f-base: 17px; --f-md: 20px; --f-lg: 24px; --f-xl: 40px; --f-hero: 64px;
+}
+@media (max-width: 767px) { :root { --f-hero: 46px; --f-xl: 32px; } }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #121417; --surface: #1a1d21; --ink: #ebece8; --muted: #a6abb2; --line: #2c3036; --accent: #4fd1a0; --on-accent: #062a1c; --accent-ink: #5fdcac; --err: #ffab9f; --sign: #0b0d10; }
+}
+:root[data-theme="dark"] { --bg: #121417; --surface: #1a1d21; --ink: #ebece8; --muted: #a6abb2; --line: #2c3036; --accent: #4fd1a0; --on-accent: #062a1c; --accent-ink: #5fdcac; --err: #ffab9f; --sign: #0b0d10; }
+h1, h2, h3, h4 { font-weight: 900; letter-spacing: -0.01em; }
+
+/* signage: the header and hero always wear the dark enamel of a station sign */
+.signage { background: var(--sign); color: var(--on-sign); }
+.top { background: var(--sign); color: var(--on-sign); border-bottom: 1px solid var(--sign-line); }
+.top .nav a { color: var(--sign-muted); }
+.top .nav a:hover, .top .nav a[aria-current="true"] { color: var(--on-sign); }
+.top .nav a[aria-current="true"] { text-decoration-color: #4fd1a0; }
+@media (max-width: 899px) { .top .nav { background: var(--sign); border-color: var(--sign-line); } }
+.top .tool { border-color: var(--sign-line); border-radius: 999px; color: var(--on-sign); }
+.top .tool:hover, .top .tool.resume { border-color: var(--on-sign); }
+.hero { padding: 40px 0 48px; }
+.hero .wrap { display: grid; gap: 28px; }
+@media (min-width: 1024px) { .hero { padding: 56px 0 64px; } .hero .wrap { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 40px; } }
+.roundel { display: none; width: 72px; height: 72px; border-radius: 50%; border: 12px solid var(--on-sign); position: relative; }
+.roundel::after { content: ""; position: absolute; left: -22px; right: -22px; top: 50%; height: 14px; margin-top: -7px; background: #4fd1a0; }
+@media (min-width: 1024px) { .roundel { display: block; } }
+.hero h1 { font-size: var(--f-hero); line-height: 1; letter-spacing: -0.02em; }
+.hero .role { font-size: var(--f-md); color: var(--sign-muted); margin-top: 8px; }
+.hero .role b { color: var(--on-sign); font-weight: 800; }
+.hero .intro { color: var(--sign-muted); max-width: 60ch; margin-top: 12px; font-size: var(--f-sm); }
+.hero .quick { margin-top: 16px; }
+.hero .copy-state { color: #4fd1a0; }
+.hero .ctas { align-self: center; }
+.btn { border-radius: 999px; font-weight: 800; }
+.hero .btn { border-color: var(--on-sign); color: var(--on-sign); }
+.hero .btn.primary { background: #4fd1a0; border-color: #4fd1a0; color: #062a1c; }
+
+/* work: the map drives the list */
+.netrow { display: none; }
+@media (min-width: 900px) { .netrow { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 32px; align-items: center; margin-bottom: 32px; padding: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; } }
+.netrow .how { font-size: var(--f-sm); color: var(--muted); }
+.netrow .how b { color: var(--ink); display: block; font-size: var(--f-md); margin-bottom: 8px; }
+svg.map { width: 100%; height: auto; max-height: 420px; display: block; }
+.map .ln { fill: none; stroke: var(--ink); stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; transition: stroke 200ms, opacity 200ms; }
+.map .st circle { fill: var(--surface); stroke: var(--ink); stroke-width: 4; transition: fill 160ms; }
+.map text { fill: var(--ink); font: 600 15px "Overpass", sans-serif; transition: opacity 200ms; }
+.map .st { cursor: pointer; }
+.map .st:hover circle, .map .st:focus-visible circle, .map .st.lit circle { fill: var(--accent); stroke: var(--accent); }
+.map .st:focus-visible text { text-decoration: underline; }
+.map .term { cursor: pointer; }
+.map .term rect { fill: var(--ink); transition: fill 200ms; }
+.map .term text { fill: var(--surface); font-weight: 800; font-size: 14px; }
+.map .term:focus-visible rect { stroke: var(--accent); stroke-width: 4; }
+.map .hub circle { fill: var(--surface); stroke: var(--ink); stroke-width: 8; }
+.map .hub text { font-weight: 900; font-size: 18px; }
+.map.focus .ln:not(.sel), .map.focus .st:not(.sel):not(.lit), .map.focus .term:not(.sel) { opacity: .25; }
+.map .ln.sel { stroke: var(--accent); }
+.map .term.sel rect { fill: var(--accent); }
+.map .term.sel text { fill: var(--on-accent); }
+
+.chips button { border-radius: 999px; }
+.chips button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.tech select { border-radius: 999px; padding: 0 16px; }
+.card { border-radius: 16px; }
+.card-media { border-bottom: 0; }
+.card-plat::before { content: ""; width: 24px; height: 6px; border-radius: 3px; background: var(--ink); align-self: center; margin-right: -4px; }
+.card-tags li, .skill li { border-radius: 999px; }
+.card.flash, .row.flash { animation: flash 1400ms ease-out; }
+@keyframes flash { 0%, 40% { box-shadow: 0 0 0 4px var(--accent); } 100% { box-shadow: 0 0 0 0 transparent; } }
+.ph { width: 100%; height: 100%; display: grid; place-items: center; color: var(--muted); font-size: var(--f-sm); }
+.ph svg { width: 100%; max-width: 280px; }
+.row-thumb { border-radius: 8px; }
+input, textarea, .send { border-radius: 8px; }
+.send { border-radius: 999px; font-weight: 800; }
+.foot { background: var(--sign); color: var(--sign-muted); border: 0; margin-top: 32px; }
+.foot a { color: var(--on-sign); }
+</style>
+</head>
+<body>
+<a class="skip" href="#work">Skip to projects</a>
+<header class="top"><div class="wrap">
+  <a class="brand" href="#top">Cauê Souza</a>
+  <nav class="nav" id="nav" aria-label="Main"><a href="#work">Projects</a><a href="#about">About</a><a href="#contact">Contact</a><a href="https://blog.eucaue.online">Blog</a><a class="lang-m" href="#" lang="pt-BR">Ver em português</a></nav>
+  <div class="tools">
+    <a class="tool resume" href="#"><span class="lbl">Resume</span></a>
+    <button class="tool lang" type="button" aria-label="Mudar para português">PT</button>
+    <button class="tool" type="button" onclick="toggleTheme()" aria-label="Toggle theme"><i data-lucide="sun-moon" aria-hidden="true"></i></button>
+    <button class="tool menu-btn" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menu"><i data-lucide="menu" aria-hidden="true"></i></button>
+  </div>
+</div></header>
+
+<main id="top">
+  <section class="hero signage" aria-labelledby="who"><div class="wrap">
+    <span class="roundel" aria-hidden="true"></span>
+    <div>
+      <h1 id="who">Cauê Souza</h1>
+      <p class="role"><b>Software Engineer</b>, Salvador, Brazil</p>
+      <p class="intro" id="intro"></p>
+      <div id="quick-hero"></div>
+    </div>
+    <div class="ctas"><a class="btn primary" href="#"><i data-lucide="download" aria-hidden="true"></i>Download CV</a><a class="btn" href="#contact">Get In Touch</a></div>
+  </div></section>
+
+  <section class="section" id="work" aria-labelledby="work-t" style="padding-top:48px"><div class="wrap">
+    <h2 id="work-t">Projects</h2>
+    <div class="netrow">
+      <svg class="map" id="map" viewBox="40 40 1140 520" role="group" aria-label="Map of projects by platform"></svg>
+      <p class="how"><b>Every platform is a line.</b>Select a line to filter the list, a station to jump to its project. Pick a technology below and every station that uses it lights up.</p>
+    </div>
+    <div id="work-body"></div>
+  </div></section>
+
+  <section class="section" id="about" aria-labelledby="about-t"><div class="wrap">
+    <h2 id="about-t">About Me</h2>
+    <div class="about"><div id="about-p"></div><div class="skills" id="skills"></div></div>
+  </div></section>
+
+  <section class="section" id="contact" aria-labelledby="contact-t"><div class="wrap">
+    <h2 id="contact-t">Get In Touch</h2>
+    <div class="contact">
+      <div><p class="lead">Have a project in mind or just want to say hello? Feel free to reach out!</p><div id="quick-contact"></div></div>
+      <div id="form-slot"></div>
+    </div>
+  </div></section>
+</main>
+<footer class="foot"><div class="wrap"><span>© 2026 Cauê Souza. All rights reserved.</span><a href="https://eucaue.online">eucaue.online</a><a href="https://blog.eucaue.online">Blog</a><a class="end" href="#">Resume</a></div></footer>
+
+<script src="data.js"></script>
+<script src="e-shared.js"></script>
+<script src="g-core.js"></script>
+<script>
+document.querySelector(".tool.resume").innerHTML = `${G.icon("file-down")}<span class="lbl">Resume</span>`;
+document.getElementById("intro").textContent = INTRO;
+document.getElementById("quick-hero").innerHTML = G.quick();
+document.getElementById("quick-contact").innerHTML = G.quick();
+document.getElementById("about-p").innerHTML = ABOUT_P.map(t => `<p>${t}</p>`).join("");
+G.skills(document.getElementById("skills"));
+
+const C = [520, 330];
+const LINES = [
+  { key: "Web", name: "Web line", term: [1110, 330], path: `M${C} H1110`, stops: ["PIX Donation System", "My Movies", "Get Cat", "URL Short", "Snap The Web", "Feed Pet", "CSS Cursor Gallery"].map((n, i) => [n, 610 + i * 70, 330, 4, -18, "start", -45]) },
+  { key: "Mobile", name: "Mobile line", term: [330, 170], path: `M${C} L400 210 H330`, stops: [["Auto Volume", 420, 230, -18, 6, "end", 0]] },
+  { key: "Firefox", name: "Extensions line", term: [520, 70], path: `M${C} V70`, stops: [["Scrolled", 520, 240, 18, 6, "start", 0], ["Reddit Auto Theme", 520, 150, 18, 6, "start", 0]] },
+  { key: "GNOME", name: "GNOME line", term: [110, 330], path: `M${C} H110`, stops: [["Quick Lofi", 420, 330, 0, 34, "middle", 0], ["Flexa", 320, 330, 0, -20, "middle", 0], ["Nautilus Copy File Contents", 220, 330, 0, 34, "middle", 0]] },
+  { key: "CLI", name: "System line", term: [800, 520], path: `M${C} V440 L600 520 H800`, stops: [["Harbor", 520, 430, 18, 6, "start", 0], ["decomp", 690, 520, 0, 34, "middle", 0]] },
+];
+const map = document.getElementById("map");
+map.innerHTML = `
+  ${LINES.map(l => `<path class="ln" data-line="${l.key}" d="${l.path}"/>`).join("")}
+  ${LINES.map(l => { const w = l.name.length * 8.4 + 24; return `<g class="term" data-line="${l.key}" tabindex="0" role="button" aria-label="Show only the ${l.name}"><rect x="${l.term[0] - w / 2}" y="${l.term[1] - 15}" width="${w}" height="30" rx="15"/><text x="${l.term[0]}" y="${l.term[1] + 5}" text-anchor="middle">${l.name}</text></g>`; }).join("")}
+  ${LINES.flatMap(l => l.stops.map(([n, x, y, dx, dy, a, rot]) => `<a class="st" href="#${slug(n)}" data-name="${n}" data-line="${l.key}" aria-label="${n}, ${l.name}"><circle cx="${x}" cy="${y}" r="${G.find(n).featured ? 10 : 7}"/><text x="${x + dx}" y="${y + dy}" text-anchor="${a}" ${rot ? `transform="rotate(${rot} ${x + dx} ${y + dy})"` : ""}>${n}</text></a>`)).join("")}
+  <g class="hub" aria-hidden="true"><circle cx="${C[0]}" cy="${C[1]}" r="22"/><text x="${C[0] + 34}" y="${C[1] + 42}">Cauê Souza</text></g>`;
+
+const lineIcon = `<svg viewBox="0 0 280 60" aria-hidden="true"><path d="M20 30H260" stroke="currentColor" stroke-width="10" stroke-linecap="round"/><circle cx="140" cy="30" r="14" fill="var(--surface)" stroke="currentColor" stroke-width="5"/></svg>`;
+const work = G.work(document.getElementById("work-body"), () => `<div class="ph">${lineIcon}<span class="sr">No preview available</span></div>`, {
+  onFilter: s => {
+    map.querySelectorAll(".sel, .lit").forEach(e => e.classList.remove("sel", "lit"));
+    const focus = s.plat !== "all" || s.tech;
+    map.classList.toggle("focus", !!focus);
+    if (s.plat !== "all") map.querySelectorAll(`[data-line="${s.plat}"]`).forEach(e => e.classList.add("sel"));
+    if (s.tech) map.querySelectorAll(".st").forEach(st => G.find(st.dataset.name).tags.includes(s.tech) && st.classList.add("lit"));
+  },
+});
+const pick = key => work.set("plat", work.state.plat === key ? "all" : key);
+map.addEventListener("click", e => {
+  const t = e.target.closest(".term"); if (t) pick(t.dataset.line);
+  const st = e.target.closest(".st");
+  if (st) {
+    e.preventDefault();
+    const card = document.getElementById(slug(st.dataset.name));
+    if (card.hidden) { work.set("plat", "all"); work.set("tech", ""); }
+    card.scrollIntoView({ behavior: REDUCE_E ? "auto" : "smooth", block: "center" });
+    setTimeout(() => { card.classList.remove("flash"); void card.offsetWidth; card.classList.add("flash"); }, 300);
+  }
+});
+map.addEventListener("keydown", e => { const t = e.target.closest(".term"); if (t && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); pick(t.dataset.line); } });
+G.finish();
+</script>
+</body>
+</html>
