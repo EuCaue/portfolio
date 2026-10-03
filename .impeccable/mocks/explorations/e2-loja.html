@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>E2 · Página de desenvolvedor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<style>
+/* An app-store developer page: every project is a listing, grouped on shelves by platform.
+   Pick an app on a shelf and its listing opens under it. Teal is the "Get" color and nothing else. */
+:root {
+  --bg: #fcfcfb; --surface: #f0f1f0; --ink: #161818; --muted: #545a5a; --line: #dfe2e1;
+  --accent: #00727a; --on-accent: #ffffff; --accent-ink: #00666d; --err: #b3261e;
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s6: 24px; --s8: 32px; --s12: 48px; --s16: 64px; --s24: 96px;
+  --t-xs: 13px; --t-sm: 15px; --t-base: 17px; --t-md: 20px; --t-lg: 28px; --t-xl: 40px; --t-2xl: 64px;
+  --r: 16px; --r-sm: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #101212; --surface: #1b1e1e; --ink: #ecefee; --muted: #a5adac; --line: #2b2f2f; --accent: #5ccfd6; --on-accent: #032326; --accent-ink: #6fd9df; --err: #ffb4ab; }
+}
+:root[data-theme="dark"] { --bg: #101212; --surface: #1b1e1e; --ink: #ecefee; --muted: #a5adac; --line: #2b2f2f; --accent: #5ccfd6; --on-accent: #032326; --accent-ink: #6fd9df; --err: #ffb4ab; }
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { background: var(--bg); color: var(--ink); font: 400 var(--t-base)/1.55 "Onest", system-ui, sans-serif; }
+::selection { background: var(--accent); color: var(--on-accent); }
+a, button { color: inherit; font: inherit; }
+a { text-underline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+svg.lucide { width: 18px; height: 18px; stroke-width: 2; flex: none; }
+.wrap { max-width: 1280px; margin: 0 auto; padding: 0 var(--s4); }
+@media (min-width: 768px) { .wrap { padding: 0 var(--s8); } }
+
+header { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+header .wrap { height: 64px; display: flex; align-items: center; gap: var(--s6); }
+.logo { font-weight: 700; text-decoration: none; white-space: nowrap; }
+.nav { display: none; gap: var(--s6); font-size: var(--t-sm); }
+.nav a { text-decoration: none; color: var(--muted); }
+.nav a:hover { color: var(--ink); }
+@media (min-width: 900px) { .nav { display: flex; } }
+.tools { margin-left: auto; display: flex; align-items: center; gap: var(--s2); }
+.ghost { height: 36px; display: inline-flex; align-items: center; gap: var(--s2); padding: 0 var(--s3); border: 1px solid var(--line); border-radius: 999px; background: none; cursor: pointer; font-size: var(--t-sm); text-decoration: none; }
+.ghost:hover { background: var(--surface); }
+@media (max-width: 479px) { .tools { gap: var(--s1); } .ghost { padding: 0 var(--s2); } .shelf-head .count { display: none; } .listing .media .glyph strong { font-size: var(--t-md); } }
+
+.pill { display: inline-flex; align-items: center; gap: var(--s2); height: 44px; padding: 0 var(--s6); border-radius: 999px; font-weight: 600; text-decoration: none; white-space: nowrap; border: 0; cursor: pointer; background: var(--surface); }
+.pill:hover { filter: brightness(.96); }
+.pill.get { background: var(--accent); color: var(--on-accent); }
+.pill.get:hover { filter: brightness(1.08); }
+.pill:active { transform: scale(.98); }
+.pill:disabled { opacity: .6; cursor: progress; }
+
+/* developer header */
+.dev { padding: var(--s12) 0 var(--s12); display: grid; gap: var(--s6); }
+@media (min-width: 1024px) { .dev { padding: var(--s16) 0 var(--s12); grid-template-columns: minmax(0, 1fr) auto; align-items: end; column-gap: var(--s16); } }
+.dev h1 { font-size: clamp(44px, 7vw, var(--t-2xl)); line-height: 1; font-weight: 800; letter-spacing: -0.03em; }
+.dev .role { font-size: var(--t-md); color: var(--muted); margin-top: var(--s3); }
+.dev .intro { max-width: 56ch; margin-top: var(--s4); }
+.dev .ctas { display: flex; flex-wrap: wrap; gap: var(--s3); }
+.facts { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: var(--s4) 0; margin-top: var(--s6); }
+@media (min-width: 768px) { .facts { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.facts div { padding: var(--s2) var(--s4); text-align: center; }
+.facts div + div { border-left: 1px solid var(--line); }
+@media (max-width: 767px) { .facts div:nth-child(3) { border-left: 0; } }
+.facts dt { font-size: var(--t-xs); color: var(--muted); }
+.facts dd { font-size: var(--t-md); font-weight: 700; margin-top: var(--s1); }
+.facts dd small { display: block; font-size: var(--t-xs); font-weight: 400; color: var(--muted); }
+
+/* shelves */
+.shelf { padding: var(--s12) 0; }
+.shelf + .shelf { border-top: 1px solid var(--line); }
+.shelf-head { display: flex; align-items: center; gap: var(--s4); margin-bottom: var(--s6); }
+.shelf-head h2 { font-size: var(--t-lg); font-weight: 700; letter-spacing: -0.01em; }
+.shelf-head .count { color: var(--muted); font-size: var(--t-sm); }
+.arrows { margin-left: auto; display: flex; gap: var(--s2); }
+.arrows button { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; }
+.arrows button:hover { background: var(--surface); }
+.arrows button:disabled { opacity: .35; cursor: default; }
+.row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(232px, 1fr); gap: var(--s4); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: var(--s1) var(--s1) var(--s4); margin: 0 calc(var(--s1) * -1); }
+.row::-webkit-scrollbar { display: none; }
+@media (min-width: 1024px) { .row { grid-auto-columns: calc((100% - 3 * var(--s4)) / 4); } }
+.app { scroll-snap-align: start; text-align: left; background: none; border: 0; padding: 0; cursor: pointer; display: grid; gap: var(--s3); }
+.thumb { aspect-ratio: 16 / 10; border-radius: var(--r-sm); background: var(--surface); overflow: hidden; display: grid; place-items: center; outline: 2px solid transparent; outline-offset: 3px; transition: outline-color 160ms ease-out; }
+.thumb img, .thumb video { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 300ms cubic-bezier(.16, 1, .3, 1); }
+.app:hover .thumb img, .app:hover .thumb video { transform: scale(1.03); }
+.app[aria-pressed="true"] .thumb { outline-color: var(--accent); }
+.thumb .glyph { display: grid; place-items: center; gap: var(--s2); color: var(--muted); font-size: var(--t-sm); }
+.thumb .glyph svg { width: 40px; height: 40px; stroke-width: 1.5; }
+.app .name { font-weight: 600; display: flex; align-items: center; gap: var(--s2); }
+.app .plat { font-size: var(--t-sm); color: var(--muted); margin-top: -8px; }
+@media (prefers-reduced-motion: reduce) { .thumb img, .thumb video, .thumb { transition: none; } .app:hover .thumb img, .app:hover .thumb video { transform: none; } }
+
+/* listing: the product page for the selected app */
+.listing { margin-top: var(--s6); background: var(--surface); border-radius: var(--r); padding: var(--s6); display: grid; gap: var(--s8); }
+@media (min-width: 1024px) { .listing { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); padding: var(--s8); gap: var(--s12); } }
+.listing .media { aspect-ratio: 16 / 10; border-radius: var(--r-sm); overflow: hidden; background: var(--bg); display: grid; place-items: center; }
+.listing .media img, .listing .media video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.listing .media .glyph { text-align: center; padding: var(--s8); }
+.listing .media .glyph strong { display: block; font-size: var(--t-lg); line-height: 1.2; max-width: 20ch; margin: 0 auto; }
+.listing h3 { font-size: var(--t-xl); line-height: 1.05; font-weight: 800; letter-spacing: -0.02em; }
+.listing .sub { color: var(--muted); margin-top: var(--s2); }
+.listing .get-row { display: flex; flex-wrap: wrap; gap: var(--s3); margin: var(--s6) 0; }
+.listing .desc { max-width: 60ch; }
+.info { margin-top: var(--s6); display: grid; grid-template-columns: max-content 1fr; gap: var(--s2) var(--s6); font-size: var(--t-sm); }
+.info dt { color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: var(--s2); list-style: none; padding: 0; }
+.chips li { background: var(--bg); border-radius: 999px; padding: 0 var(--s3); font-size: var(--t-xs); line-height: 26px; }
+.listing.swap { animation: swap 260ms cubic-bezier(.16, 1, .3, 1); }
+@keyframes swap { from { opacity: .4; transform: translateY(8px); } }
+@media (prefers-reduced-motion: reduce) { .listing.swap { animation: none; } }
+.badge { display: inline-flex; align-items: center; gap: var(--s1); font-size: var(--t-xs); font-weight: 600; color: var(--accent-ink); }
+.badge svg { width: 14px; height: 14px; }
+
+/* about + contact */
+.section { padding: var(--s16) 0; border-top: 1px solid var(--line); }
+.section h2 { font-size: var(--t-lg); font-weight: 700; margin-bottom: var(--s6); }
+.about { display: grid; gap: var(--s8); }
+@media (min-width: 1024px) { .about { grid-template-columns: 7fr 5fr; gap: var(--s16); } }
+.about p { max-width: 62ch; }
+.about p + p { margin-top: var(--s4); }
+.skills { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s6); }
+.skills h3 { font-size: var(--t-sm); font-weight: 700; margin-bottom: var(--s2); }
+.skills ul { list-style: none; padding: 0; font-size: var(--t-sm); color: var(--muted); }
+.contact { display: grid; gap: var(--s8); }
+@media (min-width: 1024px) { .contact { grid-template-columns: 5fr 7fr; gap: var(--s16); } }
+.contact .ways { list-style: none; padding: 0; display: grid; gap: var(--s3); margin-top: var(--s6); }
+.contact .ways a { display: inline-flex; align-items: center; gap: var(--s3); font-weight: 600; }
+form { display: grid; gap: var(--s4); background: var(--surface); border-radius: var(--r); padding: var(--s6); }
+@media (min-width: 768px) { form { padding: var(--s8); } }
+.field { display: grid; gap: var(--s2); }
+label { font-weight: 600; font-size: var(--t-sm); }
+input, textarea { font: inherit; border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: var(--r-sm); padding: var(--s3) var(--s4); }
+input::placeholder, textarea::placeholder { color: var(--muted); }
+[aria-invalid="true"] { border-color: var(--err); }
+textarea { min-height: 136px; resize: vertical; }
+.err { color: var(--err); font-size: var(--t-xs); }
+.err:empty { display: none; }
+.form-foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4); }
+.ok { font-weight: 600; color: var(--accent-ink); }
+
+footer { border-top: 1px solid var(--line); }
+footer .wrap { display: flex; flex-wrap: wrap; gap: var(--s3) var(--s6); padding-top: var(--s8); padding-bottom: var(--s8); font-size: var(--t-sm); color: var(--muted); }
+footer .end { margin-left: auto; }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <a class="logo" href="#top">Cauê Souza</a>
+  <nav class="nav" aria-label="Main"><a href="#web">Web & mobile</a><a href="#desktop">Desktop & Linux</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+  <div class="tools">
+    <a class="ghost" href="#"><i data-lucide="file-down"></i>Resume</a>
+    <button class="ghost" type="button" aria-label="Change language">EN</button>
+    <button class="ghost" type="button" onclick="toggleTheme()" aria-label="Toggle theme"><i data-lucide="sun-moon"></i></button>
+  </div>
+</div></header>
+
+<main id="top">
+  <div class="wrap">
+    <section class="dev" aria-labelledby="who">
+      <div>
+        <h1 id="who">Cauê Souza</h1>
+        <p class="role">Software Engineer, Salvador, Brazil</p>
+        <p class="intro" id="intro"></p>
+      </div>
+      <div class="ctas"><a class="pill get" href="#"><i data-lucide="download"></i>Download CV</a><a class="pill" href="#contact">Get In Touch</a></div>
+      <dl class="facts" id="facts"></dl>
+    </section>
+  </div>
+  <div id="shelves"></div>
+  <div class="wrap">
+    <section class="section" id="about" aria-labelledby="about-t">
+      <h2 id="about-t">About Me</h2>
+      <div class="about">
+        <div id="about-p"></div>
+        <div class="skills" id="skills"></div>
+      </div>
+    </section>
+    <section class="section" id="contact" aria-labelledby="contact-t">
+      <div class="contact">
+        <div>
+          <h2 id="contact-t">Get In Touch</h2>
+          <p>Have a project in mind or just want to say hello? Feel free to reach out!</p>
+          <ul class="ways">
+            <li><a href="mailto:souzacaue@proton.me"><i data-lucide="mail"></i>souzacaue@proton.me</a></li>
+            <li><a href="https://linkedin.com/in/caue-souza"><i data-lucide="linkedin"></i>LinkedIn</a></li>
+            <li><a href="https://github.com/EuCaue"><i data-lucide="github"></i>GitHub</a></li>
+          </ul>
+        </div>
+        <div id="form-slot"></div>
+      </div>
+    </section>
+  </div>
+</main>
+<footer><div class="wrap">
+  <span>© 2026 Cauê Souza. All rights reserved.</span>
+  <a href="https://eucaue.online">eucaue.online</a>
+  <a href="https://blog.eucaue.online">Blog</a>
+  <a class="end" href="#">Resume</a>
+</div></footer>
+
+<script src="data.js"></script>
+<script src="e-shared.js"></script>
+<script>
+const ICON = { Web: "globe", Mobile: "smartphone", Firefox: "puzzle", GNOME: "monitor", CLI: "terminal" };
+document.getElementById("intro").textContent = INTRO;
+const published = PROJECTS.filter(p => p.preview).length;
+document.getElementById("facts").innerHTML = `
+  <div><dt>Projects</dt><dd>${PROJECTS.length}</dd></div>
+  <div><dt>Live or published</dt><dd>${published}</dd></div>
+  <div><dt>Platforms</dt><dd>5<small>Web, mobile, Firefox, GNOME, CLI</small></dd></div>
+  <div><dt>Quick Lofi</dt><dd>10,000+<small>downloads on extensions.gnome.org</small></dd></div>`;
+
+const thumb = p => media(p) || `<span class="glyph"><i data-lucide="${ICON[p.platform]}"></i>No preview available</span>`;
+const listing = p => `
+  <div class="media">${media(p) || `<div class="glyph"><strong>${p.desc.split(". ")[0]}.</strong></div>`}</div>
+  <div>
+    <h3 id="l-${slug(p.name)}">${p.name}</h3>
+    <p class="sub">${PLATFORM_LABEL[p.platform]}</p>
+    <div class="get-row">
+      ${p.preview ? `<a class="pill get" href="${p.preview}"><i data-lucide="external-link"></i>Live Demo</a>` : ""}
+      ${p.github ? `<a class="pill ${p.preview ? "" : "get"}" href="${p.github}"><i data-lucide="github"></i>GitHub</a>` : ""}
+    </div>
+    <p class="desc">${p.desc}</p>
+    <dl class="info">
+      <dt>Platform</dt><dd>${PLATFORM_LABEL[p.platform]}</dd>
+      <dt>Built with</dt><dd><ul class="chips">${p.tags.map(t => `<li>${t}</li>`).join("")}</ul></dd>
+      <dt>Source</dt><dd>${p.github ? `<a href="${p.github}">github.com/${p.github.split("github.com/")[1]}</a>` : "Not public"}</dd>
+      ${p.preview ? `<dt>Available on</dt><dd><span class="badge"><i data-lucide="badge-check"></i>${host(p.preview)}</span></dd>` : ""}
+    </dl>
+  </div>`;
+
+const shelves = [["web", "Web & mobile", byFamily("web")], ["desktop", "Desktop & Linux", byFamily("desktop")]];
+document.getElementById("shelves").innerHTML = shelves.map(([id, label, list]) => `
+  <section class="shelf" id="${id}" aria-labelledby="${id}-t"><div class="wrap">
+    <div class="shelf-head">
+      <h2 id="${id}-t">${label}</h2><span class="count">${list.length} projects</span>
+      <div class="arrows"><button type="button" data-dir="-1" aria-label="Scroll ${label} left"><i data-lucide="chevron-left"></i></button><button type="button" data-dir="1" aria-label="Scroll ${label} right"><i data-lucide="chevron-right"></i></button></div>
+    </div>
+    <div class="row" role="list">${list.map((p, i) => `
+      <div role="listitem"><button type="button" class="app" data-name="${p.name}" aria-controls="${id}-listing" aria-pressed="${i === 0}">
+        <div class="thumb">${thumb(p)}</div>
+        <span class="name">${p.name}</span>
+        <span class="plat">${PLATFORM_LABEL[p.platform]}</span>
+      </button></div>`).join("")}
+    </div>
+    <article class="listing" id="${id}-listing" aria-live="polite">${listing(list[0])}</article>
+  </div></section>`).join("");
+
+document.getElementById("about-p").innerHTML = ABOUT_P.map(t => `<p>${t}</p>`).join("");
+document.getElementById("skills").innerHTML = SKILLS.map(([h, items]) => `<div><h3>${h}</h3><ul>${items.map(s => `<li>${s}</li>`).join("")}</ul></div>`).join("");
+document.getElementById("form-slot").innerHTML = formHTML("cf");
+document.querySelector("#cf .send").className = "pill get send";
+mockForm(document.getElementById("cf"));
+
+document.querySelectorAll(".shelf").forEach(shelf => {
+  const row = shelf.querySelector(".row"), out = shelf.querySelector(".listing");
+  const [prev, next] = shelf.querySelectorAll(".arrows button");
+  const sync = () => { prev.disabled = row.scrollLeft < 4; next.disabled = row.scrollLeft + row.clientWidth > row.scrollWidth - 4; };
+  row.addEventListener("scroll", sync, { passive: true }); sync();
+  shelf.querySelectorAll(".arrows button").forEach(b => b.onclick = () => row.scrollBy({ left: b.dataset.dir * row.clientWidth * .8, behavior: REDUCE_E ? "auto" : "smooth" }));
+  row.addEventListener("click", e => {
+    const app = e.target.closest(".app"); if (!app) return;
+    row.querySelectorAll(".app").forEach(a => a.setAttribute("aria-pressed", String(a === app)));
+    out.innerHTML = listing(PROJECTS.find(p => p.name === app.dataset.name));
+    out.classList.remove("swap"); void out.offsetWidth; out.classList.add("swap");
+    lucide.createIcons(); playInView(out);
+    if (out.getBoundingClientRect().top > innerHeight * .7) out.scrollIntoView({ behavior: REDUCE_E ? "auto" : "smooth", block: "nearest" });
+  });
+});
+lucide.createIcons();
+playInView();
+</script>
+</body>
+</html>

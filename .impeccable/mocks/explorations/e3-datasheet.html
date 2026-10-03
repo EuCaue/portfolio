@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>E3 · Folha de dados</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,400;0,500;0,600;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+/* An engineering datasheet: title block, features and applications up front, a comparison table
+   you can filter, then detailed sections with captioned figures. Red is the spot ink: title rule,
+   primary action, active filter, focus. Everything else is black on white paper. */
+:root {
+  --paper: #fdfdfc; --ink: #131314; --muted: #4f5156; --line: #cfd0d3; --band: #f0f0f1;
+  --accent: #b5121b; --on-accent: #ffffff; --accent-ink: #b5121b; --err: #b5121b;
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s6: 24px; --s8: 32px; --s12: 48px; --s16: 64px; --s24: 96px;
+  --t-xs: 13px; --t-sm: 15px; --t-base: 17px; --t-md: 20px; --t-lg: 28px; --t-xl: 44px; --t-2xl: 72px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --paper: #121314; --ink: #ececed; --muted: #a9abb0; --line: #34363a; --band: #1c1d1f; --accent: #e5484d; --on-accent: #ffffff; --accent-ink: #ff8a8e; --err: #ff8a8e; }
+}
+:root[data-theme="dark"] { --paper: #121314; --ink: #ececed; --muted: #a9abb0; --line: #34363a; --band: #1c1d1f; --accent: #e5484d; --on-accent: #ffffff; --accent-ink: #ff8a8e; --err: #ff8a8e; }
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { background: var(--paper); color: var(--ink); font: 400 var(--t-base)/1.55 "Albert Sans", system-ui, sans-serif; font-variant-numeric: tabular-nums; }
+::selection { background: var(--accent); color: var(--on-accent); }
+a, button { color: inherit; font: inherit; }
+a { text-underline-offset: 3px; text-decoration-thickness: 1px; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.sheet { max-width: 1200px; margin: 0 auto; padding: 0 var(--s4); }
+@media (min-width: 768px) { .sheet { padding: 0 var(--s8); } }
+
+/* running header */
+.run { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--line); }
+.run .sheet { height: 52px; display: flex; align-items: center; gap: var(--s6); font-size: var(--t-sm); }
+.run .home { font-weight: 800; text-decoration: none; }
+.run nav { display: none; gap: var(--s6); }
+.run nav a { text-decoration: none; color: var(--muted); }
+.run nav a:hover { color: var(--ink); }
+@media (min-width: 900px) { .run nav { display: flex; } }
+.run .tools { margin-left: auto; display: flex; gap: var(--s2); align-items: center; }
+.tool { height: 32px; padding: 0 var(--s3); border: 1px solid var(--line); background: none; cursor: pointer; font-size: var(--t-xs); text-decoration: none; display: inline-flex; align-items: center; }
+.tool:hover { border-color: var(--ink); }
+
+/* title block */
+.title { padding: var(--s12) 0 var(--s6); border-bottom: 6px solid var(--accent); display: grid; gap: var(--s6); }
+@media (min-width: 1024px) { .title { grid-template-columns: minmax(0, 1fr) auto; align-items: end; padding-top: var(--s16); } }
+.title h1 { font-size: clamp(48px, 8vw, var(--t-2xl)); font-weight: 800; line-height: .95; letter-spacing: -0.03em; }
+.title .role { font-size: var(--t-md); margin-top: var(--s3); }
+.btn { display: inline-flex; align-items: center; height: 44px; padding: 0 var(--s6); border: 2px solid var(--ink); font-weight: 600; text-decoration: none; white-space: nowrap; cursor: pointer; background: none; }
+.btn:hover { background: var(--band); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: .6; cursor: progress; }
+.ctas { display: flex; flex-wrap: wrap; gap: var(--s3); }
+
+/* first page */
+.front { display: grid; gap: var(--s8); padding: var(--s8) 0 var(--s12); }
+@media (min-width: 1024px) { .front { grid-template-columns: 5fr 7fr; gap: var(--s12); } }
+h2 { font-size: var(--t-md); font-weight: 800; padding-top: var(--s3); border-top: 2px solid var(--ink); margin-bottom: var(--s4); }
+.front h2 { font-size: var(--t-base); }
+.features { padding-left: 1.1em; display: grid; gap: var(--s2); }
+.features li::marker { color: var(--accent-ink); }
+.apps { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--s6); }
+.apps a { display: flex; justify-content: space-between; padding: var(--s1) 0; border-bottom: 1px solid var(--line); text-decoration: none; }
+.apps a:hover span:first-child { text-decoration: underline; }
+.apps .n { color: var(--muted); }
+.col + .col, .stack > * + * { margin-top: var(--s8); }
+.desc { font-size: var(--t-md); line-height: 1.5; max-width: 52ch; }
+figure { display: grid; gap: var(--s2); }
+.fig { aspect-ratio: 16 / 9; border: 1px solid var(--line); background: var(--band); overflow: hidden; display: grid; place-items: center; }
+.fig video, .fig img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.fig .none { color: var(--muted); font-size: var(--t-sm); }
+figcaption { font-size: var(--t-xs); color: var(--muted); }
+figcaption b { color: var(--ink); font-weight: 600; }
+
+/* comparison table */
+section.block { padding: var(--s12) 0; }
+.filters { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s4); }
+.filters button { height: 36px; padding: 0 var(--s4); border: 1px solid var(--line); background: none; cursor: pointer; font-size: var(--t-sm); }
+.filters button:hover { border-color: var(--ink); }
+.filters button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.filters .shown { margin-left: auto; align-self: center; font-size: var(--t-sm); color: var(--muted); }
+table { width: 100%; border-collapse: collapse; font-size: var(--t-sm); }
+caption { text-align: left; font-size: var(--t-xs); color: var(--muted); padding-bottom: var(--s2); }
+th, td { text-align: left; padding: var(--s3) var(--s3); border: 1px solid var(--line); vertical-align: top; }
+thead th { background: var(--band); font-weight: 600; font-size: var(--t-xs); }
+tbody tr:hover { background: var(--band); }
+td.proj a { font-weight: 600; }
+td.no { color: var(--muted); }
+tr[hidden] { display: none; }
+@media (max-width: 767px) {
+  table, tbody, tr, td { display: block; }
+  thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  tr { border: 1px solid var(--line); border-top: 2px solid var(--ink); padding: var(--s3) var(--s4); }
+  tr + tr { margin-top: var(--s3); }
+  td { border: 0; padding: var(--s1) 0; display: grid; grid-template-columns: 96px 1fr; gap: var(--s3); }
+  td::before { content: attr(data-label); color: var(--muted); font-size: var(--t-xs); padding-top: 2px; }
+  td.proj { font-size: var(--t-md); }
+  td.proj::before { content: none; }
+  td.proj { display: block; }
+  caption { display: block; }
+}
+
+/* detailed description */
+.detail { display: grid; gap: var(--s6); padding: var(--s8) 0; border-top: 1px solid var(--line); }
+.detail:first-of-type { border-top: 0; }
+@media (min-width: 1024px) { .detail { grid-template-columns: 5fr 7fr; gap: var(--s12); } }
+.detail h3 { font-size: var(--t-lg); font-weight: 800; line-height: 1.1; letter-spacing: -0.01em; }
+.detail .plat { color: var(--muted); font-size: var(--t-sm); margin-top: var(--s1); }
+.detail p.d { margin-top: var(--s4); max-width: 60ch; }
+.kv { display: grid; grid-template-columns: max-content 1fr; gap: var(--s1) var(--s4); margin-top: var(--s4); font-size: var(--t-sm); }
+.kv dt { color: var(--muted); }
+.links { display: flex; flex-wrap: wrap; gap: var(--s2) var(--s6); margin-top: var(--s4); font-weight: 600; font-size: var(--t-sm); }
+.others { display: grid; gap: var(--s8) var(--s6); padding-top: var(--s4); }
+@media (min-width: 640px) { .others { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .others { grid-template-columns: repeat(3, 1fr); } }
+.others h3 { font-size: var(--t-md); font-weight: 800; margin-top: var(--s3); }
+.others .plat { font-size: var(--t-xs); color: var(--muted); }
+.others p.d { font-size: var(--t-sm); margin-top: var(--s2); }
+.others .fig { aspect-ratio: 16 / 10; }
+
+/* specifications + contact */
+.about { display: grid; gap: var(--s8); }
+@media (min-width: 1024px) { .about { grid-template-columns: 6fr 6fr; gap: var(--s12); } }
+.about p { max-width: 62ch; }
+.about p + p { margin-top: var(--s4); }
+.spec th { width: 34%; font-weight: 600; background: var(--band); }
+@media (max-width: 767px) { .spec, .spec tbody, .spec tr, .spec th, .spec td { display: block; width: auto; } .spec tr { padding: 0; border: 0; } .spec tr + tr { margin-top: 0; } .spec th { border-bottom: 0; } .spec td { display: block; border: 1px solid var(--line); padding: var(--s3); } .spec td::before { content: none; } }
+.contact { display: grid; gap: var(--s8); }
+@media (min-width: 1024px) { .contact { grid-template-columns: 5fr 7fr; gap: var(--s12); } }
+.contact .ways a { display: block; font-weight: 600; font-size: var(--t-md); margin-top: var(--s3); }
+form { display: grid; gap: var(--s4); }
+.field { display: grid; gap: var(--s1); }
+label { font-weight: 600; font-size: var(--t-sm); }
+input, textarea { font: inherit; border: 1px solid var(--muted); background: var(--paper); color: var(--ink); padding: var(--s3); border-radius: 0; }
+input::placeholder, textarea::placeholder { color: var(--muted); }
+[aria-invalid="true"] { border-color: var(--err); border-width: 2px; }
+textarea { min-height: 136px; resize: vertical; }
+.err { color: var(--err); font-size: var(--t-xs); font-weight: 600; }
+.err:empty { display: none; }
+.form-foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4); }
+.ok { font-weight: 600; }
+
+.pagefoot { border-top: 2px solid var(--ink); margin-top: var(--s12); }
+.pagefoot .sheet { display: flex; flex-wrap: wrap; gap: var(--s2) var(--s6); padding-top: var(--s4); padding-bottom: var(--s8); font-size: var(--t-xs); color: var(--muted); }
+.pagefoot .end { margin-left: auto; }
+</style>
+</head>
+<body>
+<div class="run"><div class="sheet">
+  <a class="home" href="#top">Cauê Souza</a>
+  <nav aria-label="Main"><a href="#projects">Projects</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+  <div class="tools"><a class="tool" href="#">Resume</a><button class="tool" type="button" aria-label="Change language">EN</button><button class="tool" type="button" onclick="toggleTheme()" aria-label="Toggle theme">Theme</button></div>
+</div></div>
+
+<main class="sheet" id="top">
+  <header class="title">
+    <div>
+      <h1>Cauê Souza</h1>
+      <p class="role">Software Engineer, Salvador, Brazil</p>
+    </div>
+    <div class="ctas"><a class="btn primary" href="#">Download CV</a><a class="btn" href="#contact">Get In Touch</a></div>
+  </header>
+
+  <div class="front">
+    <div class="stack">
+      <div>
+        <h2>Features</h2>
+        <ul class="features">
+          <li>Web and mobile interfaces with React, Next.js and React Native (Expo)</li>
+          <li>Native GNOME apps in Python, GTK4 and LibAdwaita, packaged for Flatpak and RPM</li>
+          <li>GNOME Shell extension with over 10,000 downloads</li>
+          <li>Firefox extensions published on addons.mozilla.org</li>
+          <li>System tooling in Rust: a file organizer daemon on native threads</li>
+          <li>CI/CD pipelines with GitHub Actions</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Applications</h2>
+        <ul class="apps" id="apps"></ul>
+      </div>
+    </div>
+    <div class="stack">
+      <div>
+        <h2>Description</h2>
+        <p class="desc" id="intro"></p>
+      </div>
+      <figure id="fig1"></figure>
+    </div>
+  </div>
+
+  <section class="block" id="projects" aria-labelledby="cmp-t">
+    <h2 id="cmp-t">Project comparison</h2>
+    <div class="filters" role="group" aria-label="Filter by platform" id="filters"></div>
+    <table id="cmp">
+      <caption>All 15 projects. Select a name for its detailed description.</caption>
+      <thead><tr><th scope="col">Project</th><th scope="col">Platform</th><th scope="col">Built with</th><th scope="col">Source</th><th scope="col">Available on</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section class="block" aria-labelledby="det-t">
+    <h2 id="det-t">Detailed description</h2>
+    <div id="details"></div>
+    <h2 style="margin-top:48px" id="oth-t">Other projects</h2>
+    <div class="others" id="others"></div>
+  </section>
+
+  <section class="block" id="about" aria-labelledby="about-t">
+    <h2 id="about-t">About Me</h2>
+    <div class="about">
+      <div id="about-p"></div>
+      <table class="spec"><caption>Skills</caption><tbody id="spec"></tbody></table>
+    </div>
+  </section>
+
+  <section class="block" id="contact" aria-labelledby="contact-t">
+    <h2 id="contact-t">Get In Touch</h2>
+    <div class="contact">
+      <div class="ways">
+        <p>Have a project in mind or just want to say hello? Feel free to reach out!</p>
+        <a href="mailto:souzacaue@proton.me">souzacaue@proton.me</a>
+        <a href="https://linkedin.com/in/caue-souza">LinkedIn</a>
+        <a href="https://github.com/EuCaue">GitHub</a>
+      </div>
+      <div id="form-slot"></div>
+    </div>
+  </section>
+</main>
+<footer class="pagefoot"><div class="sheet">
+  <span>© 2026 Cauê Souza. All rights reserved.</span>
+  <a href="https://eucaue.online">eucaue.online</a>
+  <a href="https://blog.eucaue.online">Blog</a>
+  <a class="end" href="#">Resume</a>
+</div></footer>
+
+<script src="data.js"></script>
+<script src="e-shared.js"></script>
+<script>
+document.getElementById("intro").textContent = INTRO;
+const KEYS = ["Web", "Mobile", "Firefox", "GNOME", "CLI"];
+const count = k => PROJECTS.filter(p => p.platform === k).length;
+document.getElementById("apps").innerHTML = KEYS.map(k => `<li><a href="#projects" data-filter="${k}"><span>${PLATFORM_LABEL[k]}</span><span class="n">${count(k)}</span></a></li>`).join("");
+
+const fp = PROJECTS.find(p => p.name === "Scrolled");
+document.getElementById("fig1").innerHTML = `<div class="fig">${media(fp)}</div><figcaption><b>Scrolled</b>, a Firefox extension published on addons.mozilla.org.</figcaption>`;
+
+document.querySelector("#cmp tbody").innerHTML = SORTED.map(p => `
+  <tr data-platform="${p.platform}">
+    <td class="proj" data-label="Project"><a href="#${slug(p.name)}">${p.name}</a></td>
+    <td data-label="Platform">${PLATFORM_LABEL[p.platform]}</td>
+    <td data-label="Built with">${p.tags.slice(0, 3).join(", ")}</td>
+    <td data-label="Source" class="${p.github ? "" : "no"}">${p.github ? `<a href="${p.github}">GitHub</a>` : "Not public"}</td>
+    <td data-label="Available on" class="${p.preview ? "" : "no"}">${p.preview ? `<a href="${p.preview}">${host(p.preview)}</a>` : "Source only"}</td>
+  </tr>`).join("");
+
+const filters = document.getElementById("filters");
+filters.innerHTML = [["all", "All"], ...KEYS.map(k => [k, PLATFORM_LABEL[k]])].map(([k, l], i) => `<button type="button" data-filter="${k}" aria-pressed="${i === 0}">${l}</button>`).join("") + `<span class="shown" aria-live="polite"></span>`;
+const rows = [...document.querySelectorAll("#cmp tbody tr")];
+const applyFilter = k => {
+  filters.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.filter === k)));
+  rows.forEach(r => (r.hidden = k !== "all" && r.dataset.platform !== k));
+  filters.querySelector(".shown").textContent = `${rows.filter(r => !r.hidden).length} of ${rows.length} shown`;
+};
+filters.addEventListener("click", e => { const b = e.target.closest("button"); if (b) applyFilter(b.dataset.filter); });
+document.getElementById("apps").addEventListener("click", e => { const a = e.target.closest("a"); if (a) applyFilter(a.dataset.filter); });
+applyFilter("all");
+
+const kv = p => `<dl class="kv"><dt>Built with</dt><dd>${p.tags.join(", ")}</dd>${p.preview ? `<dt>Available on</dt><dd>${host(p.preview)}</dd>` : ""}</dl>`;
+const links = p => `<p class="links">${p.github ? `<a href="${p.github}">GitHub</a>` : ""}${p.preview ? `<a href="${p.preview}">Live Demo</a>` : ""}</p>`;
+document.getElementById("details").innerHTML = SORTED.filter(p => p.featured).map(p => `
+  <article class="detail" id="${slug(p.name)}" aria-labelledby="h-${slug(p.name)}">
+    <div>
+      <h3 id="h-${slug(p.name)}">${p.name}</h3>
+      <p class="plat">${PLATFORM_LABEL[p.platform]}</p>
+      <p class="d">${p.desc}</p>
+      ${kv(p)}${links(p)}
+    </div>
+    ${media(p) ? `<figure><div class="fig">${media(p)}</div><figcaption><b>${p.name}</b> demo.</figcaption></figure>` : ""}
+  </article>`).join("");
+document.getElementById("others").innerHTML = SORTED.filter(p => !p.featured).map(p => `
+  <article id="${slug(p.name)}" aria-labelledby="h-${slug(p.name)}">
+    <div class="fig">${media(p) || `<span class="none">No preview available</span>`}</div>
+    <h3 id="h-${slug(p.name)}">${p.name}</h3>
+    <p class="plat">${PLATFORM_LABEL[p.platform]}</p>
+    <p class="d">${p.desc}</p>
+    ${links(p)}
+  </article>`).join("");
+
+document.getElementById("about-p").innerHTML = ABOUT_P.map(t => `<p>${t}</p>`).join("");
+document.getElementById("spec").innerHTML = SKILLS.map(([h, items]) => `<tr><th scope="row">${h}</th><td>${items.join(", ")}</td></tr>`).join("");
+document.getElementById("form-slot").innerHTML = formHTML("cf");
+document.querySelector("#cf .send").className = "btn primary send";
+mockForm(document.getElementById("cf"));
+playInView();
+</script>
+</body>
+</html>
