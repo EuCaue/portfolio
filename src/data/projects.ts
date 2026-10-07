@@ -13,6 +13,8 @@ export type Project = {
   tags: string[];
   github?: string;
   preview?: string;
+  // Project's own website, shown next to the store or demo link.
+  site?: string;
   featured: boolean;
   platform: Platform;
 };
@@ -34,6 +36,7 @@ export const projects: Project[] = [
     tags: ["JavaScript", "TypeScript", "OOP", "GNOME Shell", "CSS3", "ESBuild", "Git"],
     github: "https://github.com/EuCaue/quick-lofi",
     preview: "https://extensions.gnome.org/extension/6904/quick-lofi/",
+    site: "https://landing-page-quick-lofi.vercel.app/",
     featured: true,
   },
   {

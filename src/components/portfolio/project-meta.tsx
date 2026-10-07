@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink, Github, Globe } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/language-context";
@@ -52,6 +52,19 @@ export function ProjectLinks({
           <a href={project.github} target="_blank" rel="noopener noreferrer">
             <Github className="h-3.5 w-3.5" aria-hidden="true" />
             {t("project.source")}
+          </a>
+        </Button>
+      )}
+      {project.site && (
+        <Button
+          variant="outline"
+          size={size}
+          asChild
+          className={size === "sm" ? "h-8 gap-1.5 px-3 text-xs" : "gap-2"}
+        >
+          <a href={project.site} target="_blank" rel="noopener noreferrer">
+            <Globe className="h-3.5 w-3.5" aria-hidden="true" />
+            {t("project.visit")}
           </a>
         </Button>
       )}
