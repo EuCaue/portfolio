@@ -18,6 +18,20 @@ const MIN_WIDTH = 420;
 const MIN_HEIGHT = 320;
 const EDGE = 24;
 
+// Resize handles: which edges each one moves (x: -1 left, 1 right; y: -1 top, 1 bottom).
+// Like GNOME's invisible window borders, each handle reaches a few pixels past the panel edge,
+// so grabbing the very rim resizes instead of landing on the overlay and closing the dialog.
+const HANDLES = [
+  { x: 0, y: -1, className: "inset-x-3 -top-1 h-2 cursor-ns-resize" },
+  { x: 0, y: 1, className: "inset-x-3 -bottom-1 h-2 cursor-ns-resize" },
+  { x: -1, y: 0, className: "inset-y-3 -left-1 w-2 cursor-ew-resize" },
+  { x: 1, y: 0, className: "inset-y-3 -right-1 w-2 cursor-ew-resize" },
+  { x: -1, y: -1, className: "-left-1 -top-1 h-4 w-4 cursor-nwse-resize" },
+  { x: 1, y: -1, className: "-right-1 -top-1 h-4 w-4 cursor-nesw-resize" },
+  { x: -1, y: 1, className: "-bottom-1 -left-1 h-4 w-4 cursor-nesw-resize" },
+  { x: 1, y: 1, className: "-bottom-1 -right-1 h-5 w-5 cursor-nwse-resize" },
+] as const;
+
 type Props = {
   slug: string | null;
   onClose: () => void;
@@ -57,7 +71,7 @@ export function ProjectDialog({ slug, onClose, onNavigate, returnFocus }: Props)
     if (!slug) resetSize();
   }, [slug]);
 
-  const startResize = (e: React.PointerEvent) => {
+  const startResize = (e: React.PointerEvent, dir: { x: number; y: number }) => {
     const el = panel.current;
     const area = bounds.current;
     if (!el || !area) return;
@@ -72,19 +86,33 @@ export function ProjectDialog({ slug, onClose, onNavigate, returnFocus }: Props)
       x: x.get(),
       y: y.get(),
     };
-    const maxW = Math.max(MIN_WIDTH, box.right - EDGE - rect.left);
-    const maxH = Math.max(MIN_HEIGHT, box.bottom - EDGE - rect.top);
+    // Room up to the viewport edge on the side being dragged.
+    const maxW = Math.max(
+      MIN_WIDTH,
+      dir.x > 0 ? box.right - EDGE - rect.left : rect.right - box.left - EDGE,
+    );
+    const maxH = Math.max(
+      MIN_HEIGHT,
+      dir.y > 0 ? box.bottom - EDGE - rect.top : rect.bottom - box.top - EDGE,
+    );
     const clamp = (v: number, min: number, max: number) => Math.min(Math.max(v, min), max);
+    width.set(rect.width);
+    height.set(rect.height);
     setResized(true);
     setResizing(true);
     const move = (ev: PointerEvent) => {
-      const w = clamp(start.w + ev.clientX - start.px, MIN_WIDTH, maxW);
-      const h = clamp(start.h + ev.clientY - start.py, MIN_HEIGHT, maxH);
-      width.set(w);
-      height.set(h);
-      // The panel is centered, so growing it moves its top-left corner; shift it back to keep that corner still.
-      x.set(start.x + (w - start.w) / 2);
-      y.set(start.y + (h - start.h) / 2);
+      // The panel is centered, so growing it moves both sides; shifting it by half the change
+      // keeps the opposite side still and only the dragged edge moves.
+      if (dir.x) {
+        const w = clamp(start.w + dir.x * (ev.clientX - start.px), MIN_WIDTH, maxW);
+        width.set(w);
+        x.set(start.x + (dir.x * (w - start.w)) / 2);
+      }
+      if (dir.y) {
+        const h = clamp(start.h + dir.y * (ev.clientY - start.py), MIN_HEIGHT, maxH);
+        height.set(h);
+        y.set(start.y + (dir.y * (h - start.h)) / 2);
+      }
     };
     const stop = () => {
       window.removeEventListener("pointermove", move);
@@ -137,7 +165,7 @@ export function ProjectDialog({ slug, onClose, onNavigate, returnFocus }: Props)
               initial={{ opacity: 0, scale: 0.97, y: 8 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className={`pointer-events-auto relative flex w-full flex-col ${resized ? "" : "max-h-[min(92dvh,880px)] max-w-3xl"} overflow-hidden rounded-xl border bg-background shadow-2xl focus:outline-none`}
+              className={`pointer-events-auto relative flex w-full flex-col ${resized ? "" : "max-h-[min(92dvh,880px)] max-w-3xl"} rounded-xl border bg-background shadow-2xl focus:outline-none`}
             >
               <div
                 onPointerDown={(e) => canDrag && controls.start(e)}
@@ -236,17 +264,21 @@ export function ProjectDialog({ slug, onClose, onNavigate, returnFocus }: Props)
                 </Button>
               </div>
 
-              {canDrag && (
-                <div
-                  aria-hidden="true"
-                  onPointerDown={startResize}
-                  onDoubleClick={resetSize}
-                  title={t("project.resizeHint")}
-                  className="group absolute bottom-0 right-0 h-4 w-4 cursor-nwse-resize touch-none"
-                >
-                  <span className="absolute bottom-[3px] right-[3px] h-2 w-2 rounded-br-[7px] border-b-2 border-r-2 border-muted-foreground/40 transition-colors group-hover:border-muted-foreground" />
-                </div>
-              )}
+              {canDrag &&
+                HANDLES.map((h) => (
+                  <div
+                    key={`${h.x}${h.y}`}
+                    aria-hidden="true"
+                    onPointerDown={(e) => startResize(e, h)}
+                    onDoubleClick={resetSize}
+                    title={t("project.resizeHint")}
+                    className={`group absolute touch-none ${h.className}`}
+                  >
+                    {h.x === 1 && h.y === 1 && (
+                      <span className="absolute bottom-[7px] right-[7px] h-2 w-2 rounded-br-[7px] border-b-2 border-r-2 border-muted-foreground/40 transition-colors group-hover:border-muted-foreground" />
+                    )}
+                  </div>
+                ))}
             </motion.div>
           </DialogPrimitive.Content>
         </div>
