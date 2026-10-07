@@ -67,6 +67,7 @@ export const ptBR: Record<TranslationKeys, string> = {
   "project.next": "Próximo projeto",
   "project.close": "Fechar",
   "project.dragHint": "Arraste para mover",
+  "project.resizeHint": "Arraste para redimensionar, clique duas vezes para restaurar",
   "project.builtWith": "Feito com",
   "project.sourcePrivate": "Código não público",
   "project.position": "{index} de {total}",

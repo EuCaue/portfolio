@@ -65,6 +65,7 @@ export const en = {
   "project.next": "Next project",
   "project.close": "Close",
   "project.dragHint": "Drag to move",
+  "project.resizeHint": "Drag to resize, double-click to reset",
   "project.builtWith": "Built with",
   "project.sourcePrivate": "Source not public",
   "project.position": "{index} of {total}",
