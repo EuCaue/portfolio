@@ -99,7 +99,7 @@ export const ptBR: Record<TranslationKeys, string> = {
 
   "projects.scrolled.title": "Scrolled",
   "projects.scrolled.description":
-    "Uma extensão pequena para Firefox que mostra quanto da página você já leu. Ajuda quando você está no meio de um artigo longo ou de uma documentação.",
+    "Uma extensão para Firefox que mostra quanto da página você já leu com uma barra fina na borda da tela. Escolha a cor e o lado, e esconda a barra nos sites que quiser.",
 
   "projects.feedPet.title": "Feed Pet",
   "projects.feedPet.description":

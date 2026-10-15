@@ -97,7 +97,7 @@ export const en = {
 
   "projects.scrolled.title": "Scrolled",
   "projects.scrolled.description":
-    "A tiny Firefox extension that shows how far you are into a page. Useful when you're deep into a long article or the docs.",
+    "A Firefox extension that shows how far into a page you are with a thin bar on the edge of the screen. Pick its color and side, and hide it on the sites you choose.",
 
   "projects.feedPet.title": "Feed Pet",
   "projects.feedPet.description":
