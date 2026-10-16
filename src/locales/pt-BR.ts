@@ -35,7 +35,7 @@ export const ptBR: Record<TranslationKeys, string> = {
   "intro.getInTouch": "Fale comigo",
 
   "projects.title": "Projetos",
-  "projects.subtitle": "Coisas que construí para a web, para o navegador e para o desktop Linux.",
+  "projects.subtitle": "Coisas que construí para a web, para o navegador, para o desktop Linux e para agentes de código.",
   "projects.featured": "Destaques",
   "projects.other": "Mais projetos",
   "spotlight.downloads": "downloads no site de extensões do GNOME",
@@ -48,6 +48,7 @@ export const ptBR: Record<TranslationKeys, string> = {
   "platform.extension": "Extensões de navegador",
   "platform.gnome": "GNOME / Linux",
   "platform.cli": "Linha de comando",
+  "platform.ai": "IA",
   "filter.tech": "Tecnologia",
   "filter.anyTech": "Qualquer tecnologia",
   "filter.count": "Mostrando {shown} de {total} projetos",
@@ -88,6 +89,10 @@ export const ptBR: Record<TranslationKeys, string> = {
   "projects.quickLofi.title": "Quick Lofi",
   "projects.quickLofi.description":
     "Rádio lo-fi a um clique, direto na barra superior do GNOME. Tem mais de 10.000 downloads no site de extensões do GNOME.",
+
+  "projects.visualThinking.title": "visual-thinking",
+  "projects.visualThinking.description":
+    "Uma skill para agentes de código que responde com uma página clicável em vez de parágrafos. Você pergunta como algo funciona ou qual opção escolher, e o agente monta um arquivo HTML com o diagrama, a tabela ou o gráfico, e cada elemento explicado num painel lateral.",
 
   "projects.blog.title": "Blog",
   "projects.blog.description":

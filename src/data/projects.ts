@@ -57,6 +57,23 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    titleKey: "projects.visualThinking.title",
+    platform: "ai",
+    descriptionKey: "projects.visualThinking.description",
+    video: {
+      poster: "/posters/visual-thinking.webp",
+      sources: [
+        {
+          url: "/visual-thinking.mp4",
+          type: "mp4",
+        },
+      ],
+    },
+    tags: ["Agent Skill", "Claude Code", "JavaScript", "Python", "D3.js", "SVG", "Open Source"],
+    github: "https://github.com/EuCaue/visual-thinking",
+    featured: true,
+  },
+  {
     titleKey: "projects.blog.title",
     platform: "web",
     descriptionKey: "projects.blog.description",

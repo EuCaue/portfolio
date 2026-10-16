@@ -33,7 +33,7 @@ export const en = {
   "intro.getInTouch": "Get in touch",
 
   "projects.title": "Projects",
-  "projects.subtitle": "Things I've built for the web, the browser and the Linux desktop.",
+  "projects.subtitle": "Things I've built for the web, the browser, the Linux desktop and coding agents.",
   "projects.featured": "Featured",
   "projects.other": "More projects",
   "spotlight.downloads": "downloads on the GNOME Extensions site",
@@ -46,6 +46,7 @@ export const en = {
   "platform.extension": "Browser extensions",
   "platform.gnome": "GNOME / Linux",
   "platform.cli": "Command line",
+  "platform.ai": "AI",
   "filter.tech": "Technology",
   "filter.anyTech": "Any technology",
   "filter.count": "Showing {shown} of {total} projects",
@@ -86,6 +87,10 @@ export const en = {
   "projects.quickLofi.title": "Quick Lofi",
   "projects.quickLofi.description":
     "Lo-fi radio one click away, right in the GNOME top bar. It has more than 10,000 downloads on the GNOME Extensions site.",
+
+  "projects.visualThinking.title": "visual-thinking",
+  "projects.visualThinking.description":
+    "A skill for coding agents that answers with a page you can click instead of paragraphs. Ask how something works or which option to pick, and the agent builds one HTML file with the diagram, table or chart, and every element explained in a side panel.",
 
   "projects.blog.title": "Blog",
   "projects.blog.description":

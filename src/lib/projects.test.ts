@@ -37,6 +37,7 @@ describe("order", () => {
     expect(projects.filter((p) => p.featured).map(projectSlug)).toEqual([
       "quick-lofi",
       "flexa",
+      "visual-thinking",
       "blog",
       "scrolled",
       "pix-donation",
@@ -48,7 +49,7 @@ describe("order", () => {
     expect(findProjectBySlug("my-movies")).toBeUndefined();
   });
   test("only platforms that have projects are offered", () => {
-    expect(PLATFORMS).toEqual(["web", "extension", "gnome", "cli"]);
+    expect(PLATFORMS).toEqual(["web", "extension", "gnome", "cli", "ai"]);
   });
 });
 
