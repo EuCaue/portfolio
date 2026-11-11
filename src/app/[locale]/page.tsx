@@ -8,8 +8,9 @@ import LatestPosts from "@/components/sections/latest-posts";
 import Projects from "@/components/sections/projects";
 import { BLOG_URL, getLatestPosts } from "@/lib/blog";
 
-// Rebuild once a day so new blog posts show up without a deploy.
-export const revalidate = 86400;
+// Rebuild hourly so a new blog post shows up without a deploy.
+// The blog feed itself is cached by this same TTL, so both must match.
+export const revalidate = 3600;
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
